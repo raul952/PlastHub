@@ -425,32 +425,32 @@ function computeLayout(wf,d){
   zones.push(z('welfare','Baño / Bienestar','welfare',adminX,yDock1+offH,adminW,welfH,null,
     `${Math.ceil(totalStaff/7)} inodoro(s) + lockers = ${welfareArea.toFixed(0)} m² (norma sanitaria 1 inodoro/7 personas).`));
 
-  // ALMACENAMIENTO POR POLÍMERO — FUNCIONAL: buffer objetivo = mix% × días de hold × volumen ÷ densidad.
-  // El resto del almacén disponible se marca como "buffer libre / expansión". Se comprime + avisa si no alcanza.
+  // ALMACENAMIENTO POR POLÍMERO — PROPORCIONAL AL MIX %: cada polímero ocupa una fracción del almacén
+  // igual a su mix %. Las dos columnas se llenan por completo. La sobre/sub-capacidad se reporta como dato.
   const mats=TAXONOMIES[state.tax].mats;
   const spineX0=wf/2-SPINE/2, spineX1=wf/2+SPINE/2;
   const leftW=spineX0-PEDX, rightW=usableX1-spineX1;
   const dens=densities();
+  const totMix=mats.reduce((s,m)=>s+Math.max(0,+m.mix||0),0)||1;
+  const storeAvail=(leftW+rightW)*storeD;
+  // buffer objetivo (solo informativo): cuánto necesitarías de verdad a tu volumen y días de retención
   mats.forEach(m=>{const hd=m.freq?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo;
-    m._tt=PARAMS.STAGE1*(Math.max(0,m.mix)/100)*(hd/30);                 // toneladas objetivo de buffer
-    m._ta=Math.max(1.5, m._tt/(m.freq?dens.frequent:dens.sporadic));});  // área objetivo (m²), mín. usable
-  const cols=[{x:PEDX,w:leftW,m:[],a:0},{x:spineX1,w:rightW,m:[],a:0}];
-  mats.slice().sort((a,b)=>b._ta-a._ta).forEach(m=>{const c=cols[0].a<=cols[1].a?cols[0]:cols[1];c.m.push(m);c.a+=m._ta;});
-  let storeShort=false;
-  cols.forEach(c=>{
-    const hs=c.m.map(m=>m._ta/c.w), sumH=hs.reduce((a,b)=>a+b,0);
-    const k=sumH>storeD?storeD/sumH:1; if(k<1)storeShort=true;            // comprimir si no caben los buffers objetivo
-    const idx=c.m.map((m,i)=>i).sort((a,b)=>c.m[b]._ta-c.m[a]._ta);
-    let y=yStore0;
-    idx.forEach(i=>{const m=c.m[i], h=hs[i]*k;
+    m._tt=PARAMS.STAGE1*(Math.max(0,m.mix)/100)*(hd/30);
+    m._ta=Math.max(1.5, m._tt/(m.freq?dens.frequent:dens.sporadic));});
+  const storeNeed=mats.reduce((s,m)=>s+m._ta,0);
+  // repartir los materiales en 2 columnas equilibrando por mix (así polímeros de igual mix quedan iguales)
+  const cols=[{x:PEDX,w:leftW,m:[],mix:0},{x:spineX1,w:rightW,m:[],mix:0}];
+  // equilibrar mix por columna PROPORCIONAL a su ancho → área por unidad de mix igual en ambas (proporción exacta)
+  mats.slice().sort((a,b)=>(Math.max(0,+b.mix||0))-(Math.max(0,+a.mix||0)))
+      .forEach(m=>{const c=(cols[0].mix/cols[0].w)<=(cols[1].mix/cols[1].w)?cols[0]:cols[1];c.m.push(m);c.mix+=Math.max(0,+m.mix||0);});
+  cols.forEach(c=>{const cm=c.mix||1; let y=yStore0;
+    c.m.forEach(m=>{const h=storeD*(Math.max(0,+m.mix||0)/cm);                 // altura ∝ mix → área ∝ mix
+      const sharePct=Math.round((Math.max(0,+m.mix||0)/totMix)*100);
       zones.push(z('st_'+m.key,m.name,m.freq?'frequent':'sporadic',c.x,y,c.w,h,m,
-        `${m.freq?'Corriente frecuente':'Corriente esporádica'}. Buffer objetivo ${m._tt.toFixed(1)} t = ${m._ta.toFixed(0)} m²${k<1?' (COMPRIMIDO — almacén insuficiente)':''}.`));
+        `${m.freq?'Corriente frecuente':'Corriente esporádica'}. ${sharePct}% del mix → ${sharePct}% del almacén (${(c.w*h).toFixed(0)} m²). Buffer que necesitas a ${m.freq?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo} d ≈ ${m._ta.toFixed(0)} m² (${m._tt.toFixed(1)} t).`));
       y+=h;});
-    const freeH=storeD-(y-yStore0);
-    if(freeH>1) zones.push(z('spare_'+Math.round(c.x),'Buffer libre / expansión','spare',c.x,y,c.w,freeH,null,
-      'Capacidad de almacén disponible no asignada a buffers objetivo → over-provisión / espacio para Etapa 2.'));
   });
-  const storeNeed=mats.reduce((s,m)=>s+m._ta,0), storeAvail=(leftW+rightW)*storeD;
+  const storeShort=storeNeed>storeAvail;
 
   const guides={wf,d,gateX0,gateX1,gateW,spineX0,spineX1,PEDX,yDock1,yProc1,
     yCross0:yProc1,yCross1,yStore0,yStore1,freqEndY:yStore1,storeD,storeNeed,storeAvail,storeShort};
@@ -605,8 +605,10 @@ function getZoneDriver(z){
     welfare:`${Math.ceil(totalStaff/7)} inodoro(s) + lockers (norma sanitaria)`,
   };
   if(z.type==='spare') return 'almacén libre (sin asignar) — buffer/expansión';
-  if(z.type==='frequent'||z.type==='sporadic'){const hd=z.type==='frequent'?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo;
-    return `${z.mat?z.mat.mix:0}% × ${hd}d × ${PARAMS.STAGE1} t/mes → objetivo ${z.mat&&z.mat._ta?z.mat._ta.toFixed(0):'—'} m²`;}
+  if(z.type==='frequent'||z.type==='sporadic'){
+    const tot=TAXONOMIES[state.tax].mats.reduce((s,m)=>s+Math.max(0,+m.mix||0),0)||1;
+    const pct=z.mat?Math.round(Math.max(0,+z.mat.mix||0)/tot*100):0;
+    return `${pct}% del mix → ${pct}% del almacén (proporcional)`;}
   return dr[z.id]||'—';
 }
 function renderTable(c){
@@ -632,10 +634,11 @@ function renderTable(c){
      <tr style="font-weight:700;background:#252A31;color:#fff"><td>TOTAL</td><td class="num">100%</td><td>${state.wf} × ${state.d} m</td>
       <td class="num">${tot.toFixed(0)}</td><td class="num">100%</td><td class="num">${sumP}</td><td class="num">${sumT.toFixed(0)}</td><td>—</td><td>Buffer estático ${c.Cstatic.toFixed(0)} t</td></tr>`;
   const gd=LAST.guides;
+  const holg=gd.storeAvail-gd.storeNeed;
   const stTxt = gd.storeShort
-    ? `<span style="color:#c0392b;font-weight:700">⚠ Faltan ${(gd.storeNeed-gd.storeAvail).toFixed(0)} m² de almacén</span>: el objetivo funcional por polímero suma <b>${gd.storeNeed.toFixed(0)} m²</b> pero solo hay <b>${gd.storeAvail.toFixed(0)} m²</b> disponibles — las zonas se comprimieron a escala. Amplía la nave o reduce días de hold.`
-    : `Objetivo funcional de almacén <b>${gd.storeNeed.toFixed(0)} m²</b> de <b>${gd.storeAvail.toFixed(0)} m²</b> disponibles → <b>${Math.max(0,gd.storeAvail-gd.storeNeed).toFixed(0)} m² libres</b> (zona "Buffer libre / expansión").`;
-  document.getElementById('tableNote').innerHTML='Sizing <b>funcional</b>: cada zona se dimensiona por su driver operativo (headcount, equipo, peak); el sobrante va a almacén. Edita cualquier m² funcional en la tabla (↺ para volver al valor calculado). El almacén por polímero = mix % × días de hold × volumen ÷ densidad. '+stTxt;
+    ? `<span style="color:#c0392b;font-weight:700">⚠ Almacén ajustado</span>: a tu volumen y días de retención necesitarías <b>${gd.storeNeed.toFixed(0)} m²</b> de buffer pero el almacén tiene <b>${gd.storeAvail.toFixed(0)} m²</b> — vas justo. Amplía la nave o reduce días de retención.`
+    : `A tu volumen (${PARAMS.STAGE1} t/mes) solo necesitas <b>≈${gd.storeNeed.toFixed(0)} m²</b> de buffer real de los <b>${gd.storeAvail.toFixed(0)} m²</b> de almacén → <b>≈${holg.toFixed(0)} m² (${Math.round(holg/gd.storeAvail*100)}%) de holgura / expansión</b> (el almacén está sobredimensionado para 80 t/mes; el cuello de botella es el manejo, no el espacio).`;
+  document.getElementById('tableNote').innerHTML='Almacén por polímero <b>proporcional al Mix %</b>: cada material ocupa una fracción del almacén igual a su mix % (PET 25% → 25% del área). Las zonas de soporte (oficina, pesaje…) se dimensionan por su driver funcional (headcount/equipo) y son editables (↺ para volver al valor calculado). '+stTxt;
   bindOverrideListeners();
 }
 function bindOverrideListeners(){
@@ -657,7 +660,7 @@ function renderCatsum(c){
     else if(z.type==='reception')reception+=z.area;else if(z.type==='staging')staging+=z.area;
     else if(z.type==='weigh'||z.type==='classify')proc+=z.area;else admin+=z.area;});
   const circ=Math.max(0,c.totalArea-storage-reception-staging-admin-proc);
-  const rows=[['Almacenamiento (polímeros + libre)',storage,'150–300'],['Recepción',reception,'80'],['Pre-despacho',staging,'150'],
+  const rows=[['Almacenamiento (por polímero, ∝ mix %)',storage,'150–300'],['Recepción',reception,'80'],['Pre-despacho',staging,'150'],
     ['Pesaje + clasificación',proc,'—'],['Oficina + bienestar',admin,'20–40'],['Circulación / maniobra',circ,'100']];
   document.getElementById('catsum').innerHTML=rows.map(r=>
     `<div class="row"><span>${r[0]}</span><span><b>${r[1].toFixed(0)} m²</b> <span class="tg">/ obj. ${r[2]}</span></span></div>`).join('');
