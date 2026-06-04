@@ -720,19 +720,28 @@ function syncSliders(){wf.value=state.wf;dp.value=state.d;ht.value=state.h;fk.va
 /* ---------- EDITORES (materiales + parámetros, totalmente editables) ---------- */
 const numEd=(val,attrs,step)=>`<input class="ed" type="number" step="${step||'1'}" value="${val}" ${attrs}>`;
 const txtEd=(val,attrs)=>`<input class="ed edtxt" type="text" value="${String(val).replace(/"/g,'&quot;')}" ${attrs}>`;
-const freqEd=(val,attrs)=>`<select class="ed" ${attrs}><option value="true" ${val?'selected':''}>frec.</option><option value="false" ${val?'':'selected'}>espor.</option></select>`;
+const freqEd=(val,attrs)=>`<select class="ed" title="Clasificación (no es un período): Frecuente = corriente regular y de volumen; Esporádico = llega poco y en baja cantidad. Cambia la densidad de apilado." ${attrs}><option value="true" ${val?'selected':''}>frec.</option><option value="false" ${val?'':'selected'}>espor.</option></select>`;
 function buildMatEditor(){
   const mats=TAXONOMIES[state.tax].mats;
-  document.getElementById('matEditor').innerHTML=mats.map((m,i)=>
-    `<div class="mrow">
+  const total=mats.reduce((s,m)=>s+(+m.mix||0),0)||1;
+  const header=`<div class="mrow" style="font-size:10px;font-weight:700;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #e2e5ea;padding-bottom:3px;margin-bottom:4px">
+      <span style="width:24px;flex:0 0 auto"></span>
+      <span style="flex:1;text-align:left">Material</span>
+      <span style="width:74px;text-align:center">Frecuencia</span>
+      <span style="width:58px;text-align:right">Mix %</span>
+      <span style="width:22px;flex:0 0 auto"></span>
+    </div>`;
+  document.getElementById('matEditor').innerHTML=header+mats.map((m,i)=>{
+    const pct=Math.round((+m.mix||0)/total*100);
+    return `<div class="mrow">
       <input class="ed" type="color" value="${m.col}" data-mi="${i}" data-mf="col" title="Color" style="width:24px;height:22px;padding:0;border-radius:4px">
       ${txtEd(m.name,`data-mi="${i}" data-mf="name" style="flex:1;text-align:left"`)}
       ${freqEd(m.freq,`data-mi="${i}" data-mf="freq"`)}
-      ${numEd(m.mix,`data-mi="${i}" data-mf="mix"`)}
+      ${numEd(m.mix,`data-mi="${i}" data-mf="mix" title="Mix: participación de este material en el tonelaje de ingreso (peso relativo, NO una frecuencia de tiempo). Hoy ≈ ${pct}% del total."`)}
       <button class="del" title="Eliminar" onclick="delMatL(${i})">🗑</button>
-    </div>`).join('')
+    </div>`;}).join('')
     +`<div style="margin-top:6px"><button class="addbtn" onclick="addMatL()">+ Añadir material</button>
-      <span style="font-size:10.5px;color:#8a9099;margin-left:8px">Mix % no necesita sumar 100 (se normaliza).</span></div>`;
+      <span style="font-size:10.5px;color:#8a9099;margin-left:8px"><b>Mix %</b> = participación en el tonelaje (peso relativo, no una frecuencia). No necesita sumar 100 (se normaliza); lo más claro es que sumen 100.</span></div>`;
   document.querySelectorAll('#matEditor .ed').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',e=>{
     const t=e.target, m=TAXONOMIES[state.tax].mats[+t.dataset.mi], f=t.dataset.mf;
     if(f==='mix'){const v=parseFloat(t.value);m.mix=isNaN(v)?0:v;}
