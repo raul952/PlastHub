@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — Manual de uso de la app (para la reunión de socios)</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--light:#F2F2F2;--muted:#CACEDA;--ink:#1c2127;--line:#d7dbe2;--ok:#2e8b57;--warn:#c9820b;--bad:#c0392b;--soft:#f7faf9;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.55;}
+  header{background:var(--dark);color:#fff;padding:22px 26px;}
+  header h1{margin:0;font-size:23px;}
+  header .sub{color:var(--muted);font-size:13px;margin-top:5px;}
+  .topnav{background:#1b1f24;color:#fff;padding:9px 26px;display:flex;gap:14px;align-items:center;font-size:13px;position:sticky;top:0;z-index:30;}
+  .topnav a{color:var(--muted);text-decoration:none;} .topnav a:hover{color:#fff;}
+  .topnav .sp{flex:1;}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .panel h2{margin:0 0 10px;font-size:18px;color:var(--dark);border-bottom:2px solid var(--orange);display:inline-block;padding-bottom:4px;}
+  .panel h3{font-size:13.5px;color:var(--teal);margin:18px 0 7px;text-transform:uppercase;letter-spacing:.4px;}
+  .lead{font-size:13.5px;color:#41484f;}
+  p{margin:9px 0;}
+  ul li,ol li{margin:5px 0;}
+  .toc{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px;font-size:13px;}
+  .toc a{color:#41617a;text-decoration:none;display:flex;gap:8px;}
+  .toc a:hover{color:var(--orange);}
+  .toc .n{color:var(--orange);font-weight:700;flex:0 0 auto;}
+  table{width:100%;border-collapse:collapse;font-size:12.7px;margin-top:6px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--dark);color:#fff;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  td .p{font-weight:700;color:var(--dark);}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:#eef1f4;color:#41484f;margin-left:6px;vertical-align:middle;}
+  .tag.t{background:#d9ede6;color:#15616D;} .tag.o{background:#fdeede;color:#9a5a05;}
+  .cav{padding:10px 14px;border-radius:8px;font-size:13px;margin:10px 0;border:1px solid;}
+  .cav.bad{background:#fbe9e7;border-color:#f0c2bb;color:#9a2d20;}
+  .cav.warn{background:#fdf4e3;border-color:#f0d9a8;color:#8a5c08;}
+  .cav.ok{background:#e8f5ee;border-color:#b6e0c6;color:#1e6b40;}
+  .cav.teal{background:#e7f0f1;border-color:#bcd9dd;color:#10464f;}
+  .step{display:flex;gap:13px;margin:11px 0;align-items:flex-start;}
+  .step .num{flex:0 0 auto;width:27px;height:27px;border-radius:50%;background:var(--orange);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .step .bd{font-size:13px;}
+  .step .bd b{color:var(--dark);}
+  .kbd{display:inline-block;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:11.5px;font-weight:600;color:#41484f;}
+  .chip{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
+  .gloss dt{font-weight:700;color:var(--dark);margin-top:9px;}
+  .gloss dd{margin:2px 0 0;color:#41484f;font-size:13px;}
+  .ico{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#cfd5df;color:#252A31;font-size:10px;font-weight:700;vertical-align:middle;}
+  .printbtn{background:var(--orange);color:#fff;border:none;border-radius:7px;padding:10px 20px;cursor:pointer;font-size:13.5px;font-weight:600;}
+  .note{font-size:11.5px;color:#6a7280;margin-top:10px;}
+  @media print{@page{size:A4 portrait;margin:13mm;}.topnav,.printbtn{display:none;}.panel{break-inside:avoid;box-shadow:none;}header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}*{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+  @media(max-width:820px){.toc{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <span style="font-weight:700;color:#fff">📘 Manual PlasHub</span>
+  <span class="sp"></span>
+  <a href="plashub-app.html">▸ Abrir la app</a>
+  <a href="index.html">⌂ Inicio</a>
+</div>
+<header>
+  <h1>Manual de uso de la app PlasHub</h1>
+  <div class="sub">Cómo usar cada parámetro editable, qué afecta y cómo leer los resultados · Preparado para la reunión de socios · Neo Amaru Global S.A.C. — Factory "Amaru I"</div>
+</header>
+
+<div class="wrap">
+
+  <div class="panel">
+    <h2>Contenido</h2>
+    <div class="toc">
+      <a href="#intro"><span class="n">1</span> Qué es la app y cómo se guarda</a>
+      <a href="#global"><span class="n">2</span> Controles globales (guardar / exportar / reset)</a>
+      <a href="#guion"><span class="n">3</span> Guion sugerido para la reunión (15 min)</a>
+      <a href="#pn"><span class="n">4</span> Pestaña · Plan de Negocio (editables)</a>
+      <a href="#e1"><span class="n">5</span> Pestaña · Distribución Etapa 1 (editables)</a>
+      <a href="#e2"><span class="n">6</span> Pestaña · Distribución Etapa 2 (editables)</a>
+      <a href="#tareas"><span class="n">7</span> Pestaña · Tareas y Permisos</a>
+      <a href="#leer"><span class="n">8</span> Cómo leer los resultados</a>
+      <a href="#gloss"><span class="n">9</span> Glosario de términos</a>
+      <a href="#honest"><span class="n">10</span> Lo que NO está confirmado (sé honesto)</a>
+    </div>
+    <p class="note">Cada parámetro editable de la app tiene además un ícono <span class="ico">i</span> — pasa el cursor por encima para ver la misma explicación que aquí, sin salir de la pantalla.</p>
+  </div>
+
+  <!-- 1 -->
+  <div class="panel" id="intro">
+    <h2>1 · Qué es la app y cómo se guarda</h2>
+    <p>La app es una herramienta interactiva con <b>cuatro pestañas</b>. Todo lo que tiene fondo crema o un control deslizante es <b>editable</b>: al cambiarlo, los tableros, gráficos y veredictos se recalculan al instante.</p>
+    <table>
+      <tr><th>Pestaña</th><th>Para qué sirve</th><th>Quién la usa en la reunión</th></tr>
+      <tr><td><span class="p">🏭 Etapa 1 · Distribución del Almacén</span></td><td>Plano a escala + modelo de capacidad del hub de consolidación (cuántas toneladas aguanta la nave).</td><td>Raúl (operación / layout)</td></tr>
+      <tr><td><span class="p">🏗️ Etapa 2 · Distribución de Planta</span></td><td>Plano + capacidad de la planta de procesamiento (la fase futura, mayor escala).</td><td>Raúl (visión de crecimiento)</td></tr>
+      <tr><td><span class="p">📊 Plan de Negocio (E1 + E2)</span></td><td><b>El centro de la reunión.</b> Modelo financiero: precios, costos, capital, flujo de caja, decisión GO/NO-GO.</td><td>Ambos (decisión de invertir)</td></tr>
+      <tr><td><span class="p">✅ Tareas y Permisos</span></td><td>Lista maestra de todo lo que falta hacer (permisos, operación, finanzas), con avance.</td><td>Ambos (plan de acción)</td></tr>
+    </table>
+    <div class="cav teal"><b>Importante sobre el guardado:</b> los cambios se guardan <b>en el navegador de esta computadora</b> (no en la nube). Si abres la app en otra máquina, no verás tus ediciones. Para llevar tu configuración a otra parte, usa <b>Exportar config</b> y luego <b>Importar</b> (ver §2).</p></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="panel" id="global">
+    <h2>2 · Controles globales</h2>
+    <p>Aparecen en la barra crema superior de cada herramienta:</p>
+    <table>
+      <tr><th>Control</th><th>Qué hace</th></tr>
+      <tr><td><span class="p">Autoguardado</span></td><td>Cada edición se guarda sola en este navegador. Verás "✓ guardado" un instante. No hay botón de "guardar".</td></tr>
+      <tr><td><span class="p">⬇ Exportar config</span></td><td>Descarga un archivo <span class="kbd">.json</span> con TODOS tus números actuales. Guárdalo como respaldo o para compartirlo.</td></tr>
+      <tr><td><span class="p">⬆ Importar</span></td><td>Carga un <span class="kbd">.json</span> exportado antes y reemplaza la configuración actual. Útil para retomar una versión o presentar la misma en otra PC.</td></tr>
+      <tr><td><span class="p">↺ Restablecer</span></td><td>Borra tus cambios y vuelve a los valores por defecto. Pide confirmación. Úsalo si "rompiste" algo y quieres empezar limpio.</td></tr>
+      <tr><td><span class="p">Casilla "precios verificados"</span> <span class="tag o">Plan de Negocio</span></td><td>Mientras esté <b>sin marcar</b>, la app muestra un aviso BORRADOR: los precios son referencias, no cotizaciones reales. Márcala solo cuando tengas 2–3 cotizaciones de verdad. <b>Para la reunión, mantenla sin marcar y dilo abiertamente.</b></td></tr>
+    </table>
+  </div>
+
+  <!-- 3 -->
+  <div class="panel" id="guion">
+    <h2>3 · Guion sugerido para la reunión (≈15 min)</h2>
+    <p class="lead">Abre la pestaña <b>Plan de Negocio</b>. Recorre de arriba hacia abajo: la app ya está ordenada como una conversación.</p>
+    <div class="step"><div class="num">1</div><div class="bd"><b>Panel de Decisión GO/NO-GO</b> (arriba del todo). Empieza aquí: "estas son las condiciones para firmar la nave". Marca las casillas manuales (✋) según la realidad de hoy y deja que el veredicto hable.</div></div>
+    <div class="step"><div class="num">2</div><div class="bd"><b>Resumen ejecutivo.</b> Margen, volumen de equilibrio, EBITDA del caso Base y necesidad de capital. El "pedido" de una línea.</div></div>
+    <div class="step"><div class="num">3</div><div class="bd"><b>Materiales y precios (§3).</b> Muestra de dónde sale el margen. Aclara que los precios son estimados (la casilla "verificados" sigue apagada).</div></div>
+    <div class="step"><div class="num">4</div><div class="bd"><b>Slider de volumen (§4).</b> Esta es la palanca estrella. Arrástralo entre 60 y 120 t/mes y muestra en vivo cómo cambian EBITDA, el pozo de caja y el break-even. Es la mejor forma de discutir "¿cuánto volumen nos compromete Alex?".</div></div>
+    <div class="step"><div class="num">5</div><div class="bd"><b>Estrés.</b> Mueve "estrés precio venta" a −15% y abre "Estrés de cobro" (ej. Alex se retrasa en M3 y M4). Enseña el peor caso con honestidad.</div></div>
+    <div class="step"><div class="num">6</div><div class="bd"><b>Brecha de capital (§7).</b> Edita el timing de los aportes (Alex M0 / Raúl M1) y prueba el prepago de Alex. Aquí se ve por qué el problema real es el <b>capital de trabajo</b>, no el CAPEX.</div></div>
+    <div class="step"><div class="num">7</div><div class="bd"><b>Etapa 2 (§10).</b> Cierra con la visión: cambia el mes de lanzamiento y muestra el salto de EBITDA del procesamiento. "La Etapa 1 es la opción barata sobre un negocio mayor."</div></div>
+    <div class="cav ok">Consejo: ten listo el archivo <b>.json exportado</b> antes de la reunión, por si quieres volver a un escenario exacto o si presentas desde otra computadora.</div>
+  </div>
+
+  <!-- 4 -->
+  <div class="panel" id="pn">
+    <h2>4 · Plan de Negocio — todos los editables</h2>
+
+    <h3>§3 · Materiales y precios</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Material / Frecuencia</span></td><td>Nombre del polímero y si es de alta rotación (frecuente) o no (esporádico). Renombra, añade (+) o elimina (🗑).</td><td>Color y agrupación. En el layout E1 la frecuencia cambia la densidad de apilado.</td></tr>
+      <tr><td><span class="p">Mix %</span></td><td>Participación de cada material en el tonelaje de ingreso. No necesita sumar 100 (se normaliza).</td><td>Pondera los precios promedio de compra y venta → margen ponderado.</td></tr>
+      <tr><td><span class="p">Compra $/t</span></td><td>Precio al que compras ese material por tonelada.</td><td>↑ compra = ↓ margen, ↓ EBITDA, pozo de caja más profundo.</td></tr>
+      <tr><td><span class="p">Venta $/t</span></td><td>Precio al que despachas el lote consolidado.</td><td>Sube ingreso y margen. <b>Es el supuesto más sensible</b> (ver matriz de sensibilidad).</td></tr>
+    </table>
+
+    <h3>§4 · Modelo financiero — volumen y escenarios</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Slider de volumen (t/mes)</span></td><td>La palanca #1. Toneladas mensuales en estado estable (M4+). Anula el volumen del escenario.</td><td>Recalcula en vivo EBITDA, pozo de caja, break-even. Bajo ~82 t el EBITDA es negativo.</td></tr>
+      <tr><td><span class="p">Escenarios predefinidos</span></td><td>Atajos a Conservador 40 / Base 100 / Optimista 200 t. Edita el número para cambiarlos.</td><td>Al hacer clic fijan el slider y el setup CAPEX/OPEX asociado.</td></tr>
+      <tr><td><span class="p">Presets de rampa</span></td><td>Curva de arranque (Optimista / Base / Conservador). La rampa es el % del volumen objetivo que logras en M1, M2, M3 y M4+.</td><td>Define qué tan rápido subes a régimen. La app avisa si M1 &gt; 35% (poco creíble para un arranque nuevo).</td></tr>
+      <tr><td><span class="p">Setup CAPEX/OPEX (A/B)</span></td><td>Lean (A) = subarriendo ~900 m². Full (B) = lease 1,500 m², más capacidad y más OPEX.</td><td>Cambia qué tablas de CAPEX (§5) y OPEX (§6) alimentan el modelo.</td></tr>
+    </table>
+
+    <h3>§4 · Sliders de supuestos</h3>
+    <table>
+      <tr><th>Slider</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Capital confirmado</span></td><td>Capital total disponible. El timing real se edita en §7.</td><td>Referencia de la brecha y del break-even de caja.</td></tr>
+      <tr><td><span class="p">Estrés precio venta</span></td><td>Sube/baja el precio de venta respecto a §3 (ej. −15%).</td><td>Ingreso, margen, EBITDA. Para mostrar el peor caso.</td></tr>
+      <tr><td><span class="p">Estrés precio compra</span></td><td>Sube/baja el precio de compra (ej. +30%).</td><td>↑ compra = ↓ margen.</td></tr>
+      <tr><td><span class="p">Ajuste OPEX fijo</span></td><td>Escala en bloque todo el OPEX de §6 sin editar línea por línea.</td><td>EBITDA y volumen de equilibrio.</td></tr>
+      <tr><td><span class="p">Costo variable $/t</span></td><td>Costo que escala con cada tonelada (flete + drayage + consumibles), aparte del material.</td><td>Margen de contribución por tonelada; sube el equilibrio.</td></tr>
+      <tr><td><span class="p">Desfase de cobro</span></td><td>Meses entre despachar y cobrar (0 = contado, 1 = 30 días).</td><td>No cambia el P&amp;L, pero <b>profundiza el pozo de caja</b>.</td></tr>
+      <tr><td><span class="p">Desfase de pago a proveedor</span></td><td>Meses de crédito que te dan los proveedores.</td><td>Lo contrario al cobro: pagar más tarde <b>alivia</b> el pozo de caja.</td></tr>
+      <tr><td><span class="p">Meses de setup (M0)</span></td><td>Meses de obra/permisos antes de la primera tonelada. Sale CAPEX + OPEX sin ingresos.</td><td>Más setup = pozo de caja más profundo y temprano.</td></tr>
+      <tr><td><span class="p">Estrés de cobro</span> (plegable)</td><td>Meses en que Alex se retrasa y cuántos meses extra. Ej: "3,4" con +2 meses.</td><td>Profundiza el pozo en esos meses; muestra el riesgo de cliente único.</td></tr>
+    </table>
+
+    <h3>§5–§6 · CAPEX y OPEX</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Líneas de CAPEX</span></td><td>Inversión de una vez (garantía, báscula, adecuaciones, permisos). Edita monto, renombra, añade/elimina.</td><td>CAPEX total → necesidad de capital, sale en M0 (setup).</td></tr>
+      <tr><td><span class="p">Capital de trabajo (CT)</span></td><td>Reserva para financiar el pozo de caja M1–M3.</td><td>Suma a la necesidad total de capital.</td></tr>
+      <tr><td><span class="p">Líneas de OPEX</span></td><td>Gasto fijo mensual (renta, sueldos, vigilancia, contador).</td><td>↑ OPEX = ↑ equilibrio, ↓ EBITDA. El slider "Ajuste OPEX" lo escala en bloque.</td></tr>
+    </table>
+
+    <h3>§7 · Brecha de capital</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Aportes de socios (nombre/monto/mes)</span></td><td>Quién aporta, cuánto y <b>cuándo</b>. Mes 0 = disponible al inicio; mes 1 = llega en M1. Añade un tercero o un préstamo puente con "＋ Socio".</td><td>El timing cambia el pozo de caja aunque el total sea igual: si el dinero llega tarde, el pozo se profundiza.</td></tr>
+      <tr><td><span class="p">Prepago de Alex (%)</span></td><td>% del valor de un contenedor (~20 t × precio) que Alex paga por adelantado en M0.</td><td>Entra como caja al inicio y reduce el pozo. La palanca más rápida — negocia ~40%.</td></tr>
+    </table>
+
+    <h3>§10 · Etapa 2 (procesamiento)</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Mes de lanzamiento / Horizonte</span></td><td>Cuándo inviertes el CAPEX de E2 y migras de consolidación a pellet. Horizonte = meses de simulación.</td><td>Antes = más margen pero más capital antes. Compara meses en la tabla.</td></tr>
+      <tr><td><span class="p">E1 · Margen neto ($/t)</span></td><td>Se <b>sincroniza</b> desde el modelo E1 (botón <span class="kbd">↺ Sync E1</span>). Si lo editas a mano deja de sincronizarse.</td><td>EBITDA de E1 mientras esperas a lanzar E2.</td></tr>
+      <tr><td><span class="p">E2 · Volumen / Rampa / Merma</span></td><td>Toneladas objetivo de la planta, meses para llegar y % de pérdida en proceso.</td><td>Ingreso y EBITDA de la fase E2.</td></tr>
+      <tr><td><span class="p">E2 · Precio pellet / Costo MP</span></td><td>Precio de venta del pellet ($600–1,300/t) y costo del material que entra.</td><td>El gran salto de valor de la E2. Supuesto a validar.</td></tr>
+      <tr><td><span class="p">Costo de procesamiento variable</span></td><td>Energía, agua, mano de obra variable, empaque/merma — por tonelada.</td><td>Se suma al costo de materia prima.</td></tr>
+      <tr><td><span class="p">CAPEX / OPEX de E2 (tablas)</span></td><td>Equipos/obra (una vez) y gasto mensual de la planta. Editables línea por línea.</td><td>Capital de lanzamiento y OPEX desde el mes de arranque.</td></tr>
+    </table>
+  </div>
+
+  <!-- 5 -->
+  <div class="panel" id="e1">
+    <h2>5 · Distribución Etapa 1 — todos los editables</h2>
+    <div class="cav teal">Idea clave: el almacén se dimensiona por <b>función</b>. Las zonas de soporte (oficina, pesaje…) se calculan por su driver (personas, equipo) y <b>no</b> crecen con la nave; el espacio que sobra se vuelve "buffer libre". Capacidad = <b>mín(límite de almacenamiento, límite de manejo)</b>.</div>
+    <h3>Huella de la nave</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Frente / Profundidad</span></td><td>Ancho y largo de la nave. Definen el área total.</td><td>Más área → más "buffer libre". La app avisa si la nave es demasiado corta para las zonas funcionales.</td></tr>
+      <tr><td><span class="p">Altura libre</span></td><td>Altura útil bajo estructura.</td><td>Permite apilar 2–3 alto → más densidad y capacidad estática, sin más área.</td></tr>
+    </table>
+    <h3>Materiales y equipo</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es / cómo se usa</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Taxonomía / editor de materiales</span></td><td>Fuente de la lista y, por material, nombre/color/frecuencia/mix %.</td><td>El mix alimenta el tamaño de cada zona de almacén por polímero.</td></tr>
+      <tr><td><span class="p">Equipo (montacarga / transpaleta)</span></td><td>Tipo de equipo de manejo.</td><td>Cambia densidad de apilado. Con transpaleta la capacidad colapsa (~25 t/mes) — demuestra la brecha de equipo.</td></tr>
+    </table>
+    <h3>Supuestos de operación (capacidad de manejo)</h3>
+    <table>
+      <tr><th>Parámetro</th><th>Qué es</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Montacargas / Horas-turno</span></td><td>Cuántos equipos y cuántas horas operan al día.</td><td>Capacidad de manejo (t/mes). Es el cuello de botella real.</td></tr>
+      <tr><td><span class="p">Lead time de despacho</span></td><td>Días entre llegada y despacho.</td><td>Menos días = menos buffer necesario = más capacidad efectiva.</td></tr>
+      <tr><td><span class="p">Movimientos/t · Tiempo de ciclo · Utilización</span></td><td>Cuánto tarda el montacargas por tonelada y qué % del tiempo trabaja.</td><td>Determinan toneladas/hora del equipo → límite de manejo.</td></tr>
+    </table>
+    <h3>Densidades, objetivos y constantes / Almacén por polímero</h3>
+    <table>
+      <tr><th>Grupo</th><th>Qué es</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Densidades y packing</span></td><td>Toneladas y posiciones por m² según el apilado.</td><td>Capacidad estática del almacén.</td></tr>
+      <tr><td><span class="p">Días de hold (frecuente/esporádico)</span></td><td>Días de inventario objetivo por material.</td><td>Buffer objetivo = mix% × días × volumen ÷ densidad. ↑ días = más área de almacén.</td></tr>
+      <tr><td><span class="p">Zonas funcionales (staff, báscula, spots…)</span></td><td>Personas, equipo y picos que dimensionan oficina, pesaje, clasificación, recepción.</td><td>Tamaño de cada zona de soporte — independiente del tamaño de la nave.</td></tr>
+      <tr><td><span class="p">m² editables en la tabla de zonas</span></td><td>Puedes sobrescribir el área de una zona funcional a mano; ↺ vuelve al valor calculado.</td><td>Solo esa zona; el resto se recalcula.</td></tr>
+    </table>
+  </div>
+
+  <!-- 6 -->
+  <div class="panel" id="e2">
+    <h2>6 · Distribución Etapa 2 — todos los editables</h2>
+    <div class="cav teal">Aquí el cuello de botella es la <b>línea de procesamiento</b> (no el montacarga). Capacidad = líneas × t/h × horas × turnos × días × utilización. Las zonas de soporte (oficina, lab QA, PTAR) se dimensionan por su driver y no escalan con la nave.</div>
+    <table>
+      <tr><th>Grupo</th><th>Parámetros</th><th>A qué afecta</th></tr>
+      <tr><td><span class="p">Huella de la nave</span></td><td>Frente, fondo, altura, objetivo t/mes.</td><td>Área total y dimensionado de buffers/despacho.</td></tr>
+      <tr><td><span class="p">Línea de procesamiento</span></td><td>Líneas, rendimiento (t/h), horas/turno, turnos, días, utilización, merma.</td><td><b>Definen la capacidad mensual</b> de la planta y las toneladas vendibles (tras merma).</td></tr>
+      <tr><td><span class="p">Almacenamiento (buffers)</span></td><td>Densidad y días de buffer de MP (materia prima) y PT (producto terminado).</td><td>Área de los almacenes (no el throughput).</td></tr>
+      <tr><td><span class="p">Zonas funcionales</span></td><td>Supervisores, técnicos, m²/persona, familias de producto, m²/banco QA, agua m³/t, PTAR, áreas mínimas.</td><td>Tamaño de oficina, laboratorio, planta de tratamiento de agua y recepción/despacho.</td></tr>
+      <tr><td><span class="p">m² editables en la tabla de zonas</span></td><td>Sobrescribe a mano un área de soporte; ↺ vuelve al valor funcional.</td><td>Solo esa zona.</td></tr>
+    </table>
+  </div>
+
+  <!-- 7 -->
+  <div class="panel" id="tareas">
+    <h2>7 · Tareas y Permisos</h2>
+    <table>
+      <tr><th>Elemento</th><th>Qué hace</th></tr>
+      <tr><td><span class="p">Casilla ☑ de cada tarea</span></td><td>Marca lo completado. El avance se guarda y se <b>sincroniza</b> con la sección "Permisos" del Plan de Negocio (mismo estado).</td></tr>
+      <tr><td><span class="p">Filtros (Etapa / Tipo / Prioridad / Estado)</span></td><td>Ocultan lo que no coincide — no borran nada. Combínalos para ver, p. ej., solo permisos críticos pendientes de la Etapa 1.</td></tr>
+      <tr><td><span class="p">↺ Reiniciar</span></td><td>Vuelve todas las casillas a su estado inicial.</td></tr>
+    </table>
+    <div class="cav warn"><b>Ruta crítica:</b> EC-RS (MINAM/SIGERSOL) y EIA son los trámites largos (60–180 días). Empieza por ahí — sin EC-RS no se puede operar legalmente.</div>
+  </div>
+
+  <!-- 8 -->
+  <div class="panel" id="leer">
+    <h2>8 · Cómo leer los resultados</h2>
+    <table>
+      <tr><th>Salida</th><th>Qué te dice</th></tr>
+      <tr><td><span class="p">Panel GO/NO-GO</span></td><td>Condiciones para firmar la nave. 🤖 = calculadas por el modelo; ✋ = las marcas tú. Verde = listo, amarillo = condicional, rojo = no avances.</td></tr>
+      <tr><td><span class="p">EBITDA (estable)</span></td><td>Ganancia operativa mensual en régimen, tras OPEX fijo y variable. Si es negativo, estás bajo el equilibrio.</td></tr>
+      <tr><td><span class="p">Equilibrio (P&amp;L)</span></td><td>Volumen mínimo para que el EBITDA sea 0. Por encima, ganas ~$112 por tonelada extra.</td></tr>
+      <tr><td><span class="p">Break-even de CAJA</span></td><td>Volumen mínimo para que el banco <b>nunca</b> quede negativo. Es más exigente que el de P&amp;L. Si dice "no alcanzable", significa que con el capital actual <b>ningún volumen</b> evita el pozo: el problema es de capital, no de ventas. Sube el "Capital confirmado" y verás cómo aparece un número.</td></tr>
+      <tr><td><span class="p">Pozo de caja</span></td><td>El punto más bajo del banco y en qué mes. Es <b>cuánto dinero necesitas tener disponible</b> para no quebrar antes de cobrar. La cifra más importante para financiamiento.</td></tr>
+      <tr><td><span class="p">Matriz de sensibilidad</span></td><td>EBITDA según precio de venta × volumen. Verde = positivo, amarillo = al límite, rojo = pérdida. Muestra qué tan frágil es el negocio ante caídas de precio.</td></tr>
+      <tr><td><span class="p">Gráfico de caja (M0→M12)</span></td><td>La curva del banco. M0 es el setup (sale capex + opex sin ingresos). La línea roja es el $0: si la curva baja de ahí, hay insolvencia sin financiamiento.</td></tr>
+      <tr><td><span class="p">Tabla P&amp;L (Ejecutiva / Detallada)</span></td><td>Ejecutiva = 4 columnas clave (M1/M3/M6/M12 + M0 + Total año), ideal para presentar. Detallada = los 12 meses.</td></tr>
+      <tr><td><span class="p">Tablero de capacidad (E1/E2)</span></td><td>Cuántas toneladas/mes aguanta la instalación y si está limitada por almacenamiento o por manejo/línea.</td></tr>
+    </table>
+  </div>
+
+  <!-- 9 -->
+  <div class="panel" id="gloss">
+    <h2>9 · Glosario</h2>
+    <dl class="gloss">
+      <dt>CAPEX</dt><dd>Inversión de una vez (equipos, garantías, permisos). Sale al inicio.</dd>
+      <dt>OPEX</dt><dd>Gasto fijo mensual (renta, sueldos, servicios) que pagas opere o no.</dd>
+      <dt>EBITDA</dt><dd>Ganancia operativa antes de intereses, impuestos y depreciación. Aquí ≈ ingreso − costos variables − OPEX fijo.</dd>
+      <dt>Margen de contribución ($/t)</dt><dd>Lo que aporta cada tonelada tras restar compra y costo variable. Cubre el OPEX fijo; lo que sobra es EBITDA.</dd>
+      <dt>Capital de trabajo (CT)</dt><dd>Dinero para financiar el desfase entre pagar (ahora) y cobrar (después). Es la verdadera brecha de PlasHub.</dd>
+      <dt>Pozo de caja</dt><dd>El saldo más bajo que alcanza el banco. Define cuánto capital necesitas tener listo.</dd>
+      <dt>Equilibrio de P&amp;L vs de CAJA</dt><dd>P&amp;L: volumen donde el EBITDA es 0. CAJA: volumen donde el banco nunca es negativo (más alto y más relevante para financiar).</dd>
+      <dt>Desfase de cobro / pago (lag)</dt><dd>Meses entre la venta y el cobro, o entre la compra y el pago al proveedor.</dd>
+      <dt>Rampa</dt><dd>Qué % del volumen objetivo logras cada mes al arrancar (no se llega al 100% el primer mes).</dd>
+      <dt>Merma</dt><dd>% de material que se pierde en el proceso (Etapa 2). Reduce las toneladas vendibles.</dd>
+      <dt>Throughput vs buffer</dt><dd>Throughput = toneladas que pasan por mes (límite de manejo/línea). Buffer = inventario en piso (días). Más m² dan buffer, no necesariamente throughput.</dd>
+      <dt>Driver funcional</dt><dd>La variable que dimensiona una zona (personas para la oficina, caudal para la PTAR, mix×días para el almacén) — en vez de un % fijo del área.</dd>
+      <dt>EC-RS</dt><dd>Registro de Empresa Comercializadora de Residuos Sólidos (MINAM/SIGERSOL). Permiso de ruta crítica para operar legalmente.</dd>
+    </dl>
+  </div>
+
+  <!-- 10 -->
+  <div class="panel" id="honest">
+    <h2>10 · Lo que NO está confirmado (dilo en la reunión)</h2>
+    <div class="cav warn"><b>Precios sin verificar.</b> Compra y venta son referencias trianguladas, no cotizaciones firmes. La casilla "precios verificados" está apagada a propósito. Acción: conseguir 2–3 cotizaciones reales antes de levantar capital.</div>
+    <div class="cav bad"><b>La brecha real es capital de trabajo.</b> Aunque el P&amp;L sea positivo, el ciclo comprar-ahora/cobrar-después lleva el banco a negativo en los primeros meses. Por eso el "break-even de caja" puede salir "no alcanzable" con $22K: hay que cerrar el pozo con prepago de Alex, garantía a 1 mes y/o puente entre socios.</div>
+    <div class="cav bad"><b>Brecha de equipo (Etapa 1).</b> El montacarga contrabalanceado de 3 t es indispensable; con transpaleta la capacidad colapsa. Hay que presupuestar su alquiler o compra.</div>
+    <div class="cav warn"><b>Etapa 2 = supuestos gruesos.</b> Precio de pellet, CAPEX de equipos, merma y OPEX son de orden de magnitud. Sirve para la visión y el "cuándo lanzar", no como cifras firmes.</div>
+    <div class="cav teal"><b>SUNAT / precio de transferencia.</b> Alex es proveedor + cliente + socio: las facturas deben ir a precio de mercado y documentarse, y conviene un pacto de socios notariado.</div>
+  </div>
+
+  <div class="panel" style="text-align:center">
+    <button class="printbtn" onclick="window.print()">🖨 Imprimir / guardar como PDF</button>
+    <div class="note">Hoja A4 vertical. Puedes llevar este manual impreso a la reunión o compartir el PDF.</div>
+  </div>
+
+</div>
+</body>
+</html>

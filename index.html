@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub / Factory "Amaru I" — Centro de Documentos del Proyecto</title>
+<style>
+  :root{
+    --dark:#252A31; --orange:#DF6901; --teal:#15616D; --light:#F2F2F2; --muted:#CACEDA;
+    --ink:#1c2127; --line:#e2e5ea; --ok:#2e8b57; --warn:#c9820b; --bad:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;}
+  a{text-decoration:none;color:inherit;}
+
+  .hero{background:linear-gradient(135deg,#252A31 0%,#15616D 100%);color:#fff;padding:42px 24px 30px;}
+  .hero-in{max-width:1180px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo{width:46px;height:46px;border-radius:11px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.25);}
+  .brand h1{margin:0;font-size:26px;letter-spacing:.3px;}
+  .brand .co{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .tagline{margin-top:16px;font-size:15px;max-width:760px;color:#eaf0f1;}
+  .flow{margin-top:12px;font-size:12.5px;color:var(--muted);letter-spacing:.3px;}
+  .flow b{color:var(--orange);}
+
+  .stats{max-width:1180px;margin:-22px auto 0;padding:0 24px;position:relative;z-index:2;}
+  .stats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:13px 14px;box-shadow:0 4px 14px rgba(37,42,49,.07);}
+  .stat .v{font-size:20px;font-weight:800;color:var(--teal);}
+  .stat .k{font-size:10.5px;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;margin-top:2px;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:30px 24px 50px;}
+  .sec-h{display:flex;align-items:center;gap:10px;margin:30px 0 14px;}
+  .sec-h h2{margin:0;font-size:17px;color:var(--dark);}
+  .sec-h .bar{height:3px;flex:1;background:linear-gradient(90deg,var(--orange),transparent);border-radius:2px;}
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .cards.docs{grid-template-columns:repeat(3,1fr);}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(37,42,49,.14);border-color:var(--orange);}
+  .card:hover .thumb svg{transform:scale(1.03);}
+  .accent{position:absolute;top:0;left:0;width:5px;height:100%;background:var(--orange);z-index:3;}
+  .accent.teal{background:var(--teal);} .accent.dark{background:var(--dark);}
+  .thumb{height:158px;background:#fbfbfc;border-bottom:1px solid var(--line);overflow:hidden;position:relative;}
+  .thumb svg{width:100%;height:100%;display:block;transition:transform .25s;}
+  .thumb .badge{position:absolute;top:8px;right:8px;background:rgba(37,42,49,.82);color:#fff;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;}
+  .body{padding:16px 18px 18px;}
+  .card .ic{font-size:24px;}
+  .card h3{margin:6px 0 4px;font-size:15.5px;color:var(--dark);}
+  .card p{margin:0;font-size:12.5px;color:#5a626b;}
+  .meta{margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .tag{font-size:10.5px;font-weight:600;padding:2px 9px;border-radius:20px;background:#eef1f4;color:#41484f;}
+  .tag.es{background:#d9ede6;color:#0f4c57;}
+  .tag.tool{background:#fbe7d4;color:#9a4a05;} .tag.doc{background:#eee;color:#555;}
+  .open{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--orange);}
+
+  .next{background:#fff;border:1px solid var(--line);border-left:5px solid var(--bad);border-radius:12px;padding:18px 20px;margin-top:14px;}
+  .next h3{margin:0 0 8px;font-size:14px;color:var(--bad);}
+  .next ol{margin:0;padding-left:20px;} .next li{font-size:13px;margin:5px 0;}
+  .next b{color:var(--dark);}
+
+  /* acciones de tarjeta de documento */
+  .rdbtn,.dlbtn{border-radius:6px;padding:5px 11px;cursor:pointer;font-size:12px;font-weight:700;border:1px solid var(--line);}
+  .rdbtn{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .rdbtn:hover{filter:brightness(1.07);}
+  .dlbtn{background:#fff;color:#41484f;text-decoration:none;}
+  .dlbtn:hover{border-color:var(--orange);color:var(--orange);}
+  .meta .rdbtn,.meta .dlbtn{margin-left:6px;}
+  .meta .rdbtn{margin-left:auto;}
+  /* lector modal */
+  .reader-overlay{position:fixed;inset:0;background:rgba(20,24,28,.62);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px;}
+  .reader-overlay[hidden]{display:none;}
+  .reader-box{background:#fff;border-radius:14px;width:100%;max-width:920px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.4);}
+  .reader-head{display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--dark);color:#fff;}
+  .reader-head b{font-size:15px;flex:1;}
+  .reader-head .x{margin-left:6px;}
+  .reader-body{overflow:auto;padding:22px 26px;}
+  .reader-body h2{font-size:18px;color:var(--dark);border-bottom:2px solid var(--orange);padding-bottom:5px;display:inline-block;margin:6px 0 8px;}
+  .reader-body h3{font-size:14px;color:var(--teal);text-transform:uppercase;letter-spacing:.4px;margin:16px 0 4px;}
+  .reader-body h4{font-size:13.5px;color:var(--dark);margin:12px 0 2px;}
+  .reader-body p{font-size:13px;margin:5px 0;}
+  .reader-body ul{margin:5px 0 5px 4px;padding-left:18px;} .reader-body li{font-size:13px;margin:3px 0;}
+  .reader-body table{width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;}
+  .reader-body th,.reader-body td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top;}
+  .reader-body th{background:#f0f1f4;color:#252A31;}
+  .reader-body tr:first-child th{background:var(--dark);color:#fff;}
+
+  footer{max-width:1180px;margin:0 auto;padding:0 24px 40px;color:#8a9099;font-size:11.5px;}
+  footer .note{border-top:1px solid var(--line);padding-top:14px;}
+  @media(max-width:980px){.stats-grid{grid-template-columns:repeat(3,1fr);}.cards,.cards.docs{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-in">
+    <div class="brand">
+      <div class="logo">P</div>
+      <div>
+        <h1>PlasHub <span style="font-weight:400;color:var(--muted);font-size:18px;">/ Factory "Amaru I"</span></h1>
+        <div class="co">Neo Amaru Global S.A.C. · Hub de Consolidación de Plásticos · Lima Norte, Perú</div>
+      </div>
+    </div>
+    <div class="tagline">Centro de documentos del proyecto — Etapa 1 (piloto de consolidación, 12 meses). Convierte oferta dispersa de plásticos post-proceso en lotes consolidados, trazables y de grado industrial para exportación.</div>
+    <div class="flow"><b>RECIBE</b> → <b>CLASIFICA</b> → <b>PESA</b> → <b>ALMACENA</b> → <b>CONSOLIDA 20 t</b> → <b>DESPACHA</b> contenedor 40′ &nbsp;·&nbsp; sin trituración / lavado / peletizado</div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stats-grid">
+    <div class="stat"><div class="v">80 t/mes</div><div class="k">Volumen objetivo</div></div>
+    <div class="stat"><div class="v">~49%</div><div class="k">Margen bruto pond.</div></div>
+    <div class="stat"><div class="v">~900 m²</div><div class="k">Nave objetivo</div></div>
+    <div class="stat"><div class="v">61 t/mes</div><div class="k">Punto de equilibrio</div></div>
+    <div class="stat"><div class="v">$22K</div><div class="k">Capital confirmado</div></div>
+    <div class="stat"><div class="v">~$45–50K</div><div class="k">Necesidad real (Lean)</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERRAMIENTAS -->
+  <div class="sec-h"><h2>🧰 Herramientas interactivas</h2><div class="bar"></div></div>
+  <div class="cards">
+
+    <a class="card" href="plashub-app.html#d1">
+      <div class="accent teal"></div>
+      <div class="thumb">
+        <span class="badge">Plano a escala</span>
+        <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="180" fill="#fbfbfc"/>
+          <!-- edificio -->
+          <rect x="34" y="8" width="212" height="150" fill="#ffffff" stroke="#252A31" stroke-width="2" rx="3"/>
+          <!-- corredor peatonal -->
+          <rect x="34" y="8" width="9" height="150" fill="#f4d03f" opacity=".85"/>
+          <!-- franja esporádica (arriba) -->
+          <rect x="45" y="11" width="92" height="13" fill="#9cc0c6" rx="1.5"/>
+          <rect x="150" y="11" width="93" height="13" fill="#a7c9bb" rx="1.5"/>
+          <!-- columna izquierda frecuentes -->
+          <rect x="45" y="27" width="80" height="33" fill="#5aa6d6" rx="1.5"/>
+          <rect x="45" y="61" width="80" height="33" fill="#54ab74" rx="1.5"/>
+          <!-- pasillo central -->
+          <rect x="127" y="27" width="11" height="67" fill="#eef0f4"/>
+          <line x1="132.5" y1="27" x2="132.5" y2="94" stroke="#c7ccd4" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- columna derecha frecuentes -->
+          <rect x="140" y="27" width="103" height="30" fill="#c66c63" rx="1.5"/>
+          <rect x="140" y="58" width="103" height="36" fill="#a07ec0" rx="1.5"/>
+          <!-- pasillo transversal -->
+          <rect x="45" y="97" width="198" height="12" fill="#eef0f4"/>
+          <!-- proceso -->
+          <rect x="45" y="112" width="32" height="24" fill="#8475a8" rx="1.5"/>
+          <rect x="79" y="112" width="86" height="24" fill="#9c91c2" rx="1.5"/>
+          <rect x="167" y="112" width="76" height="11" fill="#5a606a" rx="1.5"/>
+          <rect x="167" y="124" width="76" height="12" fill="#7a818c" rx="1.5"/>
+          <!-- recepción / pre-despacho -->
+          <rect x="45" y="139" width="74" height="16" fill="#DF6901" rx="1.5"/>
+          <rect x="132" y="139" width="111" height="16" fill="#f0a35e" rx="1.5"/>
+          <!-- circuito montacarga -->
+          <polyline points="124,150 60,150 60,120 90,108 132,108 132,40 132,108 200,108 200,150 142,150"
+            fill="none" stroke="#DF6901" stroke-width="1.8" stroke-dasharray="5,4" opacity=".9"/>
+          <!-- columnas estructura -->
+          <g fill="#9aa3ad" opacity=".5"><rect x="86" y="50" width="4" height="4"/><rect x="86" y="92" width="4" height="4"/><rect x="190" y="50" width="4" height="4"/><rect x="190" y="92" width="4" height="4"/></g>
+          <!-- patio -->
+          <rect x="60" y="161" width="160" height="15" fill="#eef1f4" stroke="#c7ccd4" stroke-dasharray="2,3" rx="2"/>
+          <rect x="66" y="164" width="20" height="9" fill="#dfe4ea" stroke="#aab2bd" rx="1"/>
+          <rect x="160" y="166" width="50" height="6" fill="#e8eef5" stroke="#9fb6cf" rx="1"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">🏭</div>
+        <h3>Distribución y Capacidad del Almacén</h3>
+        <p>Plano paramétrico a escala con 7 zonas segregadas, ruta de montacarga, flujo de material, salidas y extintores (INDECI). Ajusta huella, equipo y taxonomía; el modelo de capacidad recalcula en vivo. Por defecto ~900 m².</p>
+        <div class="meta"><span class="tag tool">Interactivo</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="plashub-app.html#pn">
+      <div class="accent"></div>
+      <div class="thumb">
+        <span class="badge">Modelo financiero</span>
+        <svg viewBox="0 0 280 180" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="280" height="180" fill="#fbfbfc"/>
+          <!-- KPI chips -->
+          <g>
+            <rect x="14" y="12" width="78" height="30" rx="6" fill="#ffffff" stroke="#e2e5ea"/>
+            <rect x="22" y="20" width="40" height="8" rx="2" fill="#15616D"/><rect x="22" y="31" width="26" height="5" rx="2" fill="#cfd5db"/>
+            <rect x="101" y="12" width="78" height="30" rx="6" fill="#ffffff" stroke="#e2e5ea"/>
+            <rect x="109" y="20" width="34" height="8" rx="2" fill="#2e8b57"/><rect x="109" y="31" width="30" height="5" rx="2" fill="#cfd5db"/>
+            <rect x="188" y="12" width="78" height="30" rx="6" fill="#ffffff" stroke="#e2e5ea"/>
+            <rect x="196" y="20" width="30" height="8" rx="2" fill="#DF6901"/><rect x="196" y="31" width="24" height="5" rx="2" fill="#cfd5db"/>
+          </g>
+          <!-- gráfico saldo de caja -->
+          <rect x="14" y="50" width="252" height="84" rx="6" fill="#ffffff" stroke="#e2e5ea"/>
+          <line x1="20" y1="108" x2="260" y2="108" stroke="#c0392b" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="258" y="105" font-size="7.5" fill="#c0392b" text-anchor="end">$0</text>
+          <line x1="20" y1="62" x2="260" y2="62" stroke="#15616D" stroke-width="1" stroke-dasharray="2,3" opacity=".45"/>
+          <polyline points="22,60 48,92 74,120 100,126 126,122 152,114 178,106 204,98 230,90 256,82"
+            fill="none" stroke="#DF6901" stroke-width="2.4"/>
+          <g fill="#DF6901">
+            <circle cx="22" cy="60" r="2.4"/><circle cx="48" cy="92" r="2.4"/>
+            <circle cx="74" cy="120" r="2.4" fill="#c0392b"/><circle cx="100" cy="126" r="2.4" fill="#c0392b"/>
+            <circle cx="126" cy="122" r="2.4" fill="#c0392b"/><circle cx="152" cy="114" r="2.4" fill="#c0392b"/>
+            <circle cx="178" cy="106" r="2.4"/><circle cx="204" cy="98" r="2.4"/><circle cx="230" cy="90" r="2.4"/><circle cx="256" cy="82" r="2.4"/>
+          </g>
+          <!-- barras EBITDA -->
+          <line x1="14" y1="160" x2="266" y2="160" stroke="#9aa3ad" stroke-width="1"/>
+          <g>
+            <rect x="18" y="160" width="16" height="12" fill="#c0392b"/>
+            <rect x="40" y="160" width="16" height="7" fill="#c0392b"/>
+            <rect x="62" y="150" width="16" height="10" fill="#2e8b57"/>
+            <rect x="84" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="106" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="128" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="150" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="172" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="194" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="216" y="146" width="16" height="14" fill="#2e8b57"/>
+            <rect x="238" y="146" width="16" height="14" fill="#2e8b57"/>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">📊</div>
+        <h3>Plan de Negocio y Modelo Financiero</h3>
+        <p>Plan para inversores con 3 escenarios de volumen (40 / 100 / 200 t/mes), P&amp;L y flujo de caja mensual, gráficos, CAPEX/OPEX itemizados, brecha de capital y plan de financiamiento, y registro de riesgos. Imprimible A4.</p>
+        <div class="meta"><span class="tag tool">Interactivo</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+
+    <a class="card" href="plashub-app.html#d2">
+      <div class="accent teal"></div>
+      <div class="thumb">
+        <span class="badge">Etapa 2 · planta</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="14" y="14" width="212" height="130" rx="6" fill="#fff" stroke="#252A31" stroke-width="2"/>
+          <rect x="20" y="58" width="40" height="44" fill="#DF6901" rx="3"/><text x="40" y="84" font-size="8" fill="#fff" text-anchor="middle">Recep.</text>
+          <rect x="20" y="106" width="40" height="32" fill="#15616D" rx="3"/><text x="40" y="125" font-size="7" fill="#fff" text-anchor="middle">Alm. MP</text>
+          <rect x="66" y="58" width="36" height="80" fill="#6b5b95" rx="3"/><text x="84" y="100" font-size="7.5" fill="#fff" text-anchor="middle">Tritur.</text>
+          <rect x="104" y="58" width="36" height="80" fill="#4a78a8" rx="3"/><text x="122" y="100" font-size="7.5" fill="#fff" text-anchor="middle">Lavado</text>
+          <rect x="142" y="58" width="34" height="80" fill="#c08a3e" rx="3"/><text x="159" y="100" font-size="7.5" fill="#fff" text-anchor="middle">Secado</text>
+          <rect x="178" y="58" width="20" height="80" fill="#7d3c98" rx="3"/>
+          <rect x="200" y="58" width="20" height="44" fill="#3a93a8" rx="3"/><text x="210" y="83" font-size="7" fill="#fff" text-anchor="middle">PT</text>
+          <rect x="200" y="106" width="20" height="32" fill="#f0a35e" rx="3"/>
+          <rect x="20" y="20" width="200" height="32" fill="#eef1f4" rx="3"/><text x="120" y="40" font-size="9" fill="#4a4f57" text-anchor="middle">Oficina · Lab QA · PTAR</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">🏗️</div>
+        <h3>Etapa 2 — Distribución y Capacidad de Planta</h3>
+        <p>Plano de la planta de procesamiento (triturado · lavado · secado · peletizado) con capacidad de línea, buffers MP/PT y comparación con la Etapa 1. La pregunta de <b>cuándo lanzar</b> está en el Plan de Negocio.</p>
+        <div class="meta"><span class="tag tool">Interactivo</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- DOCUMENTOS -->
+  <div class="sec-h"><h2>📁 Documentos para enviar</h2><div class="bar"></div></div>
+  <div class="cards docs">
+    <a class="card" href="PlasHub_Business_Plan.docx" download>
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Word · pág. 1</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="77" y="15" width="90" height="132" fill="#e6e9ee"/>
+          <rect x="75" y="13" width="90" height="132" fill="#ffffff" stroke="#d7dbe2"/>
+          <rect x="75" y="13" width="90" height="5" fill="#2b579a"/>
+          <rect x="83" y="25" width="62" height="7" rx="1.5" fill="#DF6901"/>
+          <rect x="83" y="36" width="46" height="3" rx="1" fill="#15616D"/>
+          <rect x="83" y="44" width="74" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="49" width="70" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="54" width="60" height="2.4" rx="1" fill="#cfd5db"/>
+          <rect x="83" y="62" width="34" height="4" rx="1" fill="#15616D"/>
+          <!-- mini tabla escenarios -->
+          <rect x="83" y="70" width="74" height="30" fill="#fff" stroke="#c7ccd4"/>
+          <rect x="83" y="70" width="74" height="8" fill="#252A31"/>
+          <line x1="108" y1="70" x2="108" y2="100" stroke="#c7ccd4"/><line x1="132" y1="70" x2="132" y2="100" stroke="#c7ccd4"/>
+          <line x1="83" y1="86" x2="157" y2="86" stroke="#e2e5ea"/><line x1="83" y1="93" x2="157" y2="93" stroke="#e2e5ea"/>
+          <rect x="83" y="106" width="74" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="111" width="68" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="116" width="72" height="2.4" rx="1" fill="#cfd5db"/>
+          <rect x="83" y="124" width="30" height="4" rx="1" fill="#15616D"/>
+          <rect x="83" y="132" width="66" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="137" width="58" height="2.4" rx="1" fill="#cfd5db"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">📄</div>
+        <h3>Plan de Negocio (Word)</h3>
+        <p>Versión documento del plan completo: resumen ejecutivo, precios, escenarios, CAPEX/OPEX, financiamiento y riesgos.</p>
+        <div class="meta"><span class="tag doc">.docx</span><span class="tag es">Español</span><span class="open">Descargar ↓</span></div>
+      </div>
+    </a>
+    <a class="card" href="Amaru-I-Project-Charter-v2.docx" download>
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Word · pág. 1</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="77" y="15" width="90" height="132" fill="#e6e9ee"/>
+          <rect x="75" y="13" width="90" height="132" fill="#ffffff" stroke="#d7dbe2"/>
+          <rect x="75" y="13" width="90" height="5" fill="#2b579a"/>
+          <rect x="83" y="25" width="58" height="7" rx="1.5" fill="#252A31"/>
+          <circle cx="151" cy="28" r="6" fill="#DF6901"/>
+          <rect x="83" y="37" width="50" height="3" rx="1" fill="#15616D"/>
+          <!-- registro de correcciones v1->v2 -->
+          <rect x="83" y="46" width="74" height="44" fill="#fff" stroke="#c7ccd4"/>
+          <rect x="83" y="46" width="74" height="8" fill="#252A31"/>
+          <line x1="119" y1="46" x2="119" y2="90" stroke="#c7ccd4"/>
+          <g>
+            <rect x="84" y="55" width="34" height="6.5" fill="#fbe1dc"/><rect x="120" y="55" width="36" height="6.5" fill="#dff0e6"/>
+            <rect x="84" y="63" width="34" height="6.5" fill="#fbe1dc"/><rect x="120" y="63" width="36" height="6.5" fill="#dff0e6"/>
+            <rect x="84" y="71" width="34" height="6.5" fill="#fbe1dc"/><rect x="120" y="71" width="36" height="6.5" fill="#dff0e6"/>
+            <rect x="84" y="79" width="34" height="6.5" fill="#fbe1dc"/><rect x="120" y="79" width="36" height="6.5" fill="#dff0e6"/>
+          </g>
+          <rect x="83" y="96" width="74" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="101" width="68" height="2.4" rx="1" fill="#cfd5db"/>
+          <rect x="83" y="109" width="32" height="4" rx="1" fill="#15616D"/>
+          <rect x="83" y="117" width="70" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="122" width="64" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="127" width="58" height="2.4" rx="1" fill="#cfd5db"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">📜</div>
+        <h3>Project Charter v2 (validado)</h3>
+        <p>Charter con cifras validadas + registro de correcciones v1→v2 (80 t/mes, ~900 m², CAPEX $20.9K).</p>
+        <div class="meta"><span class="tag doc">.docx</span><span class="tag es">Español</span><span class="open">Descargar ↓</span></div>
+      </div>
+    </a>
+    <a class="card" href="MOU_Suministro_Alex_PlasHub_BORRADOR.docx" download>
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Word · borrador</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="77" y="15" width="90" height="132" fill="#e6e9ee"/>
+          <rect x="75" y="13" width="90" height="132" fill="#ffffff" stroke="#d7dbe2"/>
+          <rect x="75" y="13" width="90" height="5" fill="#2b579a"/>
+          <rect x="93" y="26" width="54" height="7" rx="1.5" fill="#252A31"/>
+          <rect x="98" y="37" width="44" height="3" rx="1" fill="#15616D"/>
+          <g>
+            <rect x="83" y="48" width="74" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="53" width="70" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="58" width="72" height="2.4" rx="1" fill="#cfd5db"/>
+            <rect x="83" y="66" width="30" height="3.5" rx="1" fill="#15616D"/>
+            <rect x="83" y="73" width="68" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="78" width="74" height="2.4" rx="1" fill="#cfd5db"/><rect x="83" y="83" width="60" height="2.4" rx="1" fill="#cfd5db"/>
+          </g>
+          <!-- firmas -->
+          <line x1="83" y1="118" x2="116" y2="118" stroke="#7a828c"/><rect x="83" y="121" width="22" height="2.4" rx="1" fill="#cfd5db"/>
+          <line x1="124" y1="118" x2="157" y2="118" stroke="#7a828c"/><rect x="124" y="121" width="22" height="2.4" rx="1" fill="#cfd5db"/>
+          <!-- watermark BORRADOR -->
+          <text x="120" y="92" font-size="15" font-weight="800" fill="#c0392b" opacity=".18" text-anchor="middle" transform="rotate(-18 120 92)">BORRADOR</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">🤝</div>
+        <h3>MOU / Acuerdo de Suministro</h3>
+        <p><b>Borrador</b> de compromiso de volumen mínimo, precios, calidad y gobernanza 60/40. Para revisión legal/notarial.</p>
+        <div class="meta"><span class="tag doc">.docx</span><span class="tag es">Borrador</span><span class="open">Descargar ↓</span></div>
+      </div>
+    </a>
+    <a class="card" href="PlasHub_Permits_Legal_Tracker.xlsx" download>
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Excel · tracker</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="32" y="24" width="178" height="112" fill="#e6e9ee"/>
+          <rect x="30" y="22" width="178" height="112" fill="#ffffff" stroke="#d7dbe2"/>
+          <rect x="30" y="22" width="178" height="6" fill="#217346"/>
+          <!-- encabezado -->
+          <rect x="30" y="30" width="178" height="12" fill="#252A31"/>
+          <!-- columnas -->
+          <g stroke="#e2e5ea"><line x1="58" y1="30" x2="58" y2="134"/><line x1="120" y1="30" x2="120" y2="134"/><line x1="150" y1="30" x2="150" y2="134"/><line x1="178" y1="30" x2="178" y2="134"/></g>
+          <!-- filas -->
+          <g stroke="#eef0f3"><line x1="30" y1="54" x2="208" y2="54"/><line x1="30" y1="66" x2="208" y2="66"/><line x1="30" y1="78" x2="208" y2="78"/><line x1="30" y1="90" x2="208" y2="90"/><line x1="30" y1="102" x2="208" y2="102"/><line x1="30" y1="114" x2="208" y2="114"/><line x1="30" y1="126" x2="208" y2="126"/></g>
+          <!-- celdas de texto (gris) -->
+          <g fill="#cfd5db"><rect x="62" y="46" width="50" height="3.5"/><rect x="62" y="58" width="46" height="3.5"/><rect x="62" y="70" width="52" height="3.5"/><rect x="62" y="82" width="44" height="3.5"/><rect x="62" y="94" width="50" height="3.5"/><rect x="62" y="106" width="42" height="3.5"/><rect x="62" y="118" width="48" height="3.5"/></g>
+          <!-- columna ruta crítica (✦) -->
+          <g fill="#DF6901" font-size="8" font-weight="700"><text x="135" y="50">✦</text><text x="135" y="62">✦</text><text x="135" y="74">✦</text><text x="135" y="98">✦</text></g>
+          <!-- columna estado (colores) -->
+          <g><rect x="180" y="45" width="24" height="6" fill="#fbe1dc"/><rect x="180" y="57" width="24" height="6" fill="#fdf0d8"/><rect x="180" y="69" width="24" height="6" fill="#fbe1dc"/><rect x="180" y="81" width="24" height="6" fill="#dff0e6"/><rect x="180" y="93" width="24" height="6" fill="#fbe1dc"/><rect x="180" y="105" width="24" height="6" fill="#fdf0d8"/><rect x="180" y="117" width="24" height="6" fill="#dff0e6"/></g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">✅</div>
+        <h3>Tracker de Permisos y Legal</h3>
+        <p>Ruta crítica: EC-RS, RMT, pacto de socios, nave, ITSE/INDECI, equipos, capital. Responsables, duraciones y estado.</p>
+        <div class="meta"><span class="tag doc">.xlsx</span><span class="tag es">Español</span><span class="open">Descargar ↓</span></div>
+      </div>
+    </a>
+    <a class="card" href="PlasHub_Project_Profile_v3_corrected.xlsx" download>
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Excel · flujo de caja</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="32" y="24" width="178" height="112" fill="#e6e9ee"/>
+          <rect x="30" y="22" width="178" height="112" fill="#ffffff" stroke="#d7dbe2"/>
+          <rect x="30" y="22" width="178" height="6" fill="#217346"/>
+          <rect x="30" y="30" width="178" height="11" fill="#252A31"/>
+          <g stroke="#eef0f3"><line x1="30" y1="52" x2="208" y2="52"/><line x1="30" y1="63" x2="208" y2="63"/><line x1="30" y1="74" x2="208" y2="74"/></g>
+          <g stroke="#e2e5ea"><line x1="92" y1="30" x2="92" y2="85"/><line x1="120" y1="30" x2="120" y2="85"/><line x1="148" y1="30" x2="148" y2="85"/><line x1="176" y1="30" x2="176" y2="85"/></g>
+          <!-- fila corregida resaltada -->
+          <rect x="30" y="63" width="178" height="11" fill="#dff0e6"/>
+          <g fill="#cfd5db"><rect x="36" y="45" width="46" height="3.2"/><rect x="36" y="56" width="40" height="3.2"/><rect x="36" y="78" width="44" height="3.2"/></g>
+          <g fill="#1e6b40"><rect x="36" y="67" width="40" height="3.2"/></g>
+          <!-- mini sparkline: cae y se recupera -->
+          <rect x="34" y="92" width="170" height="38" fill="#fff" stroke="#e2e5ea"/>
+          <line x1="40" y1="116" x2="198" y2="116" stroke="#c0392b" stroke-dasharray="3,2" stroke-width="1"/>
+          <polyline points="42,100 70,124 100,127 130,122 160,114 196,104" fill="none" stroke="#DF6901" stroke-width="2"/>
+          <text x="196" y="100" font-size="7" fill="#1e6b40" text-anchor="end">−$34.7K</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">💰</div>
+        <h3>Modelo Financiero Corregido</h3>
+        <p>Profile v2 con el error de flujo de caja corregido (Caja M12 −$34,718 vs −$142,958). Abrir en Excel para recalcular.</p>
+        <div class="meta"><span class="tag doc">.xlsx</span><span class="tag es">Español</span><span class="open">Descargar ↓</span></div>
+      </div>
+    </a>
+    <a class="card" href="Context/">
+      <div class="accent dark"></div>
+      <div class="thumb">
+        <span class="badge">Carpeta</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <!-- archivos asomando -->
+          <g transform="rotate(-8 96 70)"><rect x="74" y="44" width="40" height="52" rx="3" fill="#fff" stroke="#d7dbe2"/><rect x="74" y="44" width="40" height="6" fill="#217346"/></g>
+          <g transform="rotate(3 124 66)"><rect x="104" y="40" width="40" height="52" rx="3" fill="#fff" stroke="#d7dbe2"/><rect x="104" y="40" width="40" height="6" fill="#DF6901"/></g>
+          <g transform="rotate(12 150 72)"><rect x="132" y="46" width="40" height="52" rx="3" fill="#fff" stroke="#d7dbe2"/><rect x="132" y="46" width="40" height="6" fill="#2b579a"/></g>
+          <!-- carpeta -->
+          <path d="M44 78 h44 l8 10 h100 a6 6 0 0 1 6 6 v40 a6 6 0 0 1 -6 6 H44 a6 6 0 0 1 -6 -6 V84 a6 6 0 0 1 6 -6 z" fill="#15616D"/>
+          <path d="M44 92 h158 a4 4 0 0 1 4 4 v38 a6 6 0 0 1 -6 6 H46 a6 6 0 0 1 -6 -6 V96 a4 4 0 0 1 4 -4 z" fill="#1f7e8c"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">🗂️</div>
+        <h3>Documentos fuente</h3>
+        <p>Originales: Project Profile v2, Requerimientos del Almacén (PPTX), Proyecto Piloto, Charter v1 (cifras antiguas).</p>
+        <div class="meta"><span class="tag doc">carpeta</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- CONOCIMIENTO Y AUDITORÍA -->
+  <div class="sec-h"><h2>📚 Conocimiento y auditoría</h2><div class="bar"></div></div>
+  <div class="cards">
+    <a class="card" href="manual.html">
+      <div class="accent"></div>
+      <div class="thumb">
+        <span class="badge">empieza aquí</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="44" y="16" width="152" height="126" rx="8" fill="#fff" stroke="#e2e5ea"/>
+          <rect x="44" y="16" width="152" height="11" rx="4" fill="#DF6901"/>
+          <rect x="56" y="38" width="92" height="7" rx="2" fill="#252A31"/>
+          <g>
+            <rect x="56" y="56" width="128" height="5" rx="2" fill="#cfd5db"/><circle cx="190" cy="58.5" r="6" fill="#cfd5db"/><text x="190" y="62" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">i</text>
+            <rect x="56" y="74" width="128" height="5" rx="2" fill="#cfd5db"/><circle cx="190" cy="76.5" r="6" fill="#DF6901"/><text x="190" y="80" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">i</text>
+            <rect x="56" y="92" width="128" height="5" rx="2" fill="#cfd5db"/><circle cx="190" cy="94.5" r="6" fill="#cfd5db"/><text x="190" y="98" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">i</text>
+            <rect x="56" y="110" width="100" height="5" rx="2" fill="#cfd5db"/><circle cx="190" cy="112.5" r="6" fill="#cfd5db"/><text x="190" y="116" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">i</text>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">📘</div>
+        <h3>Manual de uso de la app</h3>
+        <p>Cómo usar <b>cada parámetro editable</b>, qué afecta y cómo leer los resultados. Incluye un <b>guion para la reunión de socios</b> y un glosario. Cada control de la app tiene además un ícono <b>ℹ</b> con la misma explicación.</p>
+        <div class="meta"><span class="tag tool">Manual</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+    <a class="card" href="conceptos-utiles.html">
+      <div class="accent teal"></div>
+      <div class="thumb">
+        <span class="badge">Guía del consultor</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="20" y="16" width="200" height="20" rx="4" fill="#15616D"/>
+          <rect x="28" y="23" width="120" height="6" rx="2" fill="#ffffff" opacity=".85"/>
+          <g>
+            <rect x="20" y="44" width="64" height="44" rx="6" fill="#fff" stroke="#e2e5ea"/><rect x="26" y="50" width="30" height="6" rx="2" fill="#2c5577"/><rect x="26" y="60" width="50" height="3" rx="1" fill="#cfd5db"/><rect x="26" y="66" width="46" height="3" rx="1" fill="#cfd5db"/><rect x="26" y="72" width="50" height="3" rx="1" fill="#cfd5db"/>
+            <rect x="88" y="44" width="64" height="44" rx="6" fill="#fff" stroke="#e2e5ea"/><rect x="94" y="50" width="30" height="6" rx="2" fill="#9a6310"/><rect x="94" y="60" width="50" height="3" rx="1" fill="#cfd5db"/><rect x="94" y="66" width="44" height="3" rx="1" fill="#cfd5db"/><rect x="94" y="72" width="50" height="3" rx="1" fill="#cfd5db"/>
+            <rect x="156" y="44" width="64" height="44" rx="6" fill="#fff" stroke="#e2e5ea"/><rect x="162" y="50" width="30" height="6" rx="2" fill="#0f4c57"/><rect x="162" y="60" width="50" height="3" rx="1" fill="#cfd5db"/><rect x="162" y="66" width="46" height="3" rx="1" fill="#cfd5db"/><rect x="162" y="72" width="50" height="3" rx="1" fill="#cfd5db"/>
+          </g>
+          <rect x="20" y="96" width="200" height="46" rx="6" fill="#fff8ef" stroke="#f0d9a8"/>
+          <rect x="28" y="104" width="40" height="6" rx="2" fill="#DF6901"/>
+          <rect x="28" y="116" width="184" height="3.5" rx="1" fill="#e6cfa0"/><rect x="28" y="123" width="170" height="3.5" rx="1" fill="#e6cfa0"/><rect x="28" y="130" width="176" height="3.5" rx="1" fill="#e6cfa0"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">📚</div>
+        <h3>Conceptos Útiles (Guía del Consultor)</h3>
+        <p>Finanzas, estrategia y operaciones explicadas con las cifras del proyecto — y el <b>porqué</b> de cada decisión y supuesto. Para defender el modelo ante un inversor o banco.</p>
+        <div class="meta"><span class="tag tool">Lectura</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+    <a class="card" href="audit.html">
+      <div class="accent"></div>
+      <div class="thumb">
+        <span class="badge">Revisión crítica</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="30" y="14" width="180" height="130" rx="8" fill="#fff" stroke="#e2e5ea"/>
+          <rect x="30" y="14" width="180" height="9" rx="4" fill="#7a2718"/>
+          <!-- filas hallazgos con semáforo -->
+          <g>
+            <circle cx="46" cy="44" r="5" fill="#c0392b"/><rect x="58" y="41" width="120" height="6" rx="2" fill="#cfd5db"/>
+            <circle cx="46" cy="62" r="5" fill="#c0392b"/><rect x="58" y="59" width="140" height="6" rx="2" fill="#cfd5db"/>
+            <circle cx="46" cy="80" r="5" fill="#c9820b"/><rect x="58" y="77" width="110" height="6" rx="2" fill="#cfd5db"/>
+            <circle cx="46" cy="98" r="5" fill="#c9820b"/><rect x="58" y="95" width="132" height="6" rx="2" fill="#cfd5db"/>
+            <circle cx="46" cy="116" r="5" fill="#2e8b57"/><rect x="58" y="113" width="100" height="6" rx="2" fill="#cfd5db"/>
+          </g>
+          <text x="200" y="138" font-size="13" font-weight="800" fill="#7a2718" text-anchor="end">GO ✓*</text>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">🔎</div>
+        <h3>Audit del Proyecto</h3>
+        <p>Revisión franca (estilo consultor) de las apps y del plan de negocio/operaciones: fortalezas, riesgos críticos por severidad, recomendaciones y veredicto <b>GO condicional</b>.</p>
+        <div class="meta"><span class="tag tool">Lectura</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+    <a class="card" href="plashub-tareas.html">
+      <div class="accent teal"></div>
+      <div class="thumb">
+        <span class="badge">lista maestra</span>
+        <svg viewBox="0 0 240 158" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <rect width="240" height="158" fill="#fbfbfc"/>
+          <rect x="34" y="14" width="172" height="130" rx="8" fill="#fff" stroke="#e2e5ea"/>
+          <g>
+            <rect x="46" y="30" width="14" height="14" rx="3" fill="#2e8b57"/><path d="M49 37 l3 3 l5 -6" stroke="#fff" stroke-width="2" fill="none"/><rect x="68" y="33" width="120" height="7" rx="2" fill="#cfd5db"/>
+            <rect x="46" y="54" width="14" height="14" rx="3" fill="#2e8b57"/><path d="M49 61 l3 3 l5 -6" stroke="#fff" stroke-width="2" fill="none"/><rect x="68" y="57" width="104" height="7" rx="2" fill="#cfd5db"/>
+            <rect x="46" y="78" width="14" height="14" rx="3" fill="#fff" stroke="#c0392b" stroke-width="2"/><rect x="68" y="81" width="120" height="7" rx="2" fill="#cfd5db"/>
+            <rect x="46" y="102" width="14" height="14" rx="3" fill="#fff" stroke="#c9820b" stroke-width="2"/><rect x="68" y="105" width="96" height="7" rx="2" fill="#cfd5db"/>
+            <rect x="46" y="126" width="14" height="14" rx="3" fill="#fff" stroke="#c9820b" stroke-width="2"/><rect x="68" y="129" width="110" height="7" rx="2" fill="#cfd5db"/>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="ic">✅</div>
+        <h3>Tareas y Permisos — Lista maestra</h3>
+        <p>Fuente de verdad única: acciones, permisos y procesos clasificados por <b>General · Etapa 1 · Etapa 2</b>, con filtros, prioridades y <b>checklist</b>. Sincronizado con la sección Permisos del Plan de Negocio.</p>
+        <div class="meta"><span class="tag tool">Checklist</span><span class="tag es">Español</span><span class="open">Abrir →</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- PRÓXIMOS PASOS -->
+  <div class="sec-h"><h2>🚦 Próximos pasos críticos</h2><div class="bar"></div></div>
+  <div class="next">
+    <h3>Acciones que determinan el arranque (ruta crítica)</h3>
+    <ol>
+      <li><b>Iniciar EC-RS (MINAM/SIGERSOL) ya</b> — 60–90 días; sin este registro no hay operación legal. Es el cuello de botella más largo.</li>
+      <li><b>Compromiso de volumen de Alex por escrito</b> — todo el modelo financiero depende de un mínimo de t/mes (≥82 para superar el equilibrio). Completar el blanco en el MOU.</li>
+      <li><b>Cerrar la brecha de capital de trabajo</b> (~$26K de pozo de caja, no solo el CAPEX) — negociar garantía 1 mes + prepago de Alex + puente entre socios.</li>
+      <li><b>Asegurar el montacarga de 3 t</b> (alquiler) — las transpaletas del CAPEX original no pueden manejar bolsones de 1 t.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  <div class="note">
+    PlasHub / Factory "Amaru I" · Neo Amaru Global S.A.C. · Documentos generados como apoyo de planificación — las cifras de precios son referencias trianguladas (validar con cotizaciones reales) y los borradores legales requieren revisión profesional. ·
+    Para ver las herramientas localmente: <code>npx http-server . -p 3017</code> y abrir <code>http://localhost:3017/</code>.
+  </div>
+</footer>
+
+<!-- LECTOR DE DOCUMENTOS -->
+<div class="reader-overlay" id="reader" hidden>
+  <div class="reader-box">
+    <div class="reader-head">
+      <b id="readerTitle"></b>
+      <a class="dlbtn" id="readerDl" href="#">Descargar ↓</a>
+      <button class="rdbtn x" id="readerClose">✕ Cerrar</button>
+    </div>
+    <div class="reader-body" id="readerBody"></div>
+  </div>
+</div>
+
+<script src="doc-previews.js"></script>
+<script>
+(function(){
+  const META={
+    'PlasHub_Business_Plan.docx':['plan','Plan de Negocio (Word)'],
+    'Amaru-I-Project-Charter-v2.docx':['charter','Project Charter v2 (validado)'],
+    'MOU_Suministro_Alex_PlasHub_BORRADOR.docx':['mou','MOU / Acuerdo de Suministro (borrador)'],
+    'PlasHub_Permits_Legal_Tracker.xlsx':['tracker','Tracker de Permisos y Legal'],
+    'PlasHub_Project_Profile_v3_corrected.xlsx':['profile','Modelo Financiero Corregido'],
+  };
+  function download(file){const a=document.createElement('a');a.href=file;a.setAttribute('download','');document.body.appendChild(a);a.click();a.remove();}
+  function openReader(id,title,file){
+    document.getElementById('readerTitle').textContent=title;
+    document.getElementById('readerBody').innerHTML=(window.DOCPREVIEWS&&window.DOCPREVIEWS[id])||'<p>Vista previa no disponible. Descarga el documento para verlo.</p>';
+    const dl=document.getElementById('readerDl'); dl.onclick=function(e){e.preventDefault();download(file);};
+    document.getElementById('readerBody').scrollTop=0;
+    document.getElementById('reader').hidden=false; document.body.style.overflow='hidden';
+  }
+  function closeReader(){document.getElementById('reader').hidden=true; document.body.style.overflow='';}
+  document.getElementById('readerClose').addEventListener('click',closeReader);
+  document.getElementById('reader').addEventListener('click',function(e){ if(e.target===this) closeReader(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeReader(); });
+
+  document.querySelectorAll('.cards.docs a.card').forEach(function(card){
+    const file=card.getAttribute('href'); const meta=META[file];
+    if(!meta) return; // tarjeta de carpeta: queda como enlace
+    const id=meta[0], title=meta[1];
+    const m=card.querySelector('.meta');
+    const openSpan=m.querySelector('.open'); if(openSpan) openSpan.remove();
+    const leer=document.createElement('button'); leer.className='rdbtn'; leer.textContent='📖 Leer';
+    const dl=document.createElement('button'); dl.className='dlbtn'; dl.textContent='Descargar ↓';
+    m.appendChild(leer); m.appendChild(dl);
+    leer.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openReader(id,title,file);});
+    dl.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();download(file);});
+    card.addEventListener('click',function(e){e.preventDefault();openReader(id,title,file);}); // toda la tarjeta abre el lector
+    card.style.cursor='pointer';
+  });
+})();
+</script>
+
+</body>
+</html>

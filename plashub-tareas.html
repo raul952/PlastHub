@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — Tareas y Permisos (lista maestra)</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--light:#F2F2F2;--muted:#CACEDA;--ink:#1c2127;--line:#e2e5ea;--ok:#2e8b57;--warn:#c9820b;--bad:#c0392b;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5;}
+  a{color:#41617a;}
+  .topnav{background:var(--dark);color:#fff;padding:11px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10;}
+  .topnav .logo{width:30px;height:30px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;}
+  .topnav a{color:var(--muted);text-decoration:none;font-size:13px;} .topnav a:hover{color:#fff;} .topnav .sp{flex:1;}
+  header{background:linear-gradient(135deg,#252A31,#15616D);color:#fff;padding:28px 24px;} header .in{max-width:1080px;margin:0 auto;}
+  header h1{margin:0;font-size:23px;} header p{margin:8px 0 0;color:#eaf0f1;max-width:800px;font-size:14px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:20px;}
+  .progress{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .progress .bar{flex:1;min-width:200px;height:12px;background:#eef1f4;border-radius:8px;overflow:hidden;} .progress .fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--ok));width:0;transition:width .3s;}
+  .progress b{font-size:15px;color:var(--dark);} .progress .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 11px;cursor:pointer;font-size:12px;}
+  .ttip{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:rgba(255,255,255,.3);color:#fff;font-size:10px;font-weight:700;font-style:normal;cursor:help;margin-left:6px;position:relative;vertical-align:middle;}
+  .filters .ttip{background:#cfd5df;color:#252A31;}
+  .ttip:hover{background:var(--orange);color:#fff;}
+  .ttip::after{content:attr(data-t);position:absolute;left:50%;transform:translateX(-50%);bottom:22px;z-index:999;width:250px;max-width:70vw;background:#252A31;color:#fff;font-size:11.5px;font-weight:400;line-height:1.45;padding:9px 11px;border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:normal;text-align:left;opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;}
+  .ttip:hover::after{opacity:1;visibility:visible;}
+  .filters{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .fgroup{display:flex;gap:5px;align-items:center;flex-wrap:wrap;} .fgroup .fl{font-size:11px;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;margin-right:2px;}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;cursor:pointer;font-size:12px;} .chip:hover{border-color:var(--orange);} .chip.active{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .grp{margin:22px 0 10px;} .grp h2{margin:0 0 2px;font-size:18px;color:var(--dark);} .grp .gbar{height:8px;background:#eef1f4;border-radius:6px;overflow:hidden;margin-top:5px;} .grp .gfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--ok));width:0;}
+  .grp .gpct{font-size:12px;color:#6a7280;float:right;}
+  .task{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;margin-bottom:8px;border-left:4px solid var(--bad);}
+  .task.imp{border-left-color:var(--warn);} .task.checked{background:#f6fbf7;border-left-color:var(--ok);}
+  .task input{width:20px;height:20px;margin-top:2px;cursor:pointer;accent-color:var(--ok);flex:0 0 auto;}
+  .task .tt{font-size:14px;font-weight:600;color:var(--dark);} .task.checked .tt{text-decoration:line-through;color:#7a828c;}
+  .task .dt{font-size:12px;color:#5a626b;margin-top:3px;}
+  .task .meta{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .tag{font-size:10px;font-weight:700;padding:1px 8px;border-radius:20px;}
+  .t-perm{background:#efe2f0;color:#6a3b78;} .t-oper{background:#d9ede6;color:#0f4c57;} .t-fin{background:#f0e6d9;color:#9a6310;} .t-lay{background:#e7eef5;color:#2c5577;}
+  .t-crit{background:#fbe9e7;color:#9a2d20;} .t-imp{background:#fdf4e3;color:#8a5c08;} .t-done{background:#e8f5ee;color:#1e6b40;}
+  .resp{font-size:11px;color:#8a9099;}
+  footer{max-width:1080px;margin:0 auto;padding:10px 24px 50px;color:#8a9099;font-size:11.5px;}
+</style>
+</head>
+<body>
+<div class="topnav"><span class="logo">P</span><b style="font-size:14px">PlasHub · Tareas y Permisos</b><span class="sp"></span><a href="index.html">← Inicio</a><a href="plashub-app.html#pn">Plan de Negocio</a></div>
+<header><div class="in"><h1>Tareas y Permisos — Lista maestra<span class="ttip" data-t="Marca la casilla ☑ de una tarea cuando la completes. El avance se guarda en este navegador y se sincroniza con la sección 'Permisos' del Plan de Negocio. Usa '↺ Reiniciar' para empezar de cero.">i</span></h1><p>Fuente de verdad única para acciones, permisos y procesos. Clasificada por <b>General · Etapa 1 · Etapa 2</b> y por tipo/prioridad. Lo que marcas aquí se refleja en la sección "Permisos" del Plan de Negocio (mismo estado guardado en el navegador).</p></div></header>
+<div class="wrap">
+  <div class="progress"><b id="pcount">0 / 0</b><div class="bar"><div class="fill" id="pfill"></div></div><span id="ppct" style="font-size:12.5px;color:#6a7280"></span><button class="btn" id="resetBtn">↺ Reiniciar</button></div>
+  <div class="filters">
+    <div class="fgroup"><span class="fl">Etapa<span class="ttip" data-t="Filtra las tarjetas por etapa (General, Etapa 1 o Etapa 2). No borra nada: solo oculta lo que no coincide. Combina con los otros filtros.">i</span></span><span class="chip active" data-f="etapa" data-v="">Todas</span><span class="chip" data-f="etapa" data-v="GEN">General</span><span class="chip" data-f="etapa" data-v="E1">Etapa 1</span><span class="chip" data-f="etapa" data-v="E2">Etapa 2</span></div>
+    <div class="fgroup"><span class="fl">Tipo</span><span class="chip active" data-f="tipo" data-v="">Todos</span><span class="chip" data-f="tipo" data-v="Permiso">Permiso</span><span class="chip" data-f="tipo" data-v="Operación">Operación</span><span class="chip" data-f="tipo" data-v="Financiero">Financiero</span><span class="chip" data-f="tipo" data-v="Layout">Layout</span></div>
+    <div class="fgroup"><span class="fl">Prioridad</span><span class="chip active" data-f="prio" data-v="">Todas</span><span class="chip" data-f="prio" data-v="crit">🔴 Crítica</span><span class="chip" data-f="prio" data-v="imp">🟡 Importante</span></div>
+    <div class="fgroup"><span class="fl">Estado</span><span class="chip active" data-f="est" data-v="">Todos</span><span class="chip" data-f="est" data-v="pend">Pendientes</span><span class="chip" data-f="est" data-v="done">Completados</span></div>
+  </div>
+  <div id="groups"></div>
+</div>
+<footer>PlasHub / Factory "Amaru I" · Lista maestra de tareas — estado local a este navegador. · <a href="index.html">Inicio</a></footer>
+<script src="tareas-maestras.js"></script>
+<script>
+  let state=window.plashubInitState();
+  const filt={etapa:'',tipo:'',prio:'',est:''};
+  const tipoTag={Permiso:'t-perm',Operación:'t-oper',Financiero:'t-fin',Layout:'t-lay'};
+  function visible(t){
+    if(filt.etapa&&t.etapa!==filt.etapa)return false;
+    if(filt.tipo&&t.tipo!==filt.tipo)return false;
+    if(filt.prio==='crit'&&!t.crit)return false;
+    if(filt.prio==='imp'&&t.crit)return false;
+    if(filt.est==='pend'&&state[t.id])return false;
+    if(filt.est==='done'&&!state[t.id])return false;
+    return true;
+  }
+  function taskHTML(t){const on=!!state[t.id];
+    return `<div class="task ${t.crit?'':'imp'} ${on?'checked':''}">
+      <input type="checkbox" data-id="${t.id}" ${on?'checked':''}>
+      <div style="flex:1">
+        <div class="tt">${t.title}</div>
+        <div class="dt">${t.detail}</div>
+        <div class="meta">
+          <span class="tag ${tipoTag[t.tipo]}">${t.tipo}</span>
+          <span class="tag ${t.crit?'t-crit':'t-imp'}">${t.crit?'🔴 Crítica':'🟡 Importante'}</span>
+          ${t.done?'<span class="tag t-done">✓ hecho en la app</span>':''}
+          <span class="resp">· ${t.resp} · ${t.urg}</span>
+        </div>
+      </div></div>`;
+  }
+  function render(){
+    const order=['GEN','E1','E2']; let html='';
+    order.forEach(e=>{
+      const tasks=window.PLASHUB_TASKS.filter(t=>t.etapa===e&&visible(t));
+      const all=window.PLASHUB_TASKS.filter(t=>t.etapa===e);
+      const done=all.filter(t=>state[t.id]).length, pct=all.length?Math.round(done/all.length*100):0;
+      if(tasks.length===0 && (filt.etapa&&filt.etapa!==e)) return; // oculta grupo si filtra otra etapa
+      if(tasks.length===0) return;
+      html+=`<div class="grp"><span class="gpct">${done}/${all.length} · ${pct}%</span><h2>${window.PLASHUB_ETAPAS[e]}</h2><div class="gbar"><div class="gfill" style="width:${pct}%"></div></div></div>`;
+      html+=tasks.map(taskHTML).join('');
+    });
+    document.getElementById('groups').innerHTML=html||'<p style="color:#8a9099">No hay tareas con estos filtros.</p>';
+    document.querySelectorAll('.task input[type=checkbox]').forEach(c=>c.addEventListener('change',e=>{
+      state[e.target.dataset.id]=e.target.checked; window.plashubSaveState(state); render(); progress();}));
+    progress();
+  }
+  function progress(){const all=window.PLASHUB_TASKS,done=all.filter(t=>state[t.id]).length,pct=Math.round(done/all.length*100);
+    document.getElementById('pcount').textContent=done+' / '+all.length;
+    document.getElementById('pfill').style.width=pct+'%';
+    document.getElementById('ppct').textContent=pct+'% completado';}
+  document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',()=>{
+    const f=ch.dataset.f; filt[f]=ch.dataset.v;
+    document.querySelectorAll(`.chip[data-f="${f}"]`).forEach(x=>x.classList.toggle('active',x===ch));
+    render();}));
+  document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('¿Reiniciar todas las tareas?')){state={};window.plashubSaveState(state);render();}});
+  // sincronización en vivo entre pestañas/iframes
+  window.addEventListener('storage',e=>{if(e.key===window.PLASHUB_TASKKEY){try{state=JSON.parse(e.newValue)||{};}catch(_){state={};}render();}});
+  render();
+</script>
+</body>
+</html>

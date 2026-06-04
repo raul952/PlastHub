@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — Audit del Proyecto (apps + plan de negocio)</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--light:#F2F2F2;--muted:#CACEDA;--ink:#1c2127;--line:#e2e5ea;--ok:#2e8b57;--warn:#c9820b;--bad:#c0392b;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;}
+  a{color:#41617a;}
+  .topnav{background:var(--dark);color:#fff;padding:11px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10;}
+  .topnav .logo{width:30px;height:30px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;}
+  .topnav a{color:var(--muted);text-decoration:none;font-size:13px;} .topnav a:hover{color:#fff;} .topnav .sp{flex:1;}
+  .hero{background:linear-gradient(135deg,#252A31,#7a2718);color:#fff;padding:34px 24px;}
+  .hero-in{max-width:1080px;margin:0 auto;}
+  .hero h1{margin:0;font-size:25px;}
+  .hero p{margin:10px 0 0;color:#f1e6e2;max-width:820px;font-size:14.5px;}
+  .hero .role{display:inline-block;margin-top:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:12px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px;}
+  .sec{margin:30px 0 14px;border-left:4px solid var(--orange);padding-left:12px;}
+  .sec h2{margin:0;font-size:21px;color:var(--dark);} .sec .s{font-size:13px;color:#6a7280;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:16px;}
+  .panel h3{margin:0 0 8px;font-size:15px;color:var(--teal);}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--dark);color:#fff;font-size:11px;text-transform:uppercase;letter-spacing:.3px;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .sev{font-weight:700;white-space:nowrap;}
+  .s-hi{color:var(--bad);} .s-md{color:var(--warn);} .s-lo{color:var(--ok);}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:20px;}
+  .b-hi{background:#fbe9e7;color:#9a2d20;} .b-md{background:#fdf4e3;color:#8a5c08;} .b-lo{background:#e8f5ee;color:#1e6b40;}
+  .scorebar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;}
+  .score{flex:1;min-width:150px;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fafbfc;}
+  .score .v{font-size:20px;font-weight:800;} .score .k{font-size:11px;color:#6a7280;text-transform:uppercase;}
+  .callout{border-radius:10px;padding:14px 16px;margin:12px 0;border:1px solid;}
+  .callout.bad{background:#fbe9e7;border-color:#f0c2bb;} .callout.warn{background:#fdf4e3;border-color:#f0d9a8;} .callout.ok{background:#e8f5ee;border-color:#b6e0c6;}
+  .callout h3{margin:0 0 4px;font-size:14.5px;} .callout.bad h3{color:#9a2d20;} .callout.warn h3{color:#8a5c08;} .callout.ok h3{color:#1e6b40;}
+  ol.rec{padding-left:20px;} ol.rec li{margin:7px 0;font-size:13px;} ol.rec b{color:var(--dark);}
+  .verdict{background:var(--dark);color:#fff;border-radius:12px;padding:18px 20px;margin-top:18px;}
+  .verdict h3{margin:0 0 6px;color:var(--orange);font-size:16px;}
+  .verdict p{margin:6px 0;font-size:13.5px;color:#eceff2;}
+  footer{max-width:1080px;margin:0 auto;padding:10px 24px 50px;color:#8a9099;font-size:11.5px;}
+  @media(max-width:860px){.scorebar{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <span class="logo">P</span><b style="font-size:14px">PlasHub</b>
+  <span class="sp"></span>
+  <a href="index.html">← Inicio</a><a href="conceptos-utiles.html">Conceptos útiles</a>
+</div>
+<div class="hero"><div class="hero-in">
+  <h1>Audit del Proyecto</h1>
+  <p>Revisión crítica e independiente de (A) las aplicaciones construidas y (B) el plan de negocio y operaciones. Sin adornos: lo que está bien, lo que está mal y lo que haría falta para que esto sea financiable y ejecutable.</p>
+  <span class="role">Modo: consultor senior de finanzas, negocio y operaciones · franco y directo</span>
+</div></div>
+<div class="wrap">
+
+  <!-- ============ PARTE A: APPS ============ -->
+  <div class="sec"><h2>A · Audit de las aplicaciones</h2><div class="s">Calidad, robustez, UX y riesgos de las herramientas interactivas y documentos.</div></div>
+
+  <div class="scorebar">
+    <div class="score"><div class="k">Utilidad</div><div class="v s-lo">Alta</div></div>
+    <div class="score"><div class="k">Robustez técnica</div><div class="v s-md">Media-alta</div></div>
+    <div class="score"><div class="k">Rigor del modelo</div><div class="v s-md">Media</div></div>
+    <div class="score"><div class="k">Listo para inversor</div><div class="v s-md">Casi</div></div>
+  </div>
+
+  <div class="panel"><h3>Fortalezas</h3>
+    <table><tr><th>#</th><th>Fortaleza</th><th>Por qué importa</th></tr>
+      <tr><td>1</td><td>Modelos <b>editables</b> con autoguardado y reset</td><td>El usuario puede estresar supuestos sin tocar código — clave para una negociación.</td></tr>
+      <tr><td>2</td><td><b>Honestidad intelectual</b>: muestra el pozo de caja, el caso deficitario, la brecha de equipo</td><td>Genera confianza; un inversor castiga los modelos "todo verde".</td></tr>
+      <tr><td>3</td><td>Cifras <b>trianguladas y fuentes citadas</b></td><td>Trazabilidad de cada número.</td></tr>
+      <tr><td>4</td><td>Todo <b>self-contained</b> (un archivo, sin build), imprimible y en español</td><td>Portátil, fácil de compartir, listo para PDF.</td></tr>
+      <tr><td>5</td><td>Separación correcta de <b>throughput vs. buffer</b> y restricción</td><td>Evita el error común de "más m² = más capacidad".</td></tr>
+    </table>
+  </div>
+
+  <div class="panel"><h3>Hallazgos y riesgos</h3>
+    <table>
+      <tr><th>Sev.</th><th>Hallazgo</th><th>Recomendación</th></tr>
+      <tr><td class="sev"><span class="badge b-hi">Alto</span></td><td><b>Falsa precisión.</b> El modelo arroja cifras a $1 (p.ej. pozo −$26,345) desde supuestos aproximados. Da una sensación de exactitud que los inputs no respaldan.</td><td>Mostrar rangos (p.ej. −$22K a −$30K) o redondear a $1K; etiquetar claramente "estimado".</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Alto</span></td><td><b>Precios sin validar.</b> Todo el caso financiero depende de compra/venta que son referencias, no cotizaciones reales.</td><td>Bloquear el "modo inversor" hasta cargar 2–3 cotizaciones reales; marcar visualmente los precios no verificados.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>Modelo de capacidad/caja simplificado.</b> Cobro a 1 mes fijo, pago contado, rampa fija, sin estacionalidad ni mermas.</td><td>Documentar supuestos en la propia app (tooltip); permitir editar el calendario de cobro/pago (ya parcialmente con el slider de desfase).</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>Sin validación de rangos.</b> Se pueden ingresar mix negativos, precios en cero, etc., y el modelo los acepta.</td><td>Acotar inputs (min/max), avisar si el mix no suma ~100%, evitar divisiones por cero.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>Persistencia solo local.</b> localStorage vive en un navegador; no se comparte ni respalda.</td><td>Añadir <b>exportar/importar configuración (JSON)</b> para versionar y compartir escenarios con Alex/inversor.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>Miniaturas son mockups</b>, no renders reales del documento.</td><td>Aceptable como íconos; si se requiere fidelidad, generar capturas reales (LibreOffice).</td></tr>
+      <tr><td class="sev"><span class="badge b-lo">Bajo</span></td><td><b>Accesibilidad / responsive</b> limitados (sin etiquetas ARIA, tablas anchas en móvil).</td><td>Añadir labels, foco visible, scroll horizontal en tablas (ya parcial).</td></tr>
+      <tr><td class="sev"><span class="badge b-lo">Bajo</span></td><td><b>Mantenibilidad</b>: lógica duplicada entre las dos apps; sin pruebas.</td><td>Si crece, extraer un módulo común de fórmulas; añadir un par de casos de prueba.</td></tr>
+    </table>
+  </div>
+
+  <div class="callout warn"><h3>Veredicto de las apps</h3>
+    <p>Son <b>herramientas de planificación y negociación de muy buena calidad</b> — honestas, editables y claras. El riesgo no es el código sino la <b>credibilidad de los inputs</b>: presentar cifras al dólar desde supuestos sin verificar puede volverse en contra frente a un inversor sofisticado. <b>Antes de usarlas como material de levantamiento de capital:</b> cargar precios reales, mostrar rangos, y añadir export/import de configuración.</p>
+  </div>
+
+  <!-- ============ PARTE B: NEGOCIO ============ -->
+  <div class="sec"><h2>B · Audit de plan de negocio y operaciones</h2><div class="s">Lectura franca de la viabilidad. Qué creería y qué no creería un inversor.</div></div>
+
+  <div class="callout ok"><h3>La tesis en una línea</h3>
+    <p>PlasHub es una <b>apuesta barata y bien estructurada</b> para validar si la consolidación de plásticos para Alex es un negocio real — y, sobre todo, una <b>opción sobre la Etapa 2</b> (procesamiento), donde está el verdadero valor. Como negocio autónomo de Etapa 1, es marginal. Como experimento de bajo costo con criterios claros de Go/Kill, tiene sentido.</p>
+  </div>
+
+  <div class="panel"><h3>Lo que funciona</h3>
+    <table><tr><th>#</th><th>Punto a favor</th></tr>
+      <tr><td>1</td><td>Inversión de entrada baja y por etapas — riesgo acotado, disciplina de capital correcta.</td></tr>
+      <tr><td>2</td><td>Demanda ancla real (Alex) y un dolor de cliente concreto (disponibilidad + calidad).</td></tr>
+      <tr><td>3</td><td>Margen bruto saludable (~49%) si los precios se sostienen.</td></tr>
+      <tr><td>4</td><td>Modelo replicable en LatAm si el piloto valida (escalabilidad estratégica).</td></tr>
+    </table>
+  </div>
+
+  <div class="panel"><h3>Riesgos críticos — sin filtro</h3>
+    <table>
+      <tr><th>Sev.</th><th>Riesgo</th><th>Razonamiento franco</th></tr>
+      <tr><td class="sev"><span class="badge b-hi">Crítico</span></td><td><b>Esto no es un negocio todavía; es un favor logístico a Alex.</b></td><td>Alex es proveedor, cliente, socio y financista a la vez. Con un solo punto de demanda y oferta, no hay mercado: hay dependencia total. Hasta que no exista un 2.º cliente y un 2.º proveedor, la "empresa" es una función de Alex. Un inversor externo no compra eso a múltiplo de empresa.</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Crítico</span></td><td><b>Margen neto delgado sobre supuestos no verificados.</b></td><td>~$20/t netos a 80 t/mes. Un −15% en el precio de venta o un rechazo &gt;10% borra la utilidad. Y los precios son referencias, no cotizaciones. El caso entero se sostiene sobre dos números que nadie ha firmado.</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Crítico</span></td><td><b>Subcapitalización real.</b></td><td>$22K confirmados vs. necesidad real ~$45–50K una vez que cuentas el pozo de caja. Arrancar subcapitalizado es la causa #1 de muerte de pilotos rentables. El P&amp;L positivo no paga la planilla en el M2.</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Alto</span></td><td><b>Sin compromiso escrito de volumen.</b></td><td>Todo el modelo asume ≥82–100 t/mes de Alex. Sin contrato, es una expectativa. No se firma una nave de 12 meses contra una expectativa.</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Alto</span></td><td><b>EC-RS es ruta crítica y puede no salir a tiempo.</b></td><td>60–90 días en el mejor caso; sin EC-RS no hay operación legal. Un retraso corre todo el cronograma y quema OPEX sin ingresos.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>Precio de transferencia (SUNAT).</b></td><td>Partes vinculadas en compra y venta. Mal documentado, es contingencia fiscal y mancha la credibilidad del margen reportado.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Medio</span></td><td><b>El conservador es deficitario.</b></td><td>A 40 t/mes se pierde ~$4.7K/mes. Si el ramp-up de oferta es lento (lo normal), el piloto vive meses en zona de pérdida. Hay que tener caja para aguantarlo, no solo para el "caso base".</td></tr>
+    </table>
+  </div>
+
+  <div class="panel"><h3>Qué haría yo (recomendaciones, en orden)</h3>
+    <ol class="rec">
+      <li><b>Condicionar TODO el arranque a tres gatillos</b>, en este orden: (a) carta/contrato de volumen mínimo de Alex (≥82 t/mes, 12 meses); (b) 2–3 cotizaciones reales de compra y de venta; (c) cierre del gap a ~$45–50K. Sin los tres, no se firma la nave.</li>
+      <li><b>Convertir a Alex en financista del capital de trabajo.</b> Prepago, consignación o términos de cobro &lt;15 días. Es la palanca más barata y elimina el pozo de caja — además alinea su incentivo (él es el beneficiario).</li>
+      <li><b>Empezar híbrido (fee + compra) en M1–M3.</b> Cobrar un fee de consolidación mientras el volumen valida reduce el capital de trabajo y el riesgo de precio justo en los meses más frágiles; migrar a compra-venta plena cuando haya caja y datos.</li>
+      <li><b>Fijar criterios de Go/Kill explícitos para el Gate del M12</b> (margen neto ≥ X $/t, rechazo &lt;10%, ≥1 cliente adicional con LOI, volumen ≥ Y). Tratar Etapa 1 como un experimento con hipótesis falsables, no como "la empresa".</li>
+      <li><b>Diversificar oferta y demanda como condición de Etapa 2</b>, no como "algo deseable". Un 2.º cliente y un 2.º proveedor son lo que convierte el favor en negocio.</li>
+      <li><b>Formalizar pacto de socios + precio de transferencia antes de la 1.ª operación.</b> Barato ahora, carísimo después.</li>
+      <li><b>Presupuestar el montacarga</b> (alquiler en OPEX) explícitamente — hoy es un hueco en el CAPEX original.</li>
+      <li><b>Vender Etapa 1 como opción sobre Etapa 2</b>, no por su margen. El pitch al inversor es "gastamos $50K para des-arriesgar una oportunidad de procesamiento mucho mayor", no "ganamos $2K/mes".</li>
+    </ol>
+  </div>
+
+  <div class="verdict">
+    <h3>Veredicto: GO condicional</h3>
+    <p><b>Procede — pero solo si se cumplen los tres gatillos (volumen de Alex por escrito, precios reales, gap de capital cerrado).</b> Sin ellos, es una apuesta de capital contra una hoja de cálculo.</p>
+    <p>La economía de Etapa 1 por sí sola es marginal (~$20/t netos, alta dependencia, frágil ante precio/volumen). Su justificación es estratégica: <b>comprar barato la información y la opción de la Etapa 2</b>. Estructurado así — con Alex financiando el capital de trabajo y criterios de Go/Kill claros — es una buena apuesta asimétrica: pierdes poco si falla, ganas mucho si valida. Estructurado como "negocio rentable de trading" y arrancado subcapitalizado y sin contratos, es una forma cara de aprender lo que ya dice este audit.</p>
+  </div>
+
+  <!-- ============ PARTE C: ESTRATEGIA POR ETAPAS ============ -->
+  <div class="sec"><h2>C · Audit de la estrategia por etapas (Etapa 1 → Etapa 2)</h2><div class="s">Lo que cambia cuando se mira el plan completo, no solo el piloto.</div></div>
+
+  <div class="callout ok"><h3>La forma real de la apuesta</h3>
+    <p>No es <i>un</i> negocio: es una <b>opción barata (Etapa 1) sobre un negocio mucho mayor (Etapa 2)</b>. Casi todo el valor está en la Etapa 2 — y eso cambia cómo se financia, se vende y se arriesga el proyecto.</p>
+  </div>
+
+  <div class="panel">
+    <table>
+      <tr><th>&nbsp;</th><th>Etapa 1 — Consolidación</th><th>Etapa 2 — Procesamiento</th></tr>
+      <tr><td>EBITDA estable</td><td>~$2K/mes</td><td><b>~$45K/mes</b></td></tr>
+      <tr><td>Capital</td><td>~$45–50K</td><td><b>~$300K+</b></td></tr>
+      <tr><td>Producto</td><td>lote consolidado ~$259/t</td><td>pellet/regrind ~$600–1,300/t</td></tr>
+      <tr><td>Naturaleza</td><td>logística / almacén</td><td><b>manufactura</b> (otra liga)</td></tr>
+    </table>
+    <p style="font-size:13px;margin-top:8px">La Etapa 1, sola, es marginal y no justifica la inversión. <b>El caso vive o muere por la Etapa 2.</b> Recomendación de narrativa: dejar de venderlo como "hub de consolidación" y presentarlo como <b>"un camino por etapas hacia una planta de procesamiento", donde la Etapa 1 es el experimento de $50K que compra el derecho y los datos para desplegar la Etapa 2.</b></p>
+  </div>
+
+  <div class="callout warn"><h3>Lo que revela la decisión de <i>timing</i></h3>
+    <p>El modelo es contundente: <b>esperar es caro.</b> Lanzar la Etapa 2 en el mes 4 deja ~$448K de caja a 24 meses; en el mes 12, solo ~$105K — con un capital requerido casi igual (~$310–340K). El costo de demorar no es ahorrar capital, es <b>perder meses del margen alto</b>. → Lanzar <b>tan pronto el gate lo permita</b>; la palanca real es qué tan rápido se valida la Etapa 1 para justificar la ronda de ~$300K.</p>
+  </div>
+
+  <div class="panel"><h3>Riesgos que se agravan en la Etapa 2</h3>
+    <table>
+      <tr><th>Sev.</th><th>Riesgo</th><th>Razonamiento</th></tr>
+      <tr><td class="sev"><span class="badge b-hi">Crítico</span></td><td>$300K es otro universo de financiamiento</td><td>De amigos/socios ($22–50K) a inversión institucional: due diligence real y, casi seguro, contratos de offtake del pellet. No es "más de lo mismo".</td></tr>
+      <tr><td class="sev"><span class="badge b-hi">Crítico</span></td><td>El margen de E2 descansa en 4 supuestos sin validar</td><td>Precio del pellet, merma (rendimiento), costo de procesamiento y CAPEX de equipos. Un −20% en precio o 30% de merma borra gran parte del EBITDA. Hoy nadie firmó esos números.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Alto</span></td><td>La concentración en Alex se agrava</td><td>Apostar $300K con Alex como proveedor+cliente+socio es mucho más peligroso que con $50K. Diversificar offtake pasa a ser condición de la ronda.</td></tr>
+      <tr><td class="sev"><span class="badge b-md">Alto</span></td><td>Brecha de capacidad de manufactura</td><td>Lavado/peletizado es manufactura (energía, agua/PTAR, calidad, mantenimiento, EIA), no almacenaje. Requiere talento y procesos que el equipo aún no tiene.</td></tr>
+    </table>
+  </div>
+
+  <div class="panel"><h3>Qué haría yo (en orden)</h3>
+    <ol class="rec">
+      <li><b>De-riesgar la Etapa 2 barato ANTES de comprometer $300K:</b> enviar unas toneladas a <b>maquila</b> (un tercero tritura/lava/peletiza una muestra). Devuelve <b>precio de pellet, merma y costo reales</b> por unos pocos miles de dólares. El experimento de mayor apalancamiento del plan.</li>
+      <li><b>Gate Etapa 1 → 2 con criterios explícitos:</b> volumen sostenido, margen, <b>≥1 LOI de offtake de pellet</b>, y costo de procesamiento validado por la maquila. Sin los cuatro, no se levanta la ronda grande.</li>
+      <li><b>Secuenciar el capital:</b> cerrar ~$50K para Etapa 1 ya; en paralelo estructurar el financiamiento de Etapa 2 (equity y/o <b>leasing de equipos</b> para no inmovilizar $300K en fierro), contingente al gate.</li>
+      <li><b>Lanzar apenas pase el gate</b> (demorar cuesta caro), no antes.</li>
+      <li><b>Formar capacidad de manufactura</b> (jefe de producción con experiencia en reciclado) antes del arranque de Etapa 2.</li>
+    </ol>
+  </div>
+
+  <div class="verdict">
+    <h3>Veredicto Etapa 1 → 2: GO condicional, en dos decisiones separadas</h3>
+    <p>La Etapa 1 es una buena apuesta asimétrica (pierdes poco, compras información y la opción). La Etapa 2 es <b>atractiva pero no probada</b> y debe tratarse como una <b>decisión de inversión distinta, mayor y contingente</b>, con su propio due diligence.</p>
+    <p>El error a evitar: tratar la Etapa 2 como "la continuación natural" y arrancarla con supuestos de hoja de cálculo. El acierto: usar $50K para convertir cuatro supuestos en cuatro hechos — y <b>entonces</b> desplegar los $300K con convicción.</p>
+  </div>
+
+</div>
+<footer>PlasHub / Factory "Amaru I" · Audit independiente de apoyo a la decisión — no sustituye due diligence legal, fiscal ni contable. · <a href="index.html">Volver al inicio</a> · <a href="conceptos-utiles.html">Conceptos útiles</a></footer>
+</body>
+</html>

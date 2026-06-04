@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — Etapa 2: Distribución y Capacidad de Planta</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--light:#F2F2F2;--muted:#CACEDA;--ink:#1c2127;--line:#d7dbe2;--ok:#2e8b57;--warn:#c9820b;--bad:#c0392b;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45;}
+  header{background:var(--dark);color:#fff;padding:16px 22px;}
+  header h1{margin:0;font-size:20px;} header .sub{color:var(--muted);font-size:12.5px;margin-top:3px;}
+  .assump{margin-top:8px;font-size:11.5px;color:#cfd5df;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:6px 10px;display:inline-block;}
+  .wrap{max-width:1320px;margin:0 auto;padding:18px;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .panel h2{margin:0 0 12px;font-size:15px;color:var(--dark);border-bottom:2px solid var(--orange);display:inline-block;padding-bottom:4px;}
+  .panel h3{font-size:13px;color:var(--teal);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.4px;}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .presets button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 13px;cursor:pointer;font-size:12.5px;}
+  .presets button:hover{border-color:var(--orange);color:var(--orange);} .presets button.active{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .params{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;}
+  .params label{display:flex;justify-content:space-between;align-items:center;font-size:12px;gap:8px;}
+  input.ed{width:78px;border:1px solid #d7dbe2;border-radius:5px;padding:3px 6px;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;background:#fffdf7;}
+  input.ed:focus{outline:2px solid var(--orange);border-color:var(--orange);background:#fff;}
+  .editbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#fff8ef;border:1px solid #f0d9a8;border-radius:9px;padding:9px 14px;font-size:12.5px;margin-bottom:14px;}
+  .editbar b{color:#9a5a05;}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 13px;cursor:pointer;font-size:12.5px;font-weight:600;} .btn:hover{border-color:var(--orange);color:var(--orange);}
+  .saved{font-size:11px;color:var(--ok);margin-left:auto;}
+  .warnbar{background:#fdf4e3;border:1px solid #f0d9a8;color:#8a5c08;border-radius:9px;padding:9px 14px;font-size:12.5px;margin-bottom:14px;}
+  .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .card{border:1px solid var(--line);border-radius:9px;padding:11px 12px;background:#fafbfc;}
+  .card .k{font-size:10.5px;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;} .card .v{font-size:19px;font-weight:700;color:var(--dark);margin-top:2px;} .card .u{font-size:11px;color:#8a9099;}
+  .card.good{border-left:4px solid var(--ok);} .card.warn{border-left:4px solid var(--warn);} .card.bad{border-left:4px solid var(--bad);} .card.teal{border-left:4px solid var(--teal);}
+  .verdict{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px;}
+  .verdict.good{background:#e8f5ee;color:#1e6b40;border:1px solid #b6e0c6;} .verdict.warn{background:#fdf4e3;color:#8a5c08;border:1px solid #f0d9a8;} .verdict.bad{background:#fbe9e7;color:#9a2d20;border:1px solid #f0c2bb;}
+  .planrow{display:grid;grid-template-columns:1fr 300px;gap:18px;}
+  .plotbox{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff;}
+  .toolbar{display:flex;gap:6px;align-items:center;padding:7px 10px;background:#f4f5f7;border-bottom:1px solid var(--line);}
+  .toolbar button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:13px;} .toolbar button:hover{border-color:var(--orange);}
+  .toolbar .hint{font-size:11px;color:#8a9099;margin-left:auto;}
+  #svgholder{width:100%;height:560px;overflow:hidden;cursor:grab;background:#fbfbfc;} #svgholder.drag{cursor:grabbing;}
+  svg{display:block;} .zoneRect{cursor:pointer;transition:opacity .12s;} .zoneRect:hover{opacity:.82;}
+  .zlabel{font-size:9px;fill:#fff;pointer-events:none;font-weight:600;} .zarea{font-size:7.5px;pointer-events:none;}
+  .legend .li{display:flex;align-items:center;gap:7px;font-size:12px;margin:3px 0;} .legend .sw{width:14px;height:14px;border-radius:3px;border:1px solid rgba(0,0,0,.15);}
+  table.data{width:100%;border-collapse:collapse;font-size:12.5px;} table.data th,table.data td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
+  table.data th{background:var(--dark);color:#fff;font-size:11px;text-transform:uppercase;} table.data td.num{text-align:right;}
+  .note{font-size:11.5px;color:#6a7280;margin-top:8px;}
+  /* ícono de información ℹ con tooltip */
+  .ttip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#cfd5df;color:#252A31;font-size:9.5px;font-weight:700;font-style:normal;cursor:help;margin-left:4px;position:relative;vertical-align:middle;text-transform:none;letter-spacing:0;flex:0 0 auto;}
+  .ttip:hover{background:var(--orange);color:#fff;}
+  .ttip::after{content:attr(data-t);position:absolute;left:50%;transform:translateX(-50%);bottom:21px;z-index:999;width:240px;max-width:60vw;background:#252A31;color:#fff;font-size:11px;font-weight:400;line-height:1.45;padding:8px 11px;border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:normal;text-align:left;opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;}
+  .ttip:hover::after{opacity:1;visibility:visible;}
+  .params label > span:first-child{display:inline-flex;align-items:center;}
+  table.data th .ttip{background:#5a6675;color:#fff;}
+  @media print{@page{size:A3 landscape;margin:10mm;}.presets,.params,.toolbar,.editbar{display:none;}#svgholder{height:auto;overflow:visible;}}
+  @media(max-width:1000px){.controls,.planrow,.cards,.params{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <h1>PlasHub · Etapa 2 — Distribución y Capacidad de Planta <span style="color:var(--orange);font-size:13px">· procesamiento</span></h1>
+  <div class="sub">Planta de procesamiento: RECIBE → ALMACÉN MP → TRITURADO → LAVADO → SECADO → PELETIZADO → ALMACÉN PT → DESPACHA. Objetivo 400–500+ t/mes.</div>
+  <span class="assump" id="assumpChip"></span>
+</header>
+<div class="wrap">
+  <div class="editbar">✏️ <span><b>Totalmente editable</b> con autoguardado.</span> <button class="btn" id="exportBtn">⬇ Exportar</button> <button class="btn" id="importBtn">⬆ Importar</button><input type="file" id="importFile" accept="application/json" hidden> <button class="btn" id="resetBtn">↺ Restablecer</button> <span class="saved" id="savedMsg"></span></div>
+  <div class="warnbar">⚠ <b>Supuestos a validar.</b> Rendimiento de línea, mermas y áreas de equipos dependen de la tecnología. Ajusta con cotizaciones reales.</div>
+
+  <div class="panel">
+    <h2>1 · Nave y configuración de línea</h2>
+    <div class="controls">
+      <div>
+        <h3>Huella de la nave</h3>
+        <div class="presets" id="presets"></div>
+        <div class="params">
+          <label><span>Frente (m) <span class="ttip" data-t="Ancho de la nave de procesamiento. Con el fondo define el área total disponible. El sobrante tras las zonas funcionales va a los buffers MP/PT.">i</span></span><input class="ed" id="wf" type="number" step="1"></label>
+          <label><span>Fondo (m) <span class="ttip" data-t="Largo de la nave en el eje del flujo (recepción → triturado → lavado → secado → peletizado → despacho). Si es muy corto el modelo avisa que la línea no cabe.">i</span></span><input class="ed" id="d" type="number" step="1"></label>
+          <label><span>Altura libre (m) <span class="ttip" data-t="Altura útil. Permite silos/tolvas y apilar buffers. No cambia el throughput de la línea.">i</span></span><input class="ed" id="h" type="number" step="0.5"></label>
+          <label><span>Objetivo (t/mes) <span class="ttip" data-t="Volumen mensual objetivo de la planta (400–500+ t). Dimensiona los buffers MP/PT y el despacho. Lo limita la capacidad de la línea (abajo).">i</span></span><input class="ed" id="vol2" type="number" step="25"></label>
+        </div>
+        <h3>Línea de procesamiento <span class="ttip" data-t="El cuello de botella de la Etapa 2. La capacidad mensual = líneas × t/h × horas/turno × turnos × días × utilización. Estos parámetros, no el almacén, definen cuántas toneladas procesas.">i</span></h3>
+        <div class="params">
+          <label><span>Líneas <span class="ttip" data-t="Número de líneas de procesamiento en paralelo. Duplicar líneas ~duplica la capacidad mensual.">i</span></span><input class="ed" id="lines" type="number" step="1"></label>
+          <label><span>Rendimiento (t/h por línea) <span class="ttip" data-t="Toneladas por hora que procesa cada línea. Depende de la tecnología; validar con el proveedor del equipo.">i</span></span><input class="ed" id="tph" type="number" step="0.5"></label>
+          <label><span>Horas/turno <span class="ttip" data-t="Horas operativas por turno (típico 8).">i</span></span><input class="ed" id="shiftH" type="number" step="1"></label>
+          <label><span>Turnos/día <span class="ttip" data-t="Turnos al día (1, 2 o 3). Más turnos = más capacidad sin comprar otra línea, pero más OPEX de mano de obra.">i</span></span><input class="ed" id="shifts" type="number" step="1"></label>
+          <label><span>Días hábiles/mes <span class="ttip" data-t="Días operativos al mes (típico 24–26).">i</span></span><input class="ed" id="days" type="number" step="1"></label>
+          <label><span>Utilización (%) <span class="ttip" data-t="% del tiempo que la línea procesa de verdad (descontando cambios, limpieza, paradas). Realista 70–85%.">i</span></span><input class="ed" id="util" type="number" step="5"></label>
+          <label><span>Merma de proceso (%) <span class="ttip" data-t="% del material que se pierde en el proceso (finos, contaminación, humedad). Reduce las toneladas vendibles de producto terminado (PT).">i</span></span><input class="ed" id="merma" type="number" step="1"></label>
+        </div>
+      </div>
+      <div>
+        <h3>Almacenamiento (buffers) <span class="ttip" data-t="Los almacenes de materia prima (MP) y producto terminado (PT) son buffers de inventario (días), no determinan el throughput. Se dimensionan por días × volumen ÷ densidad.">i</span></h3>
+        <div class="params">
+          <label><span>Densidad MP (t/m²) <span class="ttip" data-t="Toneladas por m² de la materia prima a granel/bolsón. ↑ densidad = menos área de buffer MP.">i</span></span><input class="ed" id="densMP" type="number" step="0.1"></label>
+          <label><span>Densidad PT (t/m²) <span class="ttip" data-t="Toneladas por m² del producto terminado (pellet ensacado/big-bag). Suele ser mayor que la MP.">i</span></span><input class="ed" id="densPT" type="number" step="0.1"></label>
+          <label><span>Días buffer MP (objetivo) <span class="ttip" data-t="Días de inventario de materia prima que quieres tener en piso. Área MP = días × volumen ÷ densidad. ↑ días = más área.">i</span></span><input class="ed" id="diasMP" type="number" step="1"></label>
+          <label><span>Días buffer PT (objetivo) <span class="ttip" data-t="Días de producto terminado acumulado antes de despachar. ↑ días = más área de PT.">i</span></span><input class="ed" id="diasPT" type="number" step="1"></label>
+        </div>
+        <div class="note">El cuello de botella de la Etapa 2 es la <b>línea de procesamiento</b> (no el montacarga). La capacidad mensual = líneas × t/h × horas × turnos × días × utilización. Los almacenes MP/PT son <b>buffers</b> (días de inventario), no determinan el throughput.</div>
+        <h3>Zonas funcionales (staff / equipos) <span class="ttip" data-t="Oficina, laboratorio QA, PTAR y bienestar se dimensionan por su driver (staff, familias de producto, caudal de agua) y NO escalan con el tamaño de la nave. El espacio que sobra va a los buffers.">i</span></h3>
+        <div class="params">
+          <label><span>Supervisores/turno <span class="ttip" data-t="Supervisores por turno. Dimensiona la oficina (× m²/supervisor).">i</span></span><input class="ed" id="supervisors" type="number" step="1"></label>
+          <label><span>Técnicos/turno <span class="ttip" data-t="Técnicos/operarios por turno. Suman al headcount para oficina y bienestar.">i</span></span><input class="ed" id="techStaff" type="number" step="1"></label>
+          <label><span>m²/supervisor (oficina) <span class="ttip" data-t="Metros de oficina por supervisor. Oficina = supervisores × este valor.">i</span></span><input class="ed" id="m2PerSupervisor" type="number" step="1"></label>
+          <label><span>Familias de producto <span class="ttip" data-t="Cuántas familias de producto procesa el laboratorio QA. Dimensiona el lab (× m²/banco).">i</span></span><input class="ed" id="productFamilies" type="number" step="1"></label>
+          <label><span>m²/banco QA <span class="ttip" data-t="Área por banco de laboratorio. Lab = familias × este valor.">i</span></span><input class="ed" id="m2PerLabBench" type="number" step="1"></label>
+          <label><span>Agua (m³/t lavada) <span class="ttip" data-t="Metros cúbicos de agua por tonelada lavada. Junto con el volumen dimensiona la PTAR (planta de tratamiento de agua).">i</span></span><input class="ed" id="washWaterM3perTon" type="number" step="0.5"></label>
+          <label><span>m²/m³·h PTAR <span class="ttip" data-t="Área de PTAR por unidad de caudal (m³/h). Convierte el caudal de agua en área de tratamiento.">i</span></span><input class="ed" id="m3perH_m2" type="number" step="0.1"></label>
+          <label><span>Área mín. recepción (m²) <span class="ttip" data-t="Piso mínimo de la zona de recepción de materia prima, independientemente del volumen.">i</span></span><input class="ed" id="recMinArea" type="number" step="10"></label>
+          <label><span>Área mín. despacho (m²) <span class="ttip" data-t="Piso mínimo de la zona de despacho de producto terminado.">i</span></span><input class="ed" id="despMinArea" type="number" step="10"></label>
+        </div>
+        <div class="note">Las zonas de soporte (oficina, lab QA, PTAR, welfare) se dimensionan por su <b>driver funcional</b> (staff, familias, caudal) — <b>no</b> escalan con el tamaño de la nave. El espacio sobrante va a buffers MP/PT.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>2 · Tablero de capacidad</h2>
+    <div class="cards" id="cards"></div>
+    <div id="verdict"></div>
+  </div>
+
+  <div class="panel">
+    <h2>3 · Plano de planta (a escala)</h2>
+    <div class="planrow">
+      <div class="plotbox">
+        <div class="toolbar"><button id="zin">＋</button><button id="zout">－</button><button id="zfit">Ajustar</button><button id="tgFlow">Flujo</button><span class="hint">scroll = zoom · arrastrar = mover · clic en zona</span></div>
+        <div id="svgholder"><svg id="svg" xmlns="http://www.w3.org/2000/svg"><g id="vp"></g></svg></div>
+      </div>
+      <div class="side">
+        <h3>Detalle de zona</h3>
+        <div id="detail" class="panel" style="margin:0;padding:12px;background:#fafbfc;"><div style="font-weight:700">Clic en una zona</div><div class="note">Área, función y capacidad.</div></div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </div>
+    <div class="note">Flujo unidireccional: recepción (izq.) → almacén MP → línea de proceso → almacén PT → despacho (der.). PTAR = planta de tratamiento de agua (el lavado consume agua). Flechas verdes = flujo de material.</div>
+  </div>
+
+  <div class="panel">
+    <h2>4 · Tabla de zonas</h2>
+    <table class="data" id="zoneTable"><thead><tr><th>Zona</th><th>Función</th><th class="num">Dim (m)</th><th class="num">m² <span style="font-weight:400;font-size:10px">(editable)</span><span class="ttip" data-t="Área de cada zona. Las de soporte (oficina, lab, PTAR, recepción, despacho) se pueden editar a mano; usa ↺ para volver al valor funcional. Los buffers MP/PT se recalculan desde días × volumen.">i</span></th><th class="num">% piso</th><th>Driver operativo<span class="ttip" data-t="Qué dimensiona cada zona: la línea (proceso), el caudal de agua (PTAR), el staff (oficina), las familias (lab) o el volumen×días (buffers MP/PT).">i</span></th></tr></thead><tbody></tbody><tfoot></tfoot></table>
+  </div>
+
+  <div class="panel">
+    <h2>5 · Comparación con Etapa 1</h2>
+    <table class="data">
+      <tr><th>Aspecto</th><th>Etapa 1 (consolidación)</th><th>Etapa 2 (procesamiento)</th></tr>
+      <tr><td>Producto</td><td>Lote consolidado (~$259/t)</td><td>Regrind / pellet (~$600–1,300/t)</td></tr>
+      <tr><td>Cuello de botella</td><td>Montacarga (manejo)</td><td>Línea de procesamiento</td></tr>
+      <tr><td>Nave típica</td><td>~900 m²</td><td>~1,500–2,000 m²</td></tr>
+      <tr><td>Volumen</td><td>80–100 t/mes</td><td>400–500+ t/mes</td></tr>
+      <tr><td>Servicios críticos</td><td>Eléctrico 3-fase</td><td>+ agua/PTAR, energía intensiva</td></tr>
+      <tr><td>Permisos extra</td><td>EC-RS</td><td>+ EIA (procesamiento)</td></tr>
+    </table>
+  </div>
+</div>
+<script>
+const PX=22, KEY='plashub_dist_e2_v1', clone=o=>JSON.parse(JSON.stringify(o));
+const DEFAULTS={wf:40,d:45,h:8,vol2:400,lines:2,tph:2,shiftH:8,shifts:2,days:22,util:65,merma:18,densMP:1.0,densPT:1.2,diasMP:20,diasPT:15,
+  // --- params funcionales (sizing por driver) ---
+  supervisors:2, techStaff:6, m2PerSupervisor:10, productFamilies:4, m2PerLabBench:12,
+  washWaterM3perTon:3.5, m3perH_m2:0.8,
+  stageMinArea:{triturado:80,lavado:80,escurrido:25,secado:80,peletizado:80},
+  recMinArea:100, despMinArea:150, areaOverrides:{}};
+const PRESETS=[{label:'1,200 m²',wf:30,d:40},{label:'1,500 m²',wf:37.5,d:40},{label:'1,800 m² ★',wf:40,d:45},{label:'2,400 m²',wf:48,d:50}];
+let st;
+function loadState(){st=clone(DEFAULTS);try{const s=JSON.parse(localStorage.getItem(KEY));if(s)Object.assign(st,s);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st));const m=document.getElementById('savedMsg');m.textContent='✓ guardado';clearTimeout(save._t);save._t=setTimeout(()=>m.textContent='',1200);}catch(e){}}
+const $=id=>document.getElementById(id);
+const PROC=[['Triturado','#6b5b95'],['Lavado','#4a78a8'],['Secado','#c08a3e'],['Peletizado','#7d3c98']];
+
+/* ---------- capacidad ---------- */
+function procIn(){return st.lines*st.tph*st.shiftH*st.shifts*st.days*(st.util/100);}
+function procOut(){return procIn()*(1-st.merma/100);}
+
+/* ---------- layout ---------- */
+let LAST=null;
+// Etapas de cada línea (incluye buffer de Escurrido entre Lavado y Secado) — peso = ancho relativo
+const STAGES=[['Triturado','#6b5b95',1],['Lavado','#4a78a8',1],['Escurrido','#9bbf8f',0.5],['Secado','#c08a3e',1],['Peletizado','#7d3c98',1]];
+function computeLayout(){
+  // FLUJO "I" con SIZING FUNCIONAL: cada zona por su driver; admin con alturas ∝ área; el sobrante → buffers
+  const wf=st.wf,d=st.d,zones=[],M=0.6;
+  const ov=(id,val)=>(st.areaOverrides&&st.areaOverrides[id]!=null)?st.areaOverrides[id]:val;  // override guardado como ÁREA
+  // 1. ÁREAS FUNCIONALES (demand-driven)
+  const officeArea =ov('office', Math.max(40, st.supervisors*st.m2PerSupervisor));
+  const labArea    =ov('lab',    Math.max(30, st.productFamilies*st.m2PerLabBench));
+  // throughput EFECTIVO (objetivo, acotado por capacidad) — driver de buffers, no la capacidad máxima
+  const eff=Math.min(procIn(), st.vol2), effOut=eff*(1-st.merma/100);
+  const dailyWashIn=eff/Math.max(1,st.days);
+  const waterFlowM3h=dailyWashIn*st.washWaterM3perTon/Math.max(1,st.shiftH*st.shifts);
+  const ptarArea   =ov('ptar',   Math.max(30, waterFlowM3h/Math.max(0.01,st.m3perH_m2)));
+  const welfareArea=ov('welfare',Math.max(25, (st.supervisors+st.techStaff)*2.5));
+  const recArea    =ov('rec',    Math.max(st.recMinArea,  dailyWashIn*2));
+  const despArea   =ov('desp',   Math.max(st.despMinArea, (effOut/Math.max(1,st.days))*2));
+  const mpArea     =ov('mp',     Math.max(100, (eff*st.diasMP/30)/st.densMP));
+  const ptArea     =ov('pt',     Math.max(100, (effOut*st.diasPT/30)/st.densPT));
+  const stageAreaOf=nm=>ov('stage_'+nm, (st.stageMinArea[nm]??60)*st.lines);
+  // 2. COLUMNA ADMIN (derecha) — alturas PROPORCIONALES al área funcional de cada zona (no iguales)
+  const adminDefs=[
+    {id:'office', label:'Oficina / Control', area:officeArea, col:'#4a4f57', driver:`${st.supervisors} superv. × ${st.m2PerSupervisor} m²/p = ${officeArea.toFixed(0)} m²`},
+    {id:'lab',    label:'Laboratorio QA',     area:labArea,    col:'#5e6b6e', driver:`${st.productFamilies} familias × ${st.m2PerLabBench} m²/banco = ${labArea.toFixed(0)} m²`},
+    {id:'ptar',   label:'PTAR (agua)',         area:ptarArea,   col:'#2f6f5e', driver:`${waterFlowM3h.toFixed(1)} m³/h × ${(1/st.m3perH_m2).toFixed(1)} m²/m³h = ${ptarArea.toFixed(0)} m²`},
+    {id:'welfare',label:'Welfare / SS.HH.',    area:welfareArea,col:'#6c727b', driver:`${st.supervisors+st.techStaff} pers × 2.5 m²/p = ${welfareArea.toFixed(0)} m²`},
+  ];
+  const totalAdmin=adminDefs.reduce((s,a)=>s+a.area,0)||1, availAdminH=d-2*M;
+  // ancho de columna admin que PRESERVA el área funcional al llenar la altura (no estira el área)
+  const adminColW=Math.max(3,Math.min(12,totalAdmin/availAdminH)), adminX=wf-adminColW-M;
+  let ay=M;
+  adminDefs.forEach(az=>{const h=(az.area/totalAdmin)*availAdminH;
+    zones.push(Z(az.id,az.label,'admin',adminX,ay,adminColW,h,az.col,az.label,az.driver)); ay+=h;});
+  // 3. REGIÓN PRINCIPAL — flujo I; cada franja: ancho = área funcional / flowH
+  const mainX0=M, flowY0=M, flowH=d-2*M;
+  const lineGap=Math.max(2,flowH*0.08), lineH=(flowH-lineGap)/2;
+  const lineW=STAGES.map(stg=>(stageAreaOf(stg[0].toLowerCase())/st.lines)/lineH);   // ancho por etapa (por línea)
+  const procW=lineW.reduce((a,b)=>a+b,0);
+  const procTotalArea=STAGES.reduce((s,stg)=>s+stageAreaOf(stg[0].toLowerCase()),0);
+  let cx=mainX0;
+  {const w=recArea/flowH; zones.push(Z('rec','Recepción / Descarga MP','recepción',cx,flowY0,w,flowH,'#DF6901','Acceso vehicular IZQUIERDO.',`Mín ${st.recMinArea} m² ó ${dailyWashIn.toFixed(1)} t/día × 2 = ${recArea.toFixed(0)} m²`)); cx+=w;}
+  {const w=mpArea/flowH; zones.push(Z('mp','Almacén Materia Prima','mp',cx,flowY0,w,flowH,'#15616D','Buffer de entrada por polímero.',`${st.diasMP} d × ${(eff/30).toFixed(1)} t/día ÷ ${st.densMP} = ${mpArea.toFixed(0)} m²`)); cx+=w;}
+  [0,1].forEach(li=>{const ly=flowY0+(li===0?lineH+lineGap:0); let sx=cx;
+    STAGES.forEach((stg,si)=>{const nm=stg[0].toLowerCase(), w=lineW[si], buf=stg[0]==='Escurrido';
+      zones.push(Z('L'+(li+1)+'s'+si,stg[0]+' L'+(li+1),'proc',sx,ly,w,lineH,stg[1],
+        buf?'Buffer Lavado→Secado: absorbe el diferencial de velocidad.':'Etapa de proceso — Línea '+(li+1)+'.',
+        `Huella ${st.stageMinArea[nm]??60} m² × ${st.lines} línea(s)`)); sx+=w;});});
+  cx+=procW;
+  {const w=ptArea/flowH; zones.push(Z('pt','Almacén Producto Terminado','pt',cx,flowY0,w,flowH,'#3a93a8','Adyacente a Despacho (flujo en I).',`${st.diasPT} d × ${(effOut/30).toFixed(1)} t/día ÷ ${st.densPT} = ${ptArea.toFixed(0)} m²`)); cx+=w;}
+  {const w=despArea/flowH; zones.push(Z('desp','Despacho + Paletizado','despacho',cx,flowY0,w,flowH,'#f0a35e','Contenedor 40\' + paletizado. Acceso DERECHO.',`Mín ${st.despMinArea} m² (contenedor + paletizado) = ${despArea.toFixed(0)} m²`)); cx+=w;}
+  const totalFunctional=officeArea+labArea+ptarArea+welfareArea+recArea+despArea+mpArea+ptArea+procTotalArea;
+  LAST={zones,guides:{wf,d,adminColW,flowY0,flowH,M,cx,totalFunctional}};
+  return LAST;
+}
+function Z(id,name,type,x,y,w,h,col,note,driver){return {id,name,type,x:+x,y:+y,w:Math.max(w,.5),h:Math.max(h,.5),col,note,driver:driver||'',area:Math.max(w,0)*Math.max(h,0)};}
+
+function W2S(x,y,w,h){const d=st.d;return {x:x*PX+24,y:(d-(y+h))*PX+24,w:w*PX,h:h*PX};}
+function render(){
+  const g=LAST.guides, vbW=g.wf*PX+48, vbH=g.d*PX+48;
+  const svg=$('svg'); svg.setAttribute('viewBox',`0 0 ${vbW} ${vbH}`);
+  let s=`<rect x="24" y="24" width="${g.wf*PX}" height="${g.d*PX}" fill="none" stroke="#252A31" stroke-width="2.5"/>`;
+  LAST.zones.forEach(z=>{const r=W2S(z.x,z.y,z.w,z.h);
+    s+=`<rect class="zoneRect" data-zone="${z.id}" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="2" fill="${z.col}" stroke="rgba(0,0,0,.25)"/>`;
+    const cx=r.x+r.w/2,cy=r.y+r.h/2;
+    if(r.w>40&&r.h>22){s+=`<text class="zlabel" x="${cx}" y="${cy-1}" text-anchor="middle">${z.name}</text><text class="zarea" x="${cx}" y="${cy+10}" text-anchor="middle" fill="rgba(255,255,255,.9)">${z.area.toFixed(0)} m²</text>`;}
+    else if(r.w>26){s+=`<text class="zlabel" x="${cx}" y="${cy+3}" text-anchor="middle" style="font-size:8px">${z.name}</text>`;}});
+  // flujo
+  if(state_showFlow){const fa=(x1,y1,x2,y2)=>{const a=W2S(x1,y1,0,0),b=W2S(x2,y2,0,0);s+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#2e8b57" stroke-width="3" marker-end="url(#fa)" opacity=".85"/>`;};
+    const ym=g.flowY0+g.flowH/2, cx=id=>{const z=LAST.zones.find(x=>x.id===id);return z?z.x+z.w/2:null;};
+    const rx=cx('rec'),mx=cx('mp'),px=cx('pt'),dx=cx('desp');
+    if(rx!=null&&mx!=null)fa(rx,ym,mx,ym);
+    if(mx!=null&&px!=null)fa(mx,ym,px,ym);
+    if(px!=null&&dx!=null)fa(px,ym,dx,ym);}
+  s+=`<defs><marker id="fa" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e8b57"/></marker></defs>`;
+  const vp=$('vp'); vp.innerHTML=s;
+  vp.querySelectorAll('[data-zone]').forEach(el=>el.addEventListener('click',()=>showDetail(el.getAttribute('data-zone'))));
+  applyTransform();
+}
+let state_showFlow=true;
+function showDetail(id){const z=LAST.zones.find(x=>x.id===id);if(!z)return;
+  $('detail').innerHTML=`<div style="font-weight:700;font-size:14px">${z.name}</div>
+    <div class="note" style="margin-top:6px">${z.note}</div>
+    <div style="font-size:12.5px;margin-top:8px">Dimensiones: <b>${z.w.toFixed(1)} × ${z.h.toFixed(1)} m</b><br>Área: <b>${z.area.toFixed(0)} m²</b> (${(z.area/(st.wf*st.d)*100).toFixed(1)}%)</div>`;}
+
+/* ---------- cards ---------- */
+function fmt(n){return Math.round(n).toLocaleString();}
+function recompute(){
+  LAST=computeLayout(); render();
+  const pin=procIn(), pout=procOut();
+  const mpZone=LAST.zones.find(z=>z.id==='mp'), ptZone=LAST.zones.find(z=>z.id==='pt');
+  const mpT=mpZone.area*st.densMP, ptT=ptZone.area*st.densPT;
+  const eff=Math.min(pin,st.vol2), effOut=eff*(1-st.merma/100);
+  const mpDays=eff>0?mpT/(eff/30):0, ptDays=effOut>0?ptT/(effOut/30):0;
+  const feas=pin>=st.vol2;
+  $('cards').innerHTML=[
+    ['Piso total',fmt(st.wf*st.d),`m² (${st.wf}×${st.d})`,''],
+    ['Capacidad de proceso',`≈${fmt(pin)}`,'t/mes entrada',feas?'good':'bad'],
+    ['Salida vendible',`≈${fmt(pout)}`,`t/mes (−${st.merma}% merma)`,'teal'],
+    ['Buffer MP',`≈${fmt(mpT)} t`,`≈${mpDays.toFixed(0)} días`,mpDays>=st.diasMP?'good':'warn'],
+    ['Buffer PT',`≈${fmt(ptT)} t`,`≈${ptDays.toFixed(0)} días`,ptDays>=st.diasPT?'good':'warn'],
+  ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+  let vc='good',vt='';
+  if(!feas){vc='bad';vt=`⛔ La línea procesa ≈${fmt(pin)} t/mes &lt; objetivo ${st.vol2}. Sube líneas, turnos o t/h. (Con ${st.lines} línea(s) × ${st.tph} t/h × ${st.shifts} turno(s) no alcanzas el objetivo.)`;}
+  else {vc='good';vt=`✅ La línea procesa ≈${fmt(pin)} t/mes ≥ objetivo ${st.vol2}. Salida vendible ≈${fmt(pout)} t/mes. Buffers: MP ≈${mpDays.toFixed(0)} d / PT ≈${ptDays.toFixed(0)} d.`+(mpDays<st.diasMP||ptDays<st.diasPT?` <b>Ojo:</b> algún buffer está por debajo del objetivo de días — amplía el almacén o reduce días objetivo.`:``);}
+  const despA=(LAST.zones.find(z=>z.id==='desp')||{area:0}).area;
+  vt+=` <b>Despacho</b> ≈${fmt(despA)} m² ${despA>=150?'(≥150 m² ✓ aloja contenedor + paletizado)':'(<150 m² — ampliar la nave o la fracción de Despacho)'}.`;
+  // aviso de fiteo funcional: ¿la nave aloja todas las zonas?
+  const totalFloor=st.wf*st.d, tf=LAST.guides.totalFunctional||0, fitPct=tf/totalFloor*100;
+  if(fitPct>100){vc='bad';vt+=` 🔴 <b>Nave insuficiente:</b> los requisitos funcionales suman ${tf.toFixed(0)} m² pero la nave tiene ${totalFloor.toFixed(0)} m². Aumenta la huella o reduce días de buffer / staff.`;}
+  else if(fitPct<75){vt+=` ℹ️ Espacio libre ${(totalFloor-tf).toFixed(0)} m² (${(100-fitPct).toFixed(0)}%) → asignable a más buffer MP/PT.`;}
+  $('verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`;
+  renderTable(); renderLegend();
+  $('assumpChip').textContent=`${st.lines} línea(s) · ${st.tph} t/h · ${st.shifts} turno(s) · obj. ${st.vol2} t/mes · nave ${st.wf}×${st.d} m`;
+  ['wf','d','h','vol2','lines','tph','shiftH','shifts','days','util','merma','densMP','densPT','diasMP','diasPT',
+   'supervisors','techStaff','m2PerSupervisor','productFamilies','m2PerLabBench','washWaterM3perTon','m3perH_m2','recMinArea','despMinArea']
+   .forEach(f=>{const el=$(f);if(el&&document.activeElement!==el)el.value=st[f];});
+  markPreset(); save();
+}
+const FUNC_E2=['office','lab','ptar','welfare','rec','mp','pt','desp'];
+function renderTable(){const tot=st.wf*st.d,tb=$('zoneTable').querySelector('tbody');tb.innerHTML='';
+  const fn={'recepción':'Ingreso + pesaje','despacho':'Carga a contenedor','mp':'Buffer materia prima','proc':'Línea de procesamiento','pt':'Buffer producto term.','admin':'Soporte'};
+  let sa=0; LAST.zones.forEach(z=>{sa+=z.area;
+    const isF=FUNC_E2.includes(z.id), isOv=st.areaOverrides&&st.areaOverrides[z.id]!=null;
+    const areaCell=isF?`<input class="ed zone-override" data-zone="${z.id}" value="${z.area.toFixed(0)}" style="width:52px;text-align:right;${isOv?'border-color:var(--orange);background:#fff8ef;':''}">`+(isOv?` <button class="del" data-reset="${z.id}" title="Volver al valor funcional" style="border:none;background:none;cursor:pointer;color:var(--orange)">↺</button>`:''):z.area.toFixed(0);
+    tb.innerHTML+=`<tr><td>${z.name}${isOv?' <span style="font-size:9.5px;color:var(--orange);font-weight:600">✎ manual</span>':''}</td><td style="font-size:11px">${fn[z.type]||''}</td><td class="num">${z.w.toFixed(1)}×${z.h.toFixed(1)}</td><td class="num">${areaCell}</td><td class="num">${(z.area/tot*100).toFixed(1)}%</td><td style="font-size:10.5px;color:#6a7280">${z.driver||'—'}</td></tr>`;});
+  $('zoneTable').querySelector('tfoot').innerHTML=`<tr style="font-weight:700;background:#252A31;color:#fff"><td>TOTAL</td><td>${st.wf}×${st.d} m</td><td class="num">—</td><td class="num">${tot.toFixed(0)}</td><td class="num">100%</td><td>—</td></tr>`;
+  bindOverrideListeners();}
+function bindOverrideListeners(){
+  document.querySelectorAll('.zone-override').forEach(inp=>inp.addEventListener('change',e=>{const id=e.target.getAttribute('data-zone'),v=parseFloat(e.target.value);if(!isNaN(v)&&v>0){st.areaOverrides[id]=v;recompute();}}));
+  document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',e=>{delete st.areaOverrides[e.currentTarget.getAttribute('data-reset')];recompute();}));
+}
+function renderLegend(){const items=[['Recepción','#DF6901'],['Almacén MP','#15616D'],['Triturado','#6b5b95'],['Lavado','#4a78a8'],['Escurrido (buffer)','#9bbf8f'],['Secado','#c08a3e'],['Peletizado','#7d3c98'],['Almacén PT','#3a93a8'],['Despacho','#f0a35e'],['Oficina/QA/PTAR','#4a4f57']];
+  $('legend').innerHTML='<h3>Leyenda</h3>'+items.map(i=>`<div class="li"><span class="sw" style="background:${i[1]}"></span>${i[0]}</div>`).join('');}
+
+/* ---------- zoom/pan ---------- */
+let zoom=1,tx=0,ty=0;
+function applyTransform(){$('vp').setAttribute('transform',`translate(${tx},${ty}) scale(${zoom})`);}
+function fit(){zoom=1;tx=0;ty=0;applyTransform();}
+const holder=$('svgholder');
+holder.addEventListener('wheel',e=>{e.preventDefault();const f=e.deltaY<0?1.12:1/1.12;const r=holder.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;tx=mx-(mx-tx)*f;ty=my-(my-ty)*f;zoom*=f;applyTransform();},{passive:false});
+let drag=false,lx,ly;holder.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;holder.classList.add('drag');});
+window.addEventListener('pointermove',e=>{if(!drag)return;tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;applyTransform();});
+window.addEventListener('pointerup',()=>{drag=false;holder.classList.remove('drag');});
+$('zin').onclick=()=>{zoom*=1.2;applyTransform();};$('zout').onclick=()=>{zoom/=1.2;applyTransform();};$('zfit').onclick=fit;
+$('tgFlow').onclick=()=>{state_showFlow=!state_showFlow;render();};
+
+/* ---------- controles ---------- */
+const presetBox=$('presets');PRESETS.forEach(p=>{const b=document.createElement('button');b.textContent=p.label;b.onclick=()=>{st.wf=p.wf;st.d=p.d;recompute();};presetBox.appendChild(b);});
+function markPreset(){[...presetBox.children].forEach((b,i)=>{const p=PRESETS[i];b.classList.toggle('active',Math.abs(p.wf-st.wf)<0.01&&Math.abs(p.d-st.d)<0.01);});}
+['wf','d','h','vol2','lines','tph','shiftH','shifts','days','util','merma','densMP','densPT','diasMP','diasPT',
+ 'supervisors','techStaff','m2PerSupervisor','productFamilies','m2PerLabBench','washWaterM3perTon','m3perH_m2','recMinArea','despMinArea']
+ .forEach(f=>{const el=$(f);if(!el)return;el.addEventListener('input',e=>{const v=parseFloat(e.target.value);st[f]=isNaN(v)?0:v;recompute();});});
+$('resetBtn').addEventListener('click',()=>{if(confirm('¿Restablecer valores por defecto?')){localStorage.removeItem(KEY);location.reload();}});
+$('exportBtn').addEventListener('click',()=>{const b=new Blob([JSON.stringify(st,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='plashub-distribucion-e2-config.json';a.click();URL.revokeObjectURL(a.href);});
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{Object.assign(st,JSON.parse(r.result));recompute();alert('Configuración importada.');}catch(err){alert('Archivo inválido: '+err.message);}};r.readAsText(f);e.target.value='';});
+
+loadState();recompute();fit();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Respaldos internos y temporales (no publicar)
+Context/_backup_*.html
+*.bak
+*.tmp
+
+# Python helpers cache
+__pycache__/
+*.pyc
+
+# Sistema
+.DS_Store
+Thumbs.db

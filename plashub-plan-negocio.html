@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub / Factory "Amaru I" — Plan de Negocio para Inversores (Etapa 1) · Lima, Perú</title>
+<style>
+  :root{
+    --dark:#252A31; --orange:#DF6901; --teal:#15616D; --light:#F2F2F2; --muted:#CACEDA;
+    --ink:#1c2127; --line:#d7dbe2; --ok:#2e8b57; --warn:#c9820b; --bad:#c0392b; --soft:#f7faf9;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;}
+  header{background:var(--dark);color:#fff;padding:20px 26px;}
+  header h1{margin:0;font-size:22px;}
+  header .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+  header .meta{margin-top:8px;font-size:11.5px;color:#cfd5df;}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .panel h2{margin:0 0 4px;font-size:16px;color:var(--dark);border-bottom:2px solid var(--orange);display:inline-block;padding-bottom:4px;}
+  .panel h2 .nx{color:var(--orange);}
+  .panel h3{font-size:13px;color:var(--teal);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.4px;}
+  .lead{font-size:13px;color:#41484f;}
+  p{margin:8px 0;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .card{border:1px solid var(--line);border-radius:9px;padding:12px 14px;background:#fafbfc;}
+  .card .k{font-size:10.5px;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;}
+  .card .v{font-size:21px;font-weight:700;color:var(--dark);margin-top:3px;}
+  .card .u{font-size:11px;color:#8a9099;}
+  .card.good{border-left:4px solid var(--ok);} .card.warn{border-left:4px solid var(--warn);} .card.bad{border-left:4px solid var(--bad);} .card.teal{border-left:4px solid var(--teal);}
+
+  table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;}
+  th{background:var(--dark);color:#fff;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  tfoot td{font-weight:700;background:#eef1f4 !important;}
+  .pos{color:var(--ok);} .neg{color:var(--bad);}
+
+  .seg{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px;}
+  .seg button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 14px;cursor:pointer;font-size:12.5px;}
+  .seg button:hover{border-color:var(--orange);color:var(--orange);}
+  .seg button.active{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .ctrls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 18px;margin-top:8px;}
+  .sl label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px;}
+  .sl label b{color:var(--teal);}
+  input[type=range]{width:100%;accent-color:var(--orange);}
+
+  /* editable */
+  input.ed{width:66px;border:1px solid #d7dbe2;border-radius:5px;padding:3px 6px;font-size:12px;text-align:right;font-variant-numeric:tabular-nums;background:#fffdf7;}
+  input.ed:focus{outline:2px solid var(--orange);border-color:var(--orange);background:#fff;}
+  input.ed.mix{width:50px;}
+  .editbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#fff8ef;border:1px solid #f0d9a8;border-radius:9px;padding:9px 14px;font-size:12.5px;margin-bottom:14px;}
+  .editbar .ico{font-size:16px;}
+  .editbar b{color:#9a5a05;}
+  .btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 13px;cursor:pointer;font-size:12.5px;font-weight:600;}
+  .btn:hover{border-color:var(--orange);color:var(--orange);}
+  .saved{font-size:11px;color:var(--ok);margin-left:auto;}
+  .scenrow{display:flex;gap:18px;flex-wrap:wrap;align-items:center;background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:12.5px;}
+  .scenrow label{display:flex;gap:6px;align-items:center;}
+  .subnav{position:sticky;top:0;z-index:20;background:#252A31;border-radius:9px;padding:8px 12px;margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .subnav-lbl{color:#CACEDA;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;}
+  .subnav a{color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;border:1px solid #3a4048;border-radius:20px;padding:5px 13px;}
+  .subnav a:hover{border-color:var(--orange);background:rgba(223,105,1,.15);}
+  .permgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .permcol h3{display:flex;justify-content:space-between;align-items:center;}
+  .permcol .pbar{height:8px;background:#eef1f4;border-radius:6px;overflow:hidden;margin:4px 0 8px;}
+  .permcol .pfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--ok));width:0;transition:width .3s;}
+  .perm{display:flex;gap:9px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line);font-size:12.5px;}
+  .perm input{width:18px;height:18px;margin-top:1px;cursor:pointer;accent-color:var(--ok);flex:0 0 auto;}
+  .perm .pn{font-size:11px;color:#8a9099;}
+  @media(max-width:860px){.permgrid{grid-template-columns:1fr;}}
+  .verifybar{border-radius:9px;padding:9px 14px;font-size:12.5px;margin-bottom:14px;border:1px solid;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .verifybar.no{background:#fbe9e7;border-color:#f0c2bb;color:#9a2d20;}
+  .verifybar.yes{background:#e8f5ee;border-color:#b6e0c6;color:#1e6b40;}
+  .verifybar label{display:flex;align-items:center;gap:6px;font-weight:700;cursor:pointer;margin-left:auto;}
+  body.unverified input.ed[data-mat]{background:#fff1ee;border-color:#e8b3a8;}
+  input.edtxt{font-variant-numeric:normal;}
+  select.ed{border:1px solid #d7dbe2;border-radius:5px;padding:2px 4px;font-size:11.5px;background:#fffdf7;}
+  .del{border:none;background:none;cursor:pointer;font-size:13px;opacity:.55;padding:0 3px;}
+  .del:hover{opacity:1;}
+  .addbtn{border:1px dashed var(--orange);background:#fff8ef;color:#9a5a05;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:12px;font-weight:600;}
+  .addbtn:hover{background:#fdeede;}
+  .rampRow b{color:var(--teal);}
+  .drafttag{display:inline-block;background:#c0392b;color:#fff;font-size:10px;font-weight:700;padding:1px 8px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+
+  .chartbox{border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;}
+  .chartbox h4{margin:0 0 4px;font-size:12px;color:#5a626b;font-weight:600;}
+  svg.chart{display:block;width:100%;height:auto;}
+
+  .cav{padding:9px 13px;border-radius:7px;font-size:12.5px;margin:8px 0;border:1px solid;}
+  .cav.bad{background:#fbe9e7;border-color:#f0c2bb;color:#9a2d20;}
+  .cav.warn{background:#fdf4e3;border-color:#f0d9a8;color:#8a5c08;}
+  .cav.ok{background:#e8f5ee;border-color:#b6e0c6;color:#1e6b40;}
+  .note{font-size:11.5px;color:#6a7280;margin-top:8px;}
+  /* ícono de información ℹ con tooltip al pasar el cursor */
+  .ttip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#cfd5df;color:#252A31;font-size:9.5px;font-weight:700;font-style:normal;cursor:help;margin-left:4px;position:relative;vertical-align:middle;text-transform:none;letter-spacing:0;flex:0 0 auto;}
+  .ttip:hover{background:var(--orange);color:#fff;}
+  .ttip::after{content:attr(data-t);position:absolute;left:50%;transform:translateX(-50%);bottom:21px;z-index:999;width:248px;max-width:60vw;background:#252A31;color:#fff;font-size:11px;font-weight:400;line-height:1.45;padding:8px 11px;border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:normal;text-align:left;opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;}
+  .ttip:hover::after{opacity:1;visibility:visible;}
+  th .ttip{background:#5a6675;color:#fff;}
+  ul.tight li{margin:3px 0;font-size:12.5px;}
+  .pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:10px;background:#eef1f4;color:#41484f;margin-left:6px;}
+  .pill.f{background:#d9ede6;color:#15616D;} .pill.s{background:#f0e6d9;color:#9a6310;}
+  .printbtn{background:var(--orange);color:#fff;border:none;border-radius:7px;padding:9px 18px;cursor:pointer;font-size:13.5px;}
+  .src{font-size:10.5px;color:#7a828c;}
+  .src a{color:#41617a;}
+
+  @media print{
+    @page{size:A4 portrait;margin:12mm;}
+    body{background:#fff;font-size:10px;}
+    header{background:#252A31 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .seg,.ctrls,.printbtn,.editbar,.scenrow{display:none;}
+    input.ed{border:none;background:none;padding:0;width:auto;}
+    .panel{break-inside:avoid;box-shadow:none;border:1px solid #ccc;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+  @media(max-width:980px){.grid2,.cards,.grid3,.ctrls{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <h1>PlasHub — Plan de Negocio para Inversores · Etapa 1 (12 meses)</h1>
+  <div class="sub">Neo Amaru Global S.A.C. · Factory "Amaru I" — Hub de Consolidación de Plásticos · Lima Norte / corredor SMP, Perú</div>
+  <div class="meta">Modelo: comprar → clasificar → pesar → almacenar → consolidar 20 t → despachar contenedor 40′. Sin procesamiento en Etapa 1. · <b style="color:#fff">Todos los parámetros, precios y costos son editables</b> · Cifras en USD.</div>
+</header>
+
+<div class="wrap">
+
+  <div class="editbar">
+    <span class="ico">✏️</span>
+    <span>Herramienta <b>totalmente editable</b> (campos crema) con <b>autoguardado</b>. Las cifras son <b>estimadas</b> (redondeadas, ±~10%) — no tienen precisión al dólar.</span>
+    <button class="btn" id="exportBtn">⬇ Exportar config</button>
+    <button class="btn" id="importBtn">⬆ Importar</button>
+    <input type="file" id="importFile" accept="application/json" hidden>
+    <button class="btn" id="resetBtn">↺ Restablecer</button>
+    <span class="saved" id="savedMsg"></span>
+  </div>
+  <div id="verifyBar"></div>
+
+  <!-- PANEL DE DECISIÓN GO / NO-GO (Fix #12) -->
+  <div class="panel" id="gonogoPanel" style="border-left:5px solid var(--teal)">
+    <h2>⚡ Panel de Decisión — ¿Listos para firmar la nave?</h2>
+    <p class="lead" style="margin-bottom:12px">Condiciones necesarias antes de comprometer capital o arrendar la nave. Las automáticas (🤖) se calculan del modelo; las manuales (✋) las marcas tú.</p>
+    <div id="gonogoConds"></div>
+    <div id="gonogoVerdict" style="margin-top:12px"></div>
+  </div>
+
+  <div class="subnav">
+    <span class="subnav-lbl">Ir a:</span>
+    <a href="#sec-e1">① Plan Etapa 1</a>
+    <a href="#sec-e2">② Plan Etapa 2 (procesamiento)</a>
+    <a href="#sec-permisos">③ Permisos &amp; procesos</a>
+  </div>
+
+  <!-- 1 RESUMEN EJECUTIVO -->
+  <div class="panel" id="sec-e1">
+    <h2>1 · Resumen ejecutivo</h2>
+    <p class="lead">PlasHub convierte una oferta fragmentada y dispersa de plásticos reciclables post-proceso en <b>lotes consolidados</b>, trazables y de grado industrial para exportación. Compra a precios fragmentados, segrega y controla calidad por polímero, acumula ~20 t de un mismo material y despacha un contenedor de 40 pies — reduciendo el tiempo de respuesta del cliente ancla de <b>~28 a &lt;14 días</b> y capturando el spread entre el precio de compra fragmentado y el de venta consolidado.</p>
+    <div class="cards" id="execCards"></div>
+    <div class="cav ok" style="margin-top:12px"><b>El pedido.</b> <span id="askLine"></span></div>
+    <p class="note">Stage 1 es una validación del modelo comercial de 12 meses <i>antes</i> de comprometer capital en equipos de procesamiento. Documentos complementarios: <b>plashub-distribucion.html</b> (operación y capacidad) y <b>Amaru-I-Project-Charter-v2.docx</b>.</p>
+  </div>
+
+  <!-- 2 MODELO + PROPUESTA -->
+  <div class="panel">
+    <h2>2 · El negocio y la propuesta de valor</h2>
+    <div class="grid2">
+      <div>
+        <h3>Qué hace PlasHub</h3>
+        <ul class="tight">
+          <li><b>Compra:</b> plástico post-industrial / post-consumo en bolsones (1 m³, ~1 t) de una base dispersa de proveedores.</li>
+          <li><b>Clasifica y QC:</b> identifica polímero, pesa, segrega, rechaza contaminación (objetivo &lt;10%).</li>
+          <li><b>Consolida:</b> acumula ~20 t de un mismo material = un contenedor de 40 pies.</li>
+          <li><b>Despacha:</b> lotes trazables y con especificación a Alex / clientes de exportación.</li>
+        </ul>
+        <h3>Por qué gana</h3>
+        <ul class="tight">
+          <li>Convierte el caos de oferta en <b>disponibilidad garantizada</b> y calidad consistente.</li>
+          <li><b>Tiempo de respuesta 28 → &lt;14 días</b>; lotes repetidos ~2 semanas según stock.</li>
+          <li>Captura el <b>spread compra-vs-consolidado</b> que Alex hoy pierde por urgencia.</li>
+          <li>Eslabón físico que "amarra" a Alex como cliente de largo plazo y es replicable en LatAm.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Equipo y estructura</h3>
+        <table>
+          <tr><th>Socio</th><th>Rol / aporte</th><th class="num">Capital</th></tr>
+          <tr><td><b>Alex</b></td><td>Sponsor / trader — flujo comercial, red de proveedores, demanda ancla</td><td class="num">~$16,000 (€15K)</td></tr>
+          <tr><td><b>Raúl</b></td><td>PM / Producción — operación industrial, diseño de planta, ejecución</td><td class="num">~$5,500 (€5K, ago-26)</td></tr>
+          <tr><td colspan="2"><b>Equity</b>: Alex 60% / Raúl 40% · SAC, régimen RMT</td><td class="num"><b>~$22,000</b></td></tr>
+        </table>
+        <h3>Tesis por etapas</h3>
+        <ul class="tight">
+          <li><b>Etapa 1 (este plan):</b> hub de consolidación, ~80–100 t/mes, ~900 m². Validar margen.</li>
+          <li><b>Etapa 2:</b> procesamiento (compactado / lavado / peletizado) → tramo regrind ($900–1,300/MT), 400–500+ t/mes.</li>
+          <li><b>Etapa 3:</b> réplica en 5+ países de LatAm (~6,000 m²).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 PRECIOS -->
+  <div class="panel">
+    <h2>3 · Materiales y precios de mercado <span class="pill">editable</span></h2>
+    <p class="lead">Edita compra, venta y mix de cada material; el promedio ponderado y todo el modelo se recalculan. Tramo <b>feedstock embalado → lote consolidado</b>. Ancla verificada: Polvillo de Flake ($150/$300). Las "$930–1,310/MT" de HDPE reciclado son regrind (Etapa 2), no Etapa 1.</p>
+    <table id="priceTable">
+      <thead><tr><th>Material<span class="ttip" data-t="Nombre del polímero. Editable: clic para renombrar. Usa el 🗑 para eliminar o '+ Añadir material' al pie.">i</span></th>
+        <th>Frecuencia<span class="ttip" data-t="Frecuente = corriente de alto volumen y rotación rápida. Esporádico = poco volumen. Define el color/agrupación; en el layout E1 cambia la densidad de apilado.">i</span></th>
+        <th class="num">Mix %<span class="ttip" data-t="Participación de cada material en el tonelaje de ingreso. Pondera los precios de compra/venta promedio. No necesita sumar 100 (se normaliza). Sube el mix de un material caro y el margen ponderado sube.">i</span></th>
+        <th class="num">Compra $/t<span class="ttip" data-t="Precio al que compras ese material por tonelada. Afecta el costo de material (COGS) y por tanto el margen, el EBITDA y el pozo de caja. ↑ compra = ↓ margen.">i</span></th>
+        <th class="num">Venta $/t<span class="ttip" data-t="Precio al que despachas el lote consolidado por tonelada. Sube el ingreso y el margen. Es el supuesto más sensible: revisa la matriz de sensibilidad en §4.">i</span></th>
+        <th class="num">Margen $/t</th><th class="num">Margen %</th></tr></thead>
+      <tbody></tbody>
+      <tfoot></tfoot>
+    </table>
+    <p class="note">Mix % = participación estimada del tonelaje de ingreso. No es necesario que sumen 100 (se normaliza). Acopio Perú ref.: PET S/0.70–2.60/kg, HDPE/PP/LDPE S/0.30–0.80/kg. Fuentes §10.</p>
+  </div>
+
+  <!-- 4 MODELO FINANCIERO -->
+  <div class="panel">
+    <h2>4 · Modelo financiero — <span class="nx">interactivo y editable</span>, los tres escenarios</h2>
+    <p class="lead">Ajusta el volumen con el deslizador y observa el impacto en tiempo real; o usa un escenario predefinido. Edita cualquier cifra. Montacarga alquilado. Cobros con desfase; pago a proveedor configurable.</p>
+
+    <!-- Nivel 1 — slider de volumen libre (Fix #2) -->
+    <h3>Volumen de operación — ajusta y observa el impacto en tiempo real <span class="ttip" data-t="Es la palanca #1 de la reunión. Mueve el volumen mensual y todo se recalcula en vivo: EBITDA, pozo de caja y break-even. La zona de decisión real está entre 60 y 120 t/mes.">i</span></h3>
+    <div class="sl"><label>Volumen mensual (t/mes) <b><span id="volSliderV"></span> t/mes</b><span class="ttip" data-t="Toneladas que procesas al mes en estado estable (M4+). Por debajo del equilibrio (~82 t) el EBITDA es negativo; por encima sube ~$112 por tonelada extra. Anula el volumen del escenario seleccionado.">i</span></label>
+      <input type="range" id="volSlider" min="20" max="220" step="5"></div>
+    <div class="cards" id="volumeQuickKpis" style="margin-top:10px"></div>
+
+    <!-- Nivel 2 — escenarios predefinidos como atajos -->
+    <h3 style="margin-top:16px">Escenarios predefinidos <span style="font-weight:400;text-transform:none;color:#8a9099">(editable, t/mes — fijan el slider)</span><span class="ttip" data-t="Atajos a tres volúmenes típicos (Conservador 40 · Base 100 · Optimista 200). Al hacer clic fijan el slider de arriba y el setup CAPEX/OPEX asociado. Edita el número para cambiar el volumen del atajo.">i</span></h3>
+    <div class="scenrow" id="scenInputs"></div>
+    <div class="seg" id="rampPresets"></div>
+    <div class="scenrow rampRow" id="rampRow"></div>
+    <div class="seg" id="scenSeg"></div>
+    <h3>Setup CAPEX / OPEX <span class="ttip" data-t="Elige la estructura de costos: Lean (A) = subarriendo ~900 m², equipo mínimo. Full (B) = lease directo 1,500 m², más capacidad y más OPEX. Cambia qué tablas de CAPEX/OPEX (§5 y §6) alimentan el modelo.">i</span></h3>
+    <div class="seg" id="opexSeg"></div>
+
+    <div class="ctrls">
+      <div class="sl"><label>Capital confirmado <b>$<span id="capV"></span></b><span class="ttip" data-t="Capital total disponible para el proyecto. Es la referencia contra la que se mide la brecha (§7) y el break-even de CAJA. El timing real de los aportes se edita en §7 (Alex/Raúl); este slider es el total comprometido.">i</span></label><input type="range" id="cap" min="15000" max="65000" step="1000"></div>
+      <div class="sl"><label>Estrés precio venta <b><span id="saV"></span>%</b><span class="ttip" data-t="Simula que el precio de venta sube o baja respecto al de §3 (ej. −15% si el mercado cae). Afecta ingreso, margen y EBITDA. Úsalo para mostrar el peor caso al socio.">i</span></label><input type="range" id="sa" min="-30" max="20" step="5"></div>
+      <div class="sl"><label>Estrés precio compra <b><span id="baV"></span>%</b><span class="ttip" data-t="Simula que el precio de compra sube o baja (ej. +30% si los proveedores aprietan). ↑ compra = ↓ margen. Combínalo con el estrés de venta para un escenario adverso.">i</span></label><input type="range" id="ba" min="-15" max="30" step="5"></div>
+      <div class="sl"><label>Ajuste OPEX fijo <b><span id="foV"></span>%</b><span class="ttip" data-t="Sube o baja en bloque todo el OPEX fijo mensual (§6) sin editar línea por línea. Sirve para probar holgura o recortes. Sube el equilibrio en t/mes.">i</span></label><input type="range" id="fo" min="-25" max="25" step="5"></div>
+      <div class="sl"><label>Costo variable $/t <b>$<span id="vtV"></span></b><span class="ttip" data-t="Costo que escala con cada tonelada (flete + drayage + consumibles), aparte del material. Resta del margen de contribución por tonelada. ↑ variable = equilibrio más alto.">i</span></label><input type="range" id="vt" min="8" max="30" step="1"></div>
+      <div class="sl"><label>Desfase de cobro <b><span id="lgV"></span> mes</b><span class="ttip" data-t="Meses entre despachar y cobrar al cliente. 0 = contado, 1 = 30 días, 2 = 60 días. No cambia el P&L pero profundiza el pozo de caja: con más desfase necesitas más capital de trabajo.">i</span></label><input type="range" id="lg" min="0" max="2" step="1"></div>
+      <div class="sl"><label>Desfase de pago a proveedor <b><span id="slV"></span> mes</b><span class="ttip" data-t="Meses de crédito que te dan los proveedores. 0 = pagas al contado, 1 = a 30 días. Es lo contrario al desfase de cobro: pagar más tarde ALIVIA el pozo de caja. Negociar esto con Alex/proveedores reduce el capital necesario.">i</span></label><input type="range" id="sl" min="0" max="2" step="1"></div>
+      <div class="sl"><label>Meses de setup pre-operación (M0) <b><span id="smV"></span></b><span class="ttip" data-t="Meses de obra/permisos antes de la primera tonelada (M0). Durante el setup sale CAPEX + OPEX sin ingresos. Más meses de setup = pozo de caja más profundo y temprano.">i</span></label><input type="range" id="sm" min="0" max="3" step="1"></div>
+    </div>
+
+    <!-- Fix #4 — estrés de cobro -->
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:12.5px;color:var(--teal);font-weight:600">⚠ Estrés de cobro — ¿qué pasa si Alex se retrasa?</summary>
+      <div style="margin-top:8px;font-size:12.5px;display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        <label>Meses con retraso extra (ej: 3,4):<span class="ttip" data-t="Lista los meses (1–12, separados por coma) en que Alex se retrasa en pagar. En esos meses el cobro llega con el desfase normal MÁS el retraso adicional. Deja vacío para quitar el estrés.">i</span>
+          <input class="ed edtxt" id="stressMonthsInput" style="width:120px;text-align:left" value="" placeholder="ej: 3,4,5"></label>
+        <label>Retraso adicional en esos meses:<span class="ttip" data-t="Meses extra de demora que se suman al desfase de cobro normal en los meses estresados. Profundiza el pozo de caja: úsalo para mostrar el riesgo de depender de un solo cliente.">i</span>
+          <select class="ed" id="stressLagSel">
+            <option value="1">+1 mes (45 días total)</option>
+            <option value="2">+2 meses (75 días total)</option>
+            <option value="3">+3 meses (90+ días)</option>
+          </select></label>
+      </div>
+    </details>
+
+    <div class="cards" id="kpiCards" style="margin-top:14px"></div>
+    <div id="finVerdict"></div>
+
+    <div class="grid2" style="margin-top:14px">
+      <div class="chartbox"><h4>Saldo de caja (acumulado, $) — M0 → M12</h4><svg id="cashChart" class="chart" viewBox="0 0 560 240"></svg></div>
+      <div class="chartbox"><h4>EBITDA mensual ($)</h4><svg id="ebitdaChart" class="chart" viewBox="0 0 560 240"></svg></div>
+    </div>
+
+    <!-- Fix #6 — matriz de sensibilidad -->
+    <h3>Matriz de sensibilidad — EBITDA estable (M12) por precio de venta y volumen</h3>
+    <div id="sensMatrix" style="overflow-x:auto"></div>
+    <p class="note">Verde = EBITDA positivo · Amarillo = entre 0 y el equilibrio · Rojo = pérdida. Los precios se aplican sobre el precio base (antes del slider de estrés).</p>
+
+    <h3>P&amp;L mensual y caja — escenario seleccionado</h3>
+    <div id="plViewToggle" style="margin:6px 0"></div>
+    <div style="overflow-x:auto"><table id="plTable"><thead></thead><tbody></tbody></table></div>
+    <p class="note" id="plNote"></p>
+
+    <h3>Comparativa — mes en estado estable (M4+), emparejamientos por defecto</h3>
+    <table id="compareTable"><thead></thead><tbody></tbody></table>
+  </div>
+
+  <!-- 5 CAPEX -->
+  <div class="panel">
+    <h2>5 · CAPEX — itemizado y editable, ambos setups</h2>
+    <div class="grid2">
+      <div>
+        <h3>Escenario A — Lean <span class="pill">subarriendo ~900 m²</span><span class="ttip" data-t="Inversión inicial de una vez (garantías, báscula, adecuaciones, permisos…). Edita el monto de cada línea, renombra, añade (+) o elimina (🗑). El total alimenta el CAPEX del modelo y la necesidad de capital. El CT (capital de trabajo) financia el pozo de caja M1–M3.">i</span></h3>
+        <table id="capexA"><thead><tr><th>Línea</th><th class="num">USD</th><th>Nota</th></tr></thead><tbody></tbody><tfoot></tfoot></table>
+      </div>
+      <div>
+        <h3>Escenario B — Operación completa <span class="pill">lease directo 1,500 m²</span></h3>
+        <table id="capexB"><thead><tr><th>Línea</th><th class="num">USD</th><th>Nota</th></tr></thead><tbody></tbody><tfoot></tfoot></table>
+      </div>
+    </div>
+    <p class="note">Edita cualquier monto y el capital de trabajo (CT). Renta: subarriendo ≈$3.5/m²/mes; lease directo I2 ≈$5/m²/mes +IGV. Montacarga alquilado en ambos (OPEX), no comprado.</p>
+  </div>
+
+  <!-- 6 OPEX -->
+  <div class="panel">
+    <h2>6 · OPEX mensual fijo — editable, ambos setups</h2>
+    <div class="grid2">
+      <div><h3>Escenario A — Lean<span class="ttip" data-t="Gasto fijo que pagas cada mes opere o no (renta, sueldos base, vigilancia, contador…). Editable línea por línea. Sube el OPEX y el volumen de equilibrio sube; baja el EBITDA. El slider 'Ajuste OPEX fijo' (§4) lo escala en bloque.">i</span></h3><table id="opexAT"><thead><tr><th>Concepto</th><th class="num">$/mes</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div>
+      <div><h3>Escenario B — Full</h3><table id="opexBT"><thead><tr><th>Concepto</th><th class="num">$/mes</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div>
+    </div>
+    <p class="note">Costo variable (flete + drayage) editable con el slider §4. Salarios reflejan la RMV Perú 2026 (S/1,130 ≈ $305) + beneficios. Raúl no cobra hasta EBITDA ≥ 0 por 2 meses.</p>
+  </div>
+
+  <!-- 7 BRECHA -->
+  <div class="panel">
+    <h2>7 · Brecha de capital y plan de financiamiento</h2>
+    <h3>Aportes de socios — timing</h3>
+    <div id="partnerEditor"></div>
+    <div id="gapCards" class="cards" style="margin-top:12px"></div>
+    <h3>Palancas de capital de trabajo <span class="ttip" data-t="Formas de cerrar el pozo de caja sin aportar más capital: prepago del cliente, pagar al proveedor más tarde (slider §4) y negociar la garantía de la nave (1 mes vs 2-3).">i</span></h3>
+    <div class="ctrls" style="grid-template-columns:1fr">
+      <div class="sl"><label>Prepago de Alex (<span id="prepayPctV"></span>% del primer contenedor) <b>$<span id="prepayV"></span></b><span class="ttip" data-t="% del valor de un contenedor (~20 t × precio de venta) que Alex paga por adelantado en M0. Entra como caja al inicio y reduce el pozo en ese monto. Es la palanca más rápida: negocia un 40% antes de firmar la nave.">i</span></label>
+        <input type="range" id="alexPrepay" min="0" max="50" step="5"></div>
+    </div>
+    <p class="note">Un prepago del 40% de un contenedor (~20 t × $<span id="prepayContainerVal"></span>/t) entra como caja en M0 y reduce el pozo en ese monto. Negociar esto con Alex antes de firmar la nave.</p>
+    <div class="grid2" style="margin-top:12px">
+      <div>
+        <h3>Dos brechas, no una</h3>
+        <ul class="tight">
+          <li><b>Brecha de activos (CAPEX)</b> — equipos + garantía + permisos.</li>
+          <li><b>Brecha de capital de trabajo</b> — el ciclo compra-ahora/cobra-después lleva el saldo a <b>negativo en M1–M3</b> aunque el P&amp;L sea positivo. Es la mayor y la razón #1 de estancamiento.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Palancas (ranking por apalancamiento / costo)</h3>
+        <ul class="tight">
+          <li><b>1. Negociar la entrada al predio</b> — 1 mes de garantía vs 2–3 ahorra $3–15K.</li>
+          <li><b>2. Comprimir el ciclo de caja</b> — Alex prepaga / cobro contra entrega.</li>
+          <li><b>3. Préstamo entre socios</b> notariado para complementar los $22K.</li>
+          <li><b>4. Fasear el CAPEX</b> en M1–M3.</li>
+          <li><b>5. Línea MYPE</b> (BCP/Interbank/Mibanco, TEA ~25–45%) o factoring/confirming.</li>
+          <li><b>6. Diferir salario de Raúl</b> hasta EBITDA positivo.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cav ok"><b>Recomendación:</b> iniciar <b>Lean (A)</b>, cerrar el pozo con negociación de garantía + prepago de Alex + puente entre socios, validar el caso Base, y graduar a Full (B) + Etapa 2 con utilidades retenidas + línea bancaria con volumen probado.</div>
+  </div>
+
+  <!-- 8 RIESGOS -->
+  <div class="panel">
+    <h2>8 · Registro de riesgos (honesto)</h2>
+    <table id="riskTable"><thead><tr><th>Riesgo</th><th>Prob.</th><th>Impacto</th><th>Mitigación</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <!-- 9 HOJA DE RUTA -->
+  <div class="panel">
+    <h2>9 · Hoja de ruta 12 meses y Gate</h2>
+    <table>
+      <tr><th>Fase</th><th>Meses</th><th>Hitos</th></tr>
+      <tr><td>Setup y permisos</td><td>M0–M3</td><td>EC-RS (inicio día 1); pacto de socios + RMT; nave firmada; layout; montacarga + báscula; primer inbound.</td></tr>
+      <tr><td>Rampa</td><td>M1–M3</td><td>Volumen 50→90%; base de proveedores + QC; primeros contenedores consolidados.</td></tr>
+      <tr><td>Operación estable</td><td>M4–M9</td><td>~100 t/mes (Base); KPIs: rechazo &lt;10%, margen ≥40%, días inventario &lt;30, caja ≥$3K.</td></tr>
+      <tr><td>Validar y Gate</td><td>M10–M12</td><td>Probar margen y fiabilidad; Gate 1: Go / cambiar alcance / parar Etapa 2.</td></tr>
+    </table>
+  </div>
+
+  <!-- ETAPA 2 -->
+  <div class="panel" id="sec-e2">
+    <h2>10 · Etapa 2 — Procesamiento: ¿cuándo lanzar? <span class="pill">interactivo</span></h2>
+    <p class="lead">La Etapa 2 agrega procesamiento (triturado/lavado/secado/peletizado) y vende <b>regrind/pellet</b> (~$600–1,300/t) en vez del lote consolidado (~$259/t). Aquí la línea de tiempo corre la Etapa 1 hasta el mes de lanzamiento, invierte el CAPEX de procesamiento y migra a Etapa 2. Cambia el mes y observa el flujo de caja del proyecto completo.</p>
+    <div class="cav warn"><b>⚠ Supuestos gruesos a validar</b> (precio de pellet, CAPEX de equipos, merma, OPEX). Punto de partida editable, no cifras firmes.</div>
+    <h3>Mes de lanzamiento de la Etapa 2 <span class="ttip" data-t="El mes en que inviertes el CAPEX de procesamiento y migras de consolidación (E1) a pellet (E2). Lanzar antes = más meses de margen alto pero más capital antes; lanzar después = menos riesgo pero pierdes margen. Compara abajo.">i</span></h3>
+    <div class="seg" id="e2_launchSeg"></div>
+    <label style="font-size:12.5px">…o cualquier mes: <input class="ed" id="e2_launch" type="number" step="1" style="width:64px"> <span style="color:#8a9099">(horizonte <input class="ed" id="e2_H" type="number" step="6" style="width:56px"> meses)</span><span class="ttip" data-t="Mes exacto de lanzamiento (cualquier valor) y horizonte total de la simulación en meses (ej. 24 o 36). El gráfico de caja y el EBITDA usan este horizonte.">i</span></label>
+    <h3>Supuestos operativos (editable)</h3>
+    <div class="params" style="grid-template-columns:repeat(3,1fr)">
+      <label>E1 · Volumen (t/mes) <input class="ed" id="e2_vol1" type="number" step="10"><span class="ttip" data-t="Toneladas mensuales de la Etapa 1 (consolidación) antes de lanzar E2. Define el EBITDA que sostiene el proyecto durante la espera.">i</span></label>
+      <label>E1 · Margen neto ($/t) <input class="ed" id="e2_contrib1" type="number" step="5">
+        <button onclick="window.e2SyncE1()" title="Sincronizar desde el modelo E1 actual" style="font-size:10px;padding:2px 6px;border:1px solid var(--teal);border-radius:4px;cursor:pointer;color:var(--teal);background:#fff">↺ Sync E1</button><span class="ttip" data-t="Margen neto por tonelada de la Etapa 1. Se sincroniza automáticamente desde el modelo E1 (precios de §3). Si lo editas a mano, deja de sincronizarse; pulsa '↺ Sync E1' para volver a tomar el valor del modelo E1.">i</span></label>
+      <label>E1 · OPEX fijo ($/mes) <input class="ed" id="e2_opex1" type="number" step="500"><span class="ttip" data-t="OPEX fijo mensual de la Etapa 1 mientras esperas a lanzar E2. '↺ Sync E1' también lo actualiza desde el modelo E1.">i</span></label>
+      <label>E2 · Volumen objetivo (t/mes) <input class="ed" id="e2_vol2" type="number" step="25"><span class="ttip" data-t="Toneladas mensuales una vez la planta de procesamiento opera en régimen (ej. 400). Mucho mayor que E1: es el salto de escala de la Etapa 2.">i</span></label>
+      <label>E2 · Rampa (meses) <input class="ed" id="e2_ramp2" type="number" step="1"><span class="ttip" data-t="Meses que tarda la planta E2 en llegar del volumen E1 al volumen objetivo. Más rampa = arranque más suave pero EBITDA pleno más tarde.">i</span></label>
+      <label>E2 · Merma proceso (%) <input class="ed" id="e2_merma" type="number" step="1"><span class="ttip" data-t="% del material que se pierde en el proceso (contaminación, finos, humedad). Si entran 100 t y la merma es 18%, vendes 82 t. ↑ merma = ↓ ingreso.">i</span></label>
+      <label>E2 · Precio pellet ($/t) <input class="ed" id="e2_sell2" type="number" step="25"><span class="ttip" data-t="Precio de venta del pellet/regrind ($600–1,300/t según calidad). Es el gran salto de valor de la E2 vs el lote consolidado (~$259/t). Supuesto a validar con cotización real.">i</span></label>
+      <label>E2 · Costo materia prima ($/t) <input class="ed" id="e2_buy2" type="number" step="10"><span class="ttip" data-t="Costo por tonelada del material que entra a procesar (puede ser el lote consolidado de tu propia E1). Resta del margen de pellet.">i</span></label>
+      <label>Desfase de cobro (meses) <input class="ed" id="e2_lag" type="number" step="1"><span class="ttip" data-t="Meses entre vender el pellet y cobrar. Afecta el pozo de caja del proyecto completo, igual que en E1.">i</span></label>
+    </div>
+    <h3>Costo de procesamiento variable ($/t) — desglose (editable) <span class="ttip" data-t="Costos que escalan con cada tonelada procesada (energía, agua/insumos, mano de obra variable, empaque/merma). Su suma se añade al costo de materia prima. Distinto del OPEX fijo mensual de abajo.">i</span></h3>
+    <div class="params" id="e2_procVar" style="grid-template-columns:repeat(4,1fr)"></div>
+    <p class="note">Costo <b>variable por tonelada</b> procesada (escala con el volumen) — distinto del OPEX fijo mensual de abajo (renta, sueldos base). Total: <b id="e2_procTot"></b>/t.</p>
+    <div class="grid2" style="margin-top:8px">
+      <div>
+        <h3>CAPEX de Etapa 2 — itemizado (editable) <span class="ttip" data-t="Inversión en la línea de procesamiento (trituradora, lavado, secado, peletizadora, PTAR, obra…). Edita/añade/elimina líneas; el total es el CAPEX que sale en el mes de lanzamiento. Cifras de orden de magnitud: validar con cotizaciones.">i</span></h3>
+        <table id="e2_capexTable"><thead><tr><th>Línea (equipo / obra)</th><th class="num">USD</th></tr></thead><tbody></tbody><tfoot></tfoot></table>
+      </div>
+      <div>
+        <h3>OPEX de Etapa 2 — itemizado (editable, $/mes) <span class="ttip" data-t="Gasto fijo mensual de la planta E2 (renta mayor, energía de proceso, operarios 2 turnos, QA, mantenimiento…). La suma reemplaza al OPEX de E1 desde el mes de lanzamiento.">i</span></h3>
+        <table id="e2_opexTable"><thead><tr><th>Concepto</th><th class="num">$/mes</th></tr></thead><tbody></tbody><tfoot></tfoot></table>
+      </div>
+    </div>
+    <p class="note">El CAPEX y el OPEX de procesamiento ahora salen de estas tablas (suma de líneas), no de un solo número. Edita, añade o elimina líneas; el modelo de timing se recalcula. Cifras de orden de magnitud para una línea básica en LatAm — <b>validar con cotizaciones</b>.</p>
+    <h3 style="margin-top:16px">Dashboard Etapa 2</h3>
+    <div class="cards" id="e2_kpiCards" style="margin-top:6px"></div>
+    <div id="e2_verdict"></div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="chartbox"><h4>Caja acumulada del proyecto ($) — la línea vertical marca el lanzamiento de Etapa 2</h4><svg id="e2_cashChart" class="chart" viewBox="0 0 560 240"></svg></div>
+      <div class="chartbox"><h4>EBITDA mensual ($)</h4><svg id="e2_ebChart" class="chart" viewBox="0 0 560 240"></svg></div>
+    </div>
+    <h3>Comparativa de meses de lanzamiento</h3>
+    <table id="e2_cmpTable"><thead></thead><tbody></tbody></table>
+    <p class="note">La Etapa 1 (consolidación, ~$2K/mes de EBITDA) es la <b>opción barata sobre la Etapa 2</b> (procesamiento, ~$40K/mes). El costo de esperar no es ahorrar capital — es perder meses de margen alto. Para el layout de la planta de procesamiento, ver la pestaña <b>Etapa 2 · Distribución</b>.</p>
+  </div>
+
+  <!-- PERMISOS -->
+  <div class="panel" id="sec-permisos">
+    <h2>11 · Permisos y certificaciones por etapa <span class="pill">lista maestra</span></h2>
+    <p class="lead">Vista de los <b>permisos y trámites</b> de la lista maestra de tareas, clasificados por etapa. Lo que marcas aquí se <b>sincroniza</b> con la página <a href="plashub-tareas.html">Tareas y Permisos</a> (misma fuente de verdad). <b>EC-RS y EIA son ruta crítica</b> (60–180 días).</p>
+    <div id="permMaster"></div>
+    <p class="note">Esta sección muestra solo los <b>permisos</b>. Para TODAS las tareas (acciones operativas, financiero, layout) abre <a href="plashub-tareas.html">Tareas y Permisos — lista maestra</a>.</p>
+  </div>
+  <script src="tareas-maestras.js"></script>
+  <script>
+  (function(){
+    let state=window.plashubInitState();
+    function render(){
+      const order=['GEN','E1','E2']; let html='';
+      order.forEach(e=>{
+        const tasks=window.PLASHUB_TASKS.filter(t=>t.etapa===e&&t.tipo==='Permiso');
+        if(!tasks.length) return;
+        const done=tasks.filter(t=>state[t.id]).length,pct=Math.round(done/tasks.length*100);
+        html+=`<h3>${window.PLASHUB_ETAPAS[e]} <span style="font-size:12px;color:#6a7280;font-weight:400">· ${done}/${tasks.length}</span></h3><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>`;
+        html+=tasks.map(t=>`<label class="perm"><input type="checkbox" data-id="${t.id}" ${state[t.id]?'checked':''}><span>${t.title}${t.urg?` <span class="pn">· ${t.urg}</span>`:''}</span></label>`).join('');
+      });
+      document.getElementById('permMaster').innerHTML=html;
+      document.querySelectorAll('#permMaster input[type=checkbox]').forEach(c=>c.addEventListener('change',ev=>{state[ev.target.dataset.id]=ev.target.checked;window.plashubSaveState(state);render();}));
+    }
+    window.addEventListener('storage',e=>{if(e.key===window.PLASHUB_TASKKEY){try{state=JSON.parse(e.newValue)||{};}catch(_){state={};}render();}});
+    render();
+  })();
+  </script>
+
+  <!-- 10 FUENTES -->
+  <div class="panel">
+    <h2>12 · Fuentes y supuestos</h2>
+    <p class="src">
+      Regrind (benchmark): <a href="https://www.chemanalyst.com/Pricing-data/recycled-high-density-polyethylene-1264">ChemAnalyst</a> · <a href="https://www.imarcgroup.com/recycled-high-density-polyethylene-pricing-report">IMARC</a> · <a href="https://www.intratec.us/solutions/primary-commodity-prices/commodity/ldpe-prices">Intratec</a>.
+      Feedstock Perú: <a href="https://www.quiminet.com/productos/plastico-reciclado-pet-hdpe-ldpe-12586347811/precios.htm">QuimiNet</a> · acopio (PET S/0.70–2.60/kg; HDPE/PP/LDPE S/0.30–0.80/kg).
+      Renta Lima Norte: <a href="https://www.adondevivir.com/local-industrial-en-alquiler-en-lima.html">Adondevivir</a> · <a href="https://www.nuroa.pe/alquiler/alquiler-local-industrial-lima-norte">Nuroa</a>.
+      RMV 2026 S/1,130: <a href="https://www.infobae.com/peru/2026/05/13/cuanto-es-el-sueldo-minimo-en-peru-2026-conoce-el-monto-en-soles-dolares-y-euros/">Infobae</a> · <a href="https://estadisticas.bcrp.gob.pe/estadisticas/series/mensuales/resultados/PN02124PM/html">BCRP</a>.
+    </p>
+    <p class="note"><b>Notas:</b> (1) compra/venta son referencias trianguladas — validar con cotizaciones reales. (2) La pestaña de flujo de caja del Profile v2 tenía un error corregido en PlasHub_Project_Profile_v3_corrected.xlsx. (3) "Margen %" es bruto (venta−compra)/venta, antes de OPEX.</p>
+  </div>
+
+  <div class="panel" style="text-align:center;">
+    <button class="printbtn" onclick="window.print()">🖨 Imprimir / exportar PDF (A4)</button>
+    <div class="note">Hoja de impresión A4 vertical — usa "Guardar como PDF". (Al imprimir, los campos editables se muestran como texto.)</div>
+  </div>
+</div>
+
+<script>
+/* ===================== DATOS POR DEFECTO ===================== */
+const DEFAULTS = {
+  MAT:[
+    {k:'PET post-consumo', f:'Frecuente', mix:27, buy:120, sell:240},
+    {k:'HDPE industrial',  f:'Frecuente', mix:26, buy:140, sell:270},
+    {k:'PP post-industrial',f:'Frecuente', mix:21, buy:130, sell:260},
+    {k:'PE Film',          f:'Frecuente', mix:16, buy:100, sell:200},
+    {k:'ABS / PS industrial',f:'Esporádico',mix:4, buy:200, sell:380},
+    {k:'Nylon / PA',       f:'Esporádico', mix:3, buy:280, sell:520},
+    {k:'Special mix',      f:'Esporádico', mix:3, buy:120, sell:230},
+  ],
+  SCEN:{conservador:{vol:40,opex:'A',label:'Conservador'},
+        base:{vol:100,opex:'A',label:'Base'},
+        optimista:{vol:200,opex:'B',label:'Optimista'}},
+  OPEXDEF:{
+   A:{label:'Lean (A) — subarriendo ~900 m²',
+      items:[['Renta nave (~900 m² subarriendo)',3186],['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1100],
+        ['Operarios de planta (×2)',1100],['Electricidad trifásica',350],['Seguridad / vigilancia',1100],
+        ['Mantenimiento (báscula, menor)',50],['Contabilidad / contador',500],['EPP y consumibles',200],
+        ['Comunicaciones (internet+móvil)',100],['Servicios básicos (agua/desagüe)',100],['Contingencia 5%',439]],
+      capex:[['Garantía nave (2 meses)',6372,'Negociable a 1 mes → −$3,186'],['Adelanto 1 mes de renta',3186,''],
+        ['Adecuaciones: demarcación 7 zonas, señalética, luminarias, piso',1500,'Demarcación y señalética'],
+        ['Báscula de piso 3 t',1200,'Compra'],['Transpaleta + EPP + herramientas',1100,'Montacarga se alquila (OPEX)'],
+        ['Consultor EC-RS / ambiental (MINAM)',3500,'Ruta crítica 60–90 d'],['Asesoría legal (MOU, pacto socios)',1500,''],
+        ['Ingeniería / diseño de layout',1000,''],['Registro SUNAT (RMT) + contabilidad inicial',1500,'']],
+      wc:6000},
+   B:{label:'Full (B) — lease directo 1,500 m²',
+      items:[['Renta nave (1,500 m² @ ~$5/m²)',7500],['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1300],
+        ['Operarios de planta (×3)',1650],['Supervisor / QA (parcial)',600],['Electricidad trifásica',600],
+        ['Seguridad / vigilancia',1200],['Mantenimiento',150],['Contabilidad / contador',650],
+        ['EPP y consumibles',350],['Comunicaciones',150],['Servicios básicos',200],['Contingencia 5%',770]],
+      capex:[['Garantía nave (2 meses @ $7,500)',15000,'Negociar a 1 mes ahorra $7,500'],['Adelanto 1 mes de renta',7500,''],
+        ['Fit-out / obra civil (oficina, racks, piso, demarcación)',4500,'incl. demarcación'],['Báscula de piso 3 t',1500,''],
+        ['Racking esporádicos + EPP + herramientas',2500,''],['Consultor EC-RS / ambiental',3500,''],
+        ['Asesoría legal (pacto socios, licencias)',2000,''],['Ingeniería / diseño layout',1200,''],
+        ['Registro SUNAT (RMT) + contabilidad inicial',1500,''],['Sistema de inventario (software)',800,'']],
+      wc:10000},
+  },
+  state:{scen:'base',opex:'A',cap:22000,sa:0,ba:0,fo:0,vt:15,lg:1,verified:false,
+    ramp:{m1:50,m2:75,m3:90,steady:100},
+    customVol:null,             // Fix #2 — volumen libre (null = usa el escenario)
+    supplierLag:0,              // Fix #3 — meses de plazo de pago a proveedor
+    stressMonths:[], stressExtraLag:1,   // Fix #4 — estrés de cobro
+    alexPrepayPct:0,            // Fix #8 — prepago de Alex (% del primer contenedor)
+    setupMonths:1,              // Fix #9 — meses de setup pre-operación (M0)
+    plView:'exec',              // Fix #5 — vista de la tabla P&L
+    partners:[                  // Fix #1 — aportes de socios con timing
+      {name:'Alex', amt:16000, month:0},
+      {name:'Raúl', amt:5500,  month:1},
+    ],
+    gng_alex_contract:false, gng_ecrs:false, gng_nave:false, gng_forklift:false},  // Fix #12 — GO/NO-GO manual
+};
+function rampArrFor(S){const r=(S&&S.ramp)||{m1:50,m2:75,m3:90,steady:100};
+  return [r.m1,r.m2,r.m3,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady].map(x=>(+x||0)/100);}
+function rampArr(){return rampArrFor(st);}
+const RAMP_PRESETS={                                    // Fix #7
+  opt: {m1:50,m2:75,m3:90,steady:100},
+  base:{m1:30,m2:55,m3:80,steady:100},
+  cons:{m1:20,m2:40,m3:70,steady:90},
+};
+const mLbl=m=>m===0?'M0 (setup)':('M'+m);               // etiqueta de mes (M0 = setup pre-operación)
+const KEY='plashub_fin_v1';
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+const RISKS=[
+ ['EC-RS no iniciado (MINAM)','Alta','🔴 Crítico — bloquea operación legal','Consultor ambiental día 1; abrir SIGERSOL; Plan de Manejo de Residuos. 60–90 d.'],
+ ['Capital de trabajo / ciclo de caja','Alta','Alto — banco negativo M1–3','Prepago Alex, garantía 1 mes, puente socios, factoring.'],
+ ['Sin compromiso de volumen (Alex)','Media','Alto — modelo inválido','Carta/contrato: mín. t/mes por 12 meses antes de firmar la nave.'],
+ ['Volumen bajo equilibrio','Media','Alto — deficitario','El caso conservador quema caja; reducir OPEX antes de buscar volumen.'],
+ ['Concentración en cliente único (Alex)','Media','Alto','Sumar 1–2 clientes; formalizar forecast; diversificar en Etapa 2.'],
+ ['Precio de transferencia (SUNAT)','Media','Alto — Alex es proveedor+cliente+socio','Facturas a precio de mercado, documentadas; registrar en pacto de socios.'],
+ ['Retraso de permisos (EIA / ITSE)','Alta','Crítico (retrasa SOP)','Asesor experto, trámites en paralelo, buffer 6–12 meses.'],
+ ['Compresión de precios (venta)','Media','Medio','Estresado en el modelo; diversificar; migrar a regrind (Etapa 2).'],
+];
+
+/* ===================== ESTADO MUTABLE ===================== */
+let MAT, OPEXDEF, SCEN, st;
+function loadState(){
+  MAT=clone(DEFAULTS.MAT); OPEXDEF=clone(DEFAULTS.OPEXDEF); SCEN=clone(DEFAULTS.SCEN); st=clone(DEFAULTS.state);
+  try{const s=JSON.parse(localStorage.getItem(KEY));
+    if(s){ if(s.MAT)MAT=s.MAT; if(s.OPEXDEF)OPEXDEF=s.OPEXDEF; if(s.SCEN)SCEN=s.SCEN; if(s.st)Object.assign(st,s.st);}
+  }catch(e){}
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({MAT,OPEXDEF,SCEN,st}));
+  const m=document.getElementById('savedMsg'); m.textContent='✓ guardado'; clearTimeout(save._t); save._t=setTimeout(()=>m.textContent='',1200);}catch(e){}}
+
+/* ===================== MODELO ===================== */
+function wBuy(){const t=MAT.reduce((s,m)=>s+(+m.mix||0),0)||1; return MAT.reduce((s,m)=>s+(+m.buy||0)*(+m.mix||0),0)/t;}
+function wSell(){const t=MAT.reduce((s,m)=>s+(+m.mix||0),0)||1; return MAT.reduce((s,m)=>s+(+m.sell||0)*(+m.mix||0),0)/t;}
+function fixedOpex(k){return Math.round(OPEXDEF[k].items.reduce((s,i)=>s+(+i[1]||0),0));}
+function capexTotal(k){return OPEXDEF[k].capex.reduce((s,i)=>s+(+i[1]||0),0);}
+function pricesFor(S){return {buy:wBuy()*(1+(+S.ba||0)/100), sell:wSell()*(1+(+S.sa||0)/100)};}
+function prices(){return pricesFor(st);}
+/* run(scenKey, opexKey, S?) — S es un estado (por defecto el global st). Si S.customVol!=null se usa
+   ese volumen libre (Fix #2). Modela: timing de aportes de socios (Fix #1), lag de pago a proveedor
+   (Fix #3), estrés de cobro (Fix #4), prepago de Alex (Fix #8) y Mes 0 de setup (Fix #9). */
+function run(scenKey,opexKey,S){
+  S=S||st;
+  const {buy,sell}=pricesFor(S);
+  const vol=(S.customVol!=null)?+S.customVol:(+SCEN[scenKey].vol||0);
+  const fixed=fixedOpex(opexKey)*(1+(+S.fo||0)/100);
+  const capex=capexTotal(opexKey);
+  const vt=+S.vt||0, lg=Math.max(0,+S.lg||0), supLag=Math.max(0,+S.supplierLag||0), setupM=Math.max(0,+S.setupMonths||0);
+  const gpT=sell-buy, contribT=gpT-vt;
+  const partners=(S.partners&&S.partners.length)?S.partners:[{name:'Total',amt:(+S.cap||0),month:0}];
+  const partAt=m=>partners.filter(p=>(+p.month||0)===m).reduce((s,p)=>s+(+p.amt||0),0);
+  const alexPrepay=20*sell*((+S.alexPrepayPct||0)/100);          // Fix #8 — valor de un contenedor (20 t)
+  const stressM=Array.isArray(S.stressMonths)?S.stressMonths:[]; // Fix #4
+  const exLag=+S.stressExtraLag||0;
+  const capexCash=S._noCapex?0:capex;   // _noCapex aísla el break-even de caja operativo (Fix #10)
+  const rev=[],cogs=[],gp=[],vo=[],fx=[],eb=[],bank=[],vols=[]; const RMP=rampArrFor(S);
+  let cumEb=0, beMonth=null, payback=null;
+  /* P&L mensual (independiente del timing de caja) */
+  for(let m=1;m<=12;m++){
+    const v=vol*RMP[m-1]; vols.push(v);
+    const r=v*sell, c=v*buy, g=r-c, ov=v*vt, e=g-ov-fixed;
+    rev.push(r);cogs.push(c);gp.push(g);vo.push(ov);fx.push(fixed);eb.push(e);
+    cumEb+=e; if(beMonth===null&&e>0)beMonth=m;
+    if(payback===null&&cumEb>=capex)payback=m;
+  }
+  /* CAJA — M0 (setup): entra el capital de socios con month:0 + prepago de Alex; sale CAPEX + OPEX del setup */
+  const setupBurn=fixed*setupM;
+  let bk=partAt(0)+alexPrepay-capexCash-setupBurn;
+  const bk0=bk;
+  let trough=bk, troughM=0;
+  for(let m=1;m<=12;m++){
+    bk+=partAt(m);                                               // Fix #1 — socios que llegan en el mes m
+    const effLag=stressM.includes(m)?lg+exLag:lg;               // Fix #4 — retraso extra de cobro
+    const collect=(m-effLag>=1)?rev[m-1-effLag]:0;
+    const matPay =(m-supLag>=1) ?cogs[m-1-supLag]:0;            // Fix #3 — pago a proveedor con desfase
+    const cashOut=matPay+vo[m-1]+fx[m-1];                        // CAPEX ya salió en M0 (Fix #9)
+    bk+=collect-cashOut; bank.push(bk);
+    if(bk<trough){trough=bk;troughM=m;}
+  }
+  const yEb=eb.reduce((a,b)=>a+b,0), roi=capex>0?yEb/capex*100:0, beVol=contribT>0?fixed/contribT:Infinity;
+  return {buy,sell,vol,fixed,capex,gpT,contribT,rev,cogs,gp,vo,fx,eb,bank,vols,yEb,roi,beMonth,payback,beVol,
+    trough,troughM,bk0,setupBurn,alexPrepay,partners,
+    needTotal:capex+(+OPEXDEF[opexKey].wc||0)};
+}
+/* Variante que corre un escenario fijo (ignora el volumen libre) — para el resumen y la comparativa */
+const runScen=(sk,ok)=>run(sk,ok,Object.assign({},st,{customVol:null}));
+/* Variante con overrides de estado, sin tocar el global st (Fix #6 matriz, Fix #10 break-even) */
+function runWith(over,ok){return run(st.scen,ok,Object.assign({},st,over));}
+/* Fix #10 — break-even de CAJA: volumen mín. donde el banco operativo nunca es negativo
+   (capital confirmado en M0 cubriendo el CAPEX; aísla el ciclo de capital de trabajo).
+   La relación trough(volumen) NO es monótona (el desfase de cobro adelanta el capital de trabajo),
+   por eso se hace un barrido lineal. Si NINGÚN volumen mantiene el banco ≥0 con el capital actual,
+   devuelve Infinity → el break-even de caja no es alcanzable por volumen, sino con más capital. */
+function cashBreakEven(opexKey){
+  const base={partners:[{name:'cap',amt:(+st.cap||0),month:0}], _noCapex:true};
+  for(let v=20;v<=400;v+=5){ if(runWith(Object.assign({customVol:v},base),opexKey).trough>=0) return v; }
+  return Infinity;
+}
+
+/* ===================== HELPERS UI ===================== */
+const $=id=>document.getElementById(id);
+const money=n=>(n<0?'-':'')+'$'+(Math.round(Math.abs(n)/100)*100).toLocaleString();   // redondeo a $100 (estimado)
+const mK=n=>{const a=Math.abs(n),s=n<0?'-':'';return '≈'+s+'$'+(a>=10000?Math.round(a/1000)+'K':a>=1000?(Math.round(a/100)/10)+'K':String(Math.round(a/10)*10));};
+const k1=n=>'$'+(Math.round(n/100)/10)+'K';
+const numIn=(val,cls,attrs,step)=>`<input class="ed ${cls||''}" type="number" step="${step||'1'}" value="${val}" ${attrs}>`;
+const txtIn=(val,attrs,w)=>`<input class="ed edtxt" type="text" value="${String(val).replace(/"/g,'&quot;')}" style="width:${w||'100%'};text-align:left" ${attrs}>`;
+const delBtn=attrs=>`<button class="del" title="Eliminar" ${attrs}>🗑</button>`;
+
+/* ===================== BUILD (una vez) tablas editables ===================== */
+const freqSel=(val,attrs)=>`<select class="ed" ${attrs}><option ${val==='Frecuente'?'selected':''}>Frecuente</option><option ${val==='Esporádico'?'selected':''}>Esporádico</option></select>`;
+function buildEditable(){
+  // precios (nombre, frecuencia, mix, compra, venta editables + eliminar fila)
+  let pb='';
+  MAT.forEach((m,i)=>{pb+=`<tr><td>${txtIn(m.k,`data-mat="${i}" data-f="k"`,'68%')} ${delBtn(`onclick="delMat(${i})"`)}</td>
+    <td>${freqSel(m.f,`data-mat="${i}" data-f="f"`)}</td>
+    <td class="num">${numIn(m.mix,'mix',`data-mat="${i}" data-f="mix"`)}</td>
+    <td class="num">${numIn(m.buy,'',`data-mat="${i}" data-f="buy"`)}</td>
+    <td class="num">${numIn(m.sell,'',`data-mat="${i}" data-f="sell"`)}</td>
+    <td class="num" id="mg_${i}"></td><td class="num" id="mgp_${i}"></td></tr>`;});
+  $('priceTable').querySelector('tbody').innerHTML=pb;
+  $('priceTable').querySelector('tfoot').innerHTML=
+    `<tr><td colspan="7"><button class="addbtn" onclick="addMat()">+ Añadir material</button></td></tr>
+     <tr><td>Ancla — Polvillo de Flake</td><td>Frecuente</td><td class="num">—</td><td class="num">$150</td><td class="num">$300</td><td class="num">$150</td><td class="num">50%</td></tr>
+     <tr><td><b>Promedio ponderado</b></td><td>—</td><td class="num" id="wMix"></td><td class="num" id="wB"></td><td class="num" id="wS"></td><td class="num" id="wM"></td><td class="num" id="wMp"></td></tr>`;
+  // escenarios (volúmenes)
+  $('scenInputs').innerHTML=Object.entries(SCEN).map(([k,v])=>
+    `<label>${v.label}: ${numIn(v.vol,'',`data-scen="${k}"`)} t/mes</label>`).join('');
+  // rampa de volumen editable
+  $('rampRow').innerHTML='<b>Rampa de volumen (%):</b>'+[['m1','M1'],['m2','M2'],['m3','M3'],['steady','M4+']].map(([k,lbl])=>
+    `<label>${lbl} ${numIn(st.ramp[k],'',`data-ramp="${k}"`,'5')}</label>`).join('');
+  // capex + opex (etiqueta, monto, nota editables + eliminar/añadir línea)
+  ['A','B'].forEach(k=>{
+    $('capex'+k).querySelector('tbody').innerHTML=OPEXDEF[k].capex.map((r,i)=>
+      `<tr><td>${txtIn(r[0],`data-cx="${k}" data-idx="${i}" data-cf="label"`)} ${delBtn(`onclick="delCx('${k}',${i})"`)}</td>
+        <td class="num">${numIn(r[1],'',`data-cx="${k}" data-idx="${i}" data-cf="amt"`)}</td>
+        <td>${txtIn(r[2]||'',`data-cx="${k}" data-idx="${i}" data-cf="note"`)}</td></tr>`).join('');
+    $('capex'+k).querySelector('tfoot').innerHTML=
+      `<tr><td colspan="3"><button class="addbtn" onclick="addCx('${k}')">+ Añadir línea CAPEX</button></td></tr>
+       <tr><td>Subtotal CAPEX</td><td class="num" id="cxsub_${k}"></td><td></td></tr>
+       <tr><td>+ Capital de trabajo (CT)</td><td class="num">${numIn(OPEXDEF[k].wc,'',`data-wc="${k}"`)}</td><td style="font-size:10.5px">financia el pozo M1–3</td></tr>
+       <tr><td><b>Necesidad total</b></td><td class="num" id="cxtot_${k}"></td><td style="font-size:10.5px">vs confirmado $22K</td></tr>`;
+    $('opex'+k+'T').querySelector('tbody').innerHTML=OPEXDEF[k].items.map((r,i)=>
+      `<tr><td>${txtIn(r[0],`data-ox="${k}" data-idx="${i}" data-of="label"`)} ${delBtn(`onclick="delOx('${k}',${i})"`)}</td>
+        <td class="num">${numIn(r[1],'',`data-ox="${k}" data-idx="${i}" data-of="amt"`)}</td></tr>`).join('');
+    $('opex'+k+'T').querySelector('tfoot').innerHTML=
+      `<tr><td colspan="2"><button class="addbtn" onclick="addOx('${k}')">+ Añadir línea OPEX</button></td></tr>
+       <tr><td>Total OPEX fijo / mes</td><td class="num" id="oxtot_${k}"></td></tr>`;
+  });
+  // riesgos (estático)
+  $('riskTable').querySelector('tbody').innerHTML=RISKS.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td style="font-size:11.5px">${r[3]}</td></tr>`).join('');
+  // listeners (input para campos de texto/número, change para selects)
+  document.querySelectorAll('.ed').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',onEdit));
+}
+function onEdit(e){
+  const t=e.target, ds=t.dataset, raw=t.value, num=()=>{const v=parseFloat(raw);return isNaN(v)?0:v;};
+  if(ds.mat!==undefined){const f=ds.f; MAT[+ds.mat][f]=(f==='k'||f==='f')?raw:num();}
+  else if(ds.scen!==undefined) SCEN[ds.scen].vol=num();
+  else if(ds.ramp!==undefined) st.ramp[ds.ramp]=num();
+  else if(ds.wc!==undefined) OPEXDEF[ds.wc].wc=num();
+  else if(ds.cx!==undefined){const o=OPEXDEF[ds.cx].capex[+ds.idx]; if(ds.cf==='label')o[0]=raw; else if(ds.cf==='note')o[2]=raw; else o[1]=num();}
+  else if(ds.ox!==undefined){const o=OPEXDEF[ds.ox].items[+ds.idx]; if(ds.of==='label')o[0]=raw; else o[1]=num();}
+  recompute();
+}
+/* añadir / eliminar filas */
+function addMat(){MAT.push({k:'Nuevo material',f:'Frecuente',mix:5,buy:100,sell:200});buildEditable();recompute();}
+function delMat(i){if(MAT.length<=1)return;MAT.splice(i,1);buildEditable();recompute();}
+function addCx(k){OPEXDEF[k].capex.push(['Nueva línea',0,'']);buildEditable();recompute();}
+function delCx(k,i){OPEXDEF[k].capex.splice(i,1);buildEditable();recompute();}
+function addOx(k){OPEXDEF[k].items.push(['Nueva línea',0]);buildEditable();recompute();}
+function delOx(k,i){OPEXDEF[k].items.splice(i,1);buildEditable();recompute();}
+
+/* ===================== RECOMPUTE (salidas, sin tocar inputs) ===================== */
+function recompute(){
+  capV.textContent=st.cap.toLocaleString();saV.textContent=st.sa;baV.textContent=st.ba;foV.textContent=st.fo;vtV.textContent=st.vt;lgV.textContent=st.lg;
+  if($('slV'))  $('slV').textContent=st.supplierLag;       // Fix #3
+  if($('smV'))  $('smV').textContent=st.setupMonths;       // Fix #9
+  markSeg(); renderVerify();
+  const R=run(st.scen,st.opex);                            // escenario activo (honra el volumen libre)
+  const cbev=cashBreakEven(st.opex);                       // Fix #10 (calculado una vez)
+  // slider de volumen refleja el volumen efectivo
+  if($('volSlider')){const ev=(st.customVol!=null)?st.customVol:R.vol; $('volSlider').value=ev; $('volSliderV').textContent=Math.round(ev);}
+  renderExec(R); renderKpis(R,cbev); renderVolumeQuickKpis(R); renderCharts(R); renderSensMatrix(); renderPL(R); renderCompare(); renderGap(R);
+  renderGoNoGo(R,cbev);
+  updatePriceComputed(); updateCapexComputed(); updateOpexComputed();
+  // Fix #11 — exponer el margen/OPEX/CAPEX de E1 para sincronizar el módulo E2
+  window._plashubE1Margin=R.contribT; window._plashubE1Opex=R.fixed; window._plashubE1Capex=R.capex;
+  save();
+}
+function renderVerify(){
+  document.body.classList.toggle('unverified',!st.verified);
+  const v=document.getElementById('verifyBar');
+  v.className='verifybar '+(st.verified?'yes':'no');
+  v.innerHTML=(st.verified
+    ? '✅ <b>Precios marcados como verificados</b> con cotizaciones reales. El modelo es apto para conversaciones de capital.'
+    : '⚠ <b>Precios sin verificar</b> — son referencias trianguladas, no cotizaciones. <b>No usar para levantar capital</b> hasta cargar 2–3 cotizaciones reales (recomendación del audit).')
+    + `<label><input type="checkbox" id="verChk" ${st.verified?'checked':''}> Marcar precios como verificados</label>`;
+  document.getElementById('verChk').addEventListener('change',e=>{st.verified=e.target.checked;recompute();});
+}
+function updatePriceComputed(){
+  MAT.forEach((m,i)=>{const mg=(+m.sell)-(+m.buy); $('mg_'+i).textContent='$'+Math.round(mg);
+    $('mgp_'+i).textContent=(m.sell>0?Math.round(mg/m.sell*100):0)+'%';});
+  const wb=wBuy(),ws=wSell(),tm=MAT.reduce((s,m)=>s+(+m.mix||0),0);
+  $('wMix').textContent=Math.round(tm)+'%'; $('wB').textContent='$'+Math.round(wb); $('wS').textContent='$'+Math.round(ws);
+  $('wM').textContent='$'+Math.round(ws-wb); $('wMp').textContent=(ws>0?Math.round((ws-wb)/ws*100):0)+'%';
+}
+function updateCapexComputed(){['A','B'].forEach(k=>{const cx=capexTotal(k),wc=+OPEXDEF[k].wc||0;
+  $('cxsub_'+k).textContent='$'+cx.toLocaleString(); $('cxtot_'+k).textContent='$'+(cx+wc).toLocaleString();});}
+function updateOpexComputed(){['A','B'].forEach(k=>$('oxtot_'+k).textContent='$'+fixedOpex(k).toLocaleString());}
+
+function renderExec(R){
+  const base=runScen('base','A'),ws=wSell(),wb=wBuy();
+  $('execCards').innerHTML=[
+    ['Margen bruto ponderado',`${ws>0?Math.round((ws-wb)/ws*100):0}%`,`≈$${Math.round(ws-wb)}/t · venta $${Math.round(ws)} / compra $${Math.round(wb)}`,'teal'],
+    ['Volumen de equilibrio',`${isFinite(base.beVol)?Math.round(base.beVol):'—'} t/mes`,'setup Lean (A)','warn'],
+    ['EBITDA caso Base',`${mK(base.eb[11])}/mes`,'estable (M12)', base.eb[11]>0?'good':'bad'],
+    ['Necesidad de capital',`${mK(base.needTotal)}`,'Lean · vs confirmado $22K','teal'],
+  ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+  $('askLine').innerHTML=`Cerrar la brecha de financiamiento de Etapa 1 y correr 12 meses de validación. Capital confirmado <b>$22K</b>. El inicio Lean necesita <b>${mK(base.needTotal)}</b> incl. capital de trabajo. Retorno objetivo (Base): ~<b>${Math.round(base.roi)}% ROI</b> sobre CAPEX, equilibrio operativo en el <b>mes ${base.beMonth||'—'}</b>.`+(st.verified?'':' <span class="drafttag">BORRADOR · precios sin verificar</span>');
+}
+function renderKpis(R,cbev){
+  if(cbev==null)cbev=cashBreakEven(st.opex);
+  $('kpiCards').innerHTML=[
+    ['Ingresos (estable M12)',mK(R.rev[11]),`${Math.round(R.vols[11])} t × $${Math.round(R.sell)}`,'teal'],
+    ['Utilidad bruta /mes',mK(R.gp[11]),`margen $${Math.round(R.gpT)}/t`,'teal'],
+    ['EBITDA (estable)',mK(R.eb[11]),'tras OPEX fijo+variable',R.eb[11]>0?'good':'bad'],
+    ['Equilibrio P&L',`${isFinite(R.beVol)?Math.round(R.beVol)+' t/mes':'—'}`,`fijo $${Math.round(R.fixed).toLocaleString()}/mes`,'warn'],
+    ['Break-even de CAJA',isFinite(cbev)?`${cbev} t/mes`:'no alcanzable',isFinite(cbev)?`vol. mín. sin caja negativa (P&L: ${isFinite(R.beVol)?Math.round(R.beVol):'—'} t)`:`ningún volumen mantiene la caja ≥0 con $${(st.cap/1000)}K — sube capital o reduce el ciclo`,(isFinite(cbev)&&R.vol>=cbev)?'good':'bad'],
+    ['Equilibrio operativo',R.beMonth?('M'+R.beMonth):'nunca','EBITDA > 0',R.beMonth?'good':'bad'],
+    ['Recuperación CAPEX',R.payback?('M'+R.payback):'> M12','EBITDA acum. ≥ CAPEX',R.payback?'good':'warn'],
+    ['Pozo de caja',mK(R.trough),`mín. banco @ ${mLbl(R.troughM)}`,R.trough>=0?'good':'bad'],
+    ['ROI sobre CAPEX @M12',`${Math.round(R.roi)}%`,`EBITDA año 1 ${mK(R.yEb)}`,R.roi>0?'good':'bad'],
+  ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+  let cls='ok',msg='';
+  if(R.eb[11]<=0){cls='bad';msg=`⛔ <b>Deficitario a este volumen.</b> ${Math.round(R.vol)} t/mes está bajo el equilibrio de ${Math.round(R.beVol)} t/mes — EBITDA estable ${money(R.eb[11])}/mes. Reducir OPEX fijo o subir volumen.`;}
+  else if(R.trough<0){cls='warn';msg=`⚠ <b>Rentable pero con caja negativa al inicio.</b> EBITDA estable ${money(R.eb[11])}/mes, pero el ciclo de caja (incl. setup en M0) lleva el banco a ${money(R.trough)} en ${mLbl(R.troughM)}. Financiar un pozo de <b>${money(-R.trough)}</b> (§7) — la brecha real.`;}
+  else {cls='ok';msg=`✅ <b>Autofinanciado.</b> EBITDA estable ${money(R.eb[11])}/mes y el banco se mantiene positivo (mín. ${money(R.trough)} @ ${mLbl(R.troughM)}). Recuperación de CAPEX ${R.payback?'mes '+R.payback:'>M12'}; ROI ${Math.round(R.roi)}%.`;}
+  if(st.ramp.m1>35){   // Fix #7 — rampa M1 demasiado optimista
+    msg+=` <br>⚠ <b>Rampa M1=${st.ramp.m1}%:</b> para una operación nueva, arrancar al ${st.ramp.m1}% el primer mes es optimista. Considera el preset "Base" (30%) o "Conservador" (20%) para una proyección más creíble ante inversores.`;}
+  if(st.stressMonths&&st.stressMonths.length>0){   // Fix #4 — estrés activo
+    msg+=` <br><b>⚠ Estrés de cobro activo:</b> retraso de ${st.lg+st.stressExtraLag} mes(es) en M${st.stressMonths.join(', M')}. Pozo de caja bajo estrés: <b>${money(R.trough)}</b> @ ${mLbl(R.troughM)}.`;}
+  $('finVerdict').innerHTML=`<div class="cav ${cls}">${msg}</div>`;
+}
+/* Fix #2 — mini-dashboard en tiempo real bajo el slider de volumen */
+function renderVolumeQuickKpis(R){
+  if(!$('volumeQuickKpis'))return;
+  const gap=R.vol-R.beVol, gapTxt=(isFinite(R.beVol)?((gap>=0?'+':'')+Math.round(gap)+' t'):'—');
+  const volCls=!isFinite(R.beVol)?'warn':(R.vol>=R.beVol*1.1?'good':(R.vol>=R.beVol?'warn':'bad'));
+  $('volumeQuickKpis').innerHTML=[
+    ['Volumen actual',`${Math.round(R.vol)} t/mes`,'volumen efectivo (con rampa M12)','teal'],
+    ['EBITDA estable',`${mK(R.eb[11])}/mes`,'M12, tras OPEX',R.eb[11]>0?'good':'bad'],
+    ['Margen vs equilibrio',gapTxt,`equilibrio P&L ${isFinite(R.beVol)?Math.round(R.beVol)+' t':'—'}`,volCls],
+    ['Saldo mín. de caja',`${money(R.trough)}`,`@ ${mLbl(R.troughM)}`,R.trough>=0?'good':'bad'],
+  ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v" style="font-size:18px">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+}
+/* Fix #6 — matriz de sensibilidad Precio × Volumen (EBITDA estable M12) */
+function renderSensMatrix(){
+  if(!$('sensMatrix'))return;
+  const vols=[60,80,100,150], prAdj=[-15,-5,0,10];
+  let h='<table><thead><tr><th>Vol. \\ Precio venta</th>';
+  prAdj.forEach(p=>h+=`<th class="num">${p>=0?'+':''}${p}%</th>`);
+  h+='</tr></thead><tbody>';
+  vols.forEach(vol=>{h+=`<tr><td><b>${vol} t/mes</b></td>`;
+    prAdj.forEach(p=>{const R=runWith({customVol:vol,sa:p,stressMonths:[]},st.opex);const eb=R.eb[11];
+      const bg=eb>500?'#e8f5ee':eb>0?'#fdf4e3':'#fbe9e7', tc=eb>500?'#1e6b40':eb>0?'#8a5c08':'#9a2d20';
+      h+=`<td class="num" style="background:${bg};color:${tc};font-weight:600">${mK(eb)}</td>`;});
+    h+='</tr>';});
+  h+='</tbody></table>';
+  $('sensMatrix').innerHTML=h;
+}
+function renderCharts(R){
+  const W=560,H=240,pad=42,n=13, bvals=[R.bk0,...R.bank];   // M0 = saldo tras el setup (Fix #9)
+  const mn=Math.min(0,...bvals),mx=Math.max(...bvals,st.cap);
+  const X=i=>pad+(W-pad-12)*(i/(n-1)), Y=v=>H-28-(H-28-12)*((v-mn)/((mx-mn)||1));
+  let s=`<line x1="${pad}" y1="${Y(0)}" x2="${W-12}" y2="${Y(0)}" stroke="#c0392b" stroke-dasharray="4,3"/>`;
+  s+=`<text x="${W-14}" y="${Y(0)-3}" font-size="9" fill="#c0392b" text-anchor="end">$0 (insolvencia)</text>`;
+  s+=`<line x1="${pad}" y1="${Y(st.cap)}" x2="${W-12}" y2="${Y(st.cap)}" stroke="#15616D" stroke-dasharray="2,3" opacity=".5"/>`;
+  s+=`<polyline points="${bvals.map((v,i)=>X(i)+','+Y(v)).join(' ')}" fill="none" stroke="#DF6901" stroke-width="2.4"/>`;
+  bvals.forEach((v,i)=>s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="2.6" fill="${v<0?'#c0392b':'#DF6901'}"/>`);
+  for(let i=0;i<n;i+=2)s+=`<text x="${X(i)}" y="${H-12}" font-size="8.5" fill="#7a828c" text-anchor="middle">M${i}</text>`;
+  s+=`<text x="${pad}" y="${Y(mx)-2}" font-size="8.5" fill="#7a828c">${k1(mx)}</text><text x="${pad}" y="${Y(mn)+10}" font-size="8.5" fill="#7a828c">${k1(mn)}</text>`;
+  $('cashChart').innerHTML=s;
+  let s2='';const mxE=Math.max(...R.eb.map(Math.abs),1),bw=(W-pad-12)/12*0.7,Y2=v=>H/2-(H/2-20)*(v/mxE);
+  s2+=`<line x1="${pad}" y1="${H/2}" x2="${W-12}" y2="${H/2}" stroke="#9aa3ad"/>`;
+  R.eb.forEach((e,i)=>{const x=pad+(W-pad-12)*((i+0.5)/12)-bw/2,y=e>=0?Y2(e):H/2;
+    s2+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.abs(H/2-Y2(e))}" fill="${e>=0?'#2e8b57':'#c0392b'}" rx="1"/>`;
+    if(i%2===0)s2+=`<text x="${x+bw/2}" y="${H-8}" font-size="8" fill="#7a828c" text-anchor="middle">M${i+1}</text>`;});
+  s2+=`<text x="${pad}" y="14" font-size="8.5" fill="#7a828c">+${k1(mxE)}</text><text x="${pad}" y="${H-22}" font-size="8.5" fill="#7a828c">-${k1(mxE)}</text>`;
+  $('ebitdaChart').innerHTML=s2;
+}
+function renderPL(R){
+  // Fix #5 — toggle de vista (ejecutiva 4 col / detallada 12 meses)
+  if($('plViewToggle')){
+    $('plViewToggle').innerHTML=`<div class="seg" style="margin:0">
+      <span style="font-size:12.5px;font-weight:600;align-self:center;margin-right:4px">Vista:</span>
+      <button data-plv="exec" class="${st.plView==='exec'?'active':''}">Ejecutiva (4 columnas)</button>
+      <button data-plv="full" class="${st.plView==='full'?'active':''}">Detallada (12 meses)</button></div>`;
+    $('plViewToggle').querySelectorAll('[data-plv]').forEach(b=>b.addEventListener('click',()=>{st.plView=b.dataset.plv;recompute();}));
+  }
+  const exec=st.plView==='exec';
+  const cols=exec?[1,3,6,12]:[1,2,3,4,5,6,7,8,9,10,11,12];
+  const colLab=exec?{1:'M1 · arranque',3:'M3 · fin rampa',6:'M6 · estable',12:'M12 · año'}:null;
+  // fila: [label, array de 12, esMoneda]
+  const rows=[['Volumen (t)',R.vols.map(v=>Math.round(v)),false],['Ingresos',R.rev,true],['– COGS (material)',R.cogs.map(x=>-x),true],
+    ['Utilidad bruta',R.gp,true],['– OPEX variable',R.vo.map(x=>-x),true],['– OPEX fijo',R.fx.map(x=>-x),true],
+    ['EBITDA',R.eb,true],['Saldo de caja (acum.)',R.bank,true]];
+  // M0 (setup): solo en vista ejecutiva — sin ingresos, sale CAPEX + OPEX de setup
+  const m0={'Volumen (t)':0,'Ingresos':0,'– COGS (material)':0,'Utilidad bruta':0,'– OPEX variable':0,'– OPEX fijo':-R.setupBurn,'EBITDA':-R.setupBurn,'Saldo de caja (acum.)':R.bk0};
+  // Total año
+  const totals={'Volumen (t)':Math.round(R.vols.reduce((a,b)=>a+b,0)),'Ingresos':R.rev.reduce((a,b)=>a+b,0),'– COGS (material)':-R.cogs.reduce((a,b)=>a+b,0),
+    'Utilidad bruta':R.gp.reduce((a,b)=>a+b,0),'– OPEX variable':-R.vo.reduce((a,b)=>a+b,0),'– OPEX fijo':-R.fx.reduce((a,b)=>a+b,0),'EBITDA':R.yEb,'Saldo de caja (acum.)':R.bank[11]};
+  let h='<tr><th>$ /mes</th>';
+  if(exec)h+=`<th class="num">M0 · setup</th>`;
+  cols.forEach(m=>h+=`<th class="num">${colLab?colLab[m]:'M'+m}</th>`);
+  if(exec)h+=`<th class="num" style="background:var(--teal)">Total año</th>`;
+  h+='</tr>';
+  $('plTable').querySelector('thead').innerHTML=h;
+  const cellCls=(label,v,isMoney)=>isMoney&&v<0?'neg':(isMoney&&v>0&&(label==='EBITDA'||label.includes('Saldo'))?'pos':'');
+  let b='';rows.forEach(r=>{const[label,arr,isM]=r; b+=`<tr><td>${label}</td>`;
+    if(exec){const v=m0[label]; b+=`<td class="num ${cellCls(label,v,isM)}" style="background:#f4f6f8">${isM?money(v):Math.round(v)}</td>`;}
+    cols.forEach(m=>{const v=arr[m-1]; b+=`<td class="num ${cellCls(label,v,isM)}">${isM?money(v):Math.round(v)}</td>`;});
+    if(exec){const v=totals[label]; b+=`<td class="num ${cellCls(label,v,isM)}" style="background:#eef5f4;font-weight:700">${isM?money(v):Math.round(v)}</td>`;}
+    b+='</tr>';});
+  $('plTable').querySelector('tbody').innerHTML=b;
+  $('plNote').innerHTML=`Setup: <b>${OPEXDEF[st.opex].label}</b> · OPEX fijo $${Math.round(R.fixed).toLocaleString()}/mes · CAPEX $${R.capex.toLocaleString()} (M0 setup) · venta $${Math.round(R.sell)}/t · compra $${Math.round(R.buy)}/t · variable $${st.vt}/t · desfase cobro ${st.lg} mes · pago proveedor ${st.supplierLag} mes · setup ${st.setupMonths} mes. M0 abre tras setup con ${money(R.bk0)}.`;
+}
+function renderCompare(){
+  $('compareTable').querySelector('thead').innerHTML='<tr><th>Métrica (estable M4+)</th><th class="num">Conservador · A</th><th class="num">Base · A</th><th class="num">Optimista · B</th></tr>';
+  const C=runScen('conservador','A'),B=runScen('base','A'),O=runScen('optimista','B');
+  const row=(l,f)=>`<tr><td>${l}</td><td class="num">${f(C)}</td><td class="num">${f(B)}</td><td class="num">${f(O)}</td></tr>`;
+  $('compareTable').querySelector('tbody').innerHTML=
+    row('Ingresos /mes',r=>money(r.vol*r.sell))+row('Utilidad bruta /mes',r=>money(r.vol*r.gpT))+row('OPEX fijo /mes',r=>money(r.fixed))+
+    row('EBITDA /mes',r=>`<span class="${r.vol*r.contribT-r.fixed>=0?'pos':'neg'}">${money(r.vol*r.contribT-r.fixed)}</span>`)+
+    row('Volumen de equilibrio',r=>isFinite(r.beVol)?Math.round(r.beVol)+' t/mes':'—')+row('Equilibrio operativo',r=>r.beMonth?'M'+r.beMonth:'nunca')+
+    row('Pozo de caja',r=>`<span class="${r.trough>=0?'pos':'neg'}">${money(r.trough)}</span>`)+row('EBITDA año 1',r=>money(r.yEb))+row('ROI sobre CAPEX',r=>Math.round(r.roi)+'%');
+}
+function renderGap(R){
+  const need=R.capex+(+OPEXDEF[st.opex].wc||0);
+  const partTot=(st.partners||[]).reduce((s,p)=>s+(+p.amt||0),0);
+  const m0Part=(st.partners||[]).filter(p=>(+p.month||0)===0).reduce((s,p)=>s+(+p.amt||0),0);
+  $('gapCards').innerHTML=[
+    ['Capital de socios',money(partTot),`disponible en M0: ${money(m0Part)}`,'teal'],
+    ['Necesidad total (setup)',money(need),`CAPEX ${money(R.capex)} + CT ${money(OPEXDEF[st.opex].wc)}`,'warn'],
+    ['Brecha activos + CT',money(Math.max(0,need-st.cap)),'vs capital confirmado',need-st.cap>0?'bad':'good'],
+    ['Pozo de flujo de caja',money(R.trough),`pico @ ${mLbl(R.troughM)}`,R.trough<0?'bad':'good'],
+  ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+  // Fix #8 — spans del prepago de Alex
+  if($('prepayV'))$('prepayV').textContent=Math.round(20*R.sell*st.alexPrepayPct/100).toLocaleString();
+  if($('prepayContainerVal'))$('prepayContainerVal').textContent=Math.round(R.sell);
+  if($('prepayPctV'))$('prepayPctV').textContent=st.alexPrepayPct;
+}
+/* Fix #1 — editor de aportes de socios con timing (nombre / monto / mes) */
+function buildPartnerEditor(){
+  if(!$('partnerEditor'))return;
+  if(!Array.isArray(st.partners))st.partners=[];
+  const rows=st.partners.map((p,i)=>`<tr>
+    <td>${txtIn(p.name,`data-pt="${i}" data-pf="name"`,'140px')}</td>
+    <td class="num">${numIn(p.amt,'',`data-pt="${i}" data-pf="amt"`,'500')}</td>
+    <td class="num">${numIn(p.month,'',`data-pt="${i}" data-pf="month"`,'1')}</td>
+    <td>${delBtn(`onclick="delPartner(${i})"`)}</td></tr>`).join('');
+  $('partnerEditor').innerHTML=`<table style="max-width:560px"><thead><tr><th>Socio<span class="ttip" data-t="Quién aporta capital. Edita el nombre. Usa '＋ Socio' para añadir un tercero o un préstamo puente.">i</span></th><th class="num">Aporte $<span class="ttip" data-t="Monto que aporta ese socio. La suma es el capital total disponible. Editar aquí cambia el pozo de caja y la brecha.">i</span></th><th class="num">Mes (0=inicio)<span class="ttip" data-t="Cuándo entra el dinero. 0 = antes de M1 (disponible para el setup). 1 = llega en el mes 1, etc. El timing importa: si el capital llega tarde, el pozo de caja se profundiza aunque el total sea el mismo.">i</span></th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+    <tfoot><tr><td colspan="4"><button class="addbtn" onclick="addPartner()">＋ Socio</button>
+      <span style="font-size:10.5px;color:#8a9099;margin-left:8px">Mes 0 = capital disponible antes de M1. El timing afecta el pozo de caja, no el P&L.</span></td></tr></tfoot></table>`;
+  $('partnerEditor').querySelectorAll('.ed').forEach(el=>el.addEventListener('input',e=>{
+    const i=+e.target.dataset.pt,f=e.target.dataset.pf;
+    if(f==='name')st.partners[i].name=e.target.value; else {const v=parseFloat(e.target.value);st.partners[i][f]=isNaN(v)?0:v;}
+    recompute();}));
+}
+function addPartner(){st.partners.push({name:'Socio',amt:0,month:0});buildPartnerEditor();recompute();}
+function delPartner(i){st.partners.splice(i,1);buildPartnerEditor();recompute();}
+/* Fix #12 — Panel de decisión GO / NO-GO */
+function renderGoNoGo(R,cbev){
+  if(!$('gonogoConds'))return;
+  if(cbev==null)cbev=cashBreakEven(st.opex);
+  const conds=[
+    {label:'Volumen comprometido ≥ break-even de P&L', auto:R.vol>=R.beVol, icon:'🤖',
+     tooltip:`Break-even P&L: ${isFinite(R.beVol)?Math.round(R.beVol):'—'} t/mes. Escenario actual: ${Math.round(R.vol)} t/mes.`},
+    {label:'Capital ≥ necesidad (CAPEX + CT) y pozo financiable', auto:(st.cap>=R.needTotal && R.trough>=-2000), icon:'🤖',
+     tooltip:`Necesidad: ${money(R.needTotal)}. Capital: ${money(st.cap)}. Pozo: ${money(R.trough)}.`},
+    {label:'Break-even de CAJA cubierto por el volumen proyectado', auto:(isFinite(cbev)&&R.vol>=cbev), icon:'🤖',
+     tooltip:isFinite(cbev)?`Break-even de caja: ${cbev} t/mes. Volumen actual: ${Math.round(R.vol)} t/mes.`:`No alcanzable con el capital actual ($${(st.cap/1000)}K): ningún volumen mantiene la caja ≥0. Cierra el pozo con más capital, prepago de Alex o ciclo de cobro más corto.`},
+    {label:'Carta/contrato de Alex con mínimo de tonelaje firmado', auto:null, stateKey:'gng_alex_contract', icon:'✋',
+     tooltip:'Sin compromiso escrito, el modelo entero depende de una promesa verbal.'},
+    {label:'EC-RS iniciado con consultor ambiental (MINAM/SIGERSOL)', auto:null, stateKey:'gng_ecrs', icon:'✋',
+     tooltip:'Ruta crítica 60–90 días. Si no empiezas hoy, operas ilegalmente al abrir.'},
+    {label:'Nave ≥900 m² con acceso vehicular y altura ≥5 m', auto:null, stateKey:'gng_nave', icon:'✋',
+     tooltip:'Confirmar portón ≥4.5 m, patio ≥200 m², altura libre ≥5 m, piso ≥5 t/m².'},
+    {label:'Forklift contrabalanceado 3 t cotizado (renta o compra)', auto:null, stateKey:'gng_forklift', icon:'✋',
+     tooltip:'Sin forklift, la capacidad colapsa a ~25 t/mes. Bloqueante desde el día 1.'},
+  ];
+  let pass=0,html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+  conds.forEach(c=>{const checked=c.auto!==null?c.auto:!!st[c.stateKey]; if(checked)pass++;
+    const bg=checked?'#e8f5ee':'#fbe9e7', bd=checked?'#2e8b57':'#c0392b', ic=checked?'✅':'❌';
+    const ctrl=c.auto===null?`<input type="checkbox" data-gng="${c.stateKey}" ${st[c.stateKey]?'checked':''} style="margin-right:6px;accent-color:var(--ok);width:16px;height:16px">`:`<span style="margin-right:6px">${c.icon}</span>`;
+    html+=`<label style="display:flex;align-items:flex-start;gap:6px;padding:9px 11px;background:${bg};border:1px solid ${bd};border-radius:8px;font-size:12px;cursor:${c.auto===null?'pointer':'default'}">
+      ${ctrl}<span><span style="font-size:14px">${ic}</span> <b>${c.label}</b>
+      <br><span style="font-size:10.5px;color:#6a7280">${c.icon} ${c.tooltip}</span></span></label>`;});
+  html+='</div>';
+  $('gonogoConds').innerHTML=html;
+  $('gonogoConds').querySelectorAll('[data-gng]').forEach(cb=>cb.addEventListener('change',e=>{st[e.target.dataset.gng]=e.target.checked;recompute();}));
+  const autoOk=conds.filter(c=>c.auto!==null).every(c=>c.auto);
+  const manualOk=conds.filter(c=>c.auto===null).every(c=>st[c.stateKey]);
+  let verdict,vc;
+  if(autoOk&&manualOk){vc='ok';verdict='🟢 <b>GO — Todas las condiciones cumplidas.</b> El modelo es viable y las condiciones operativas están confirmadas. Pueden firmar la nave.';}
+  else if(pass>=5){vc='warn';verdict=`🟡 <b>GO CONDICIONAL — ${pass}/${conds.length} condiciones cumplidas.</b> Resuelve los puntos rojos antes de firmar; son bloqueantes.`;}
+  else{vc='bad';verdict=`🔴 <b>NO-GO — ${conds.length-pass} condición(es) crítica(s) sin resolver.</b> No comprometer capital hasta cerrar los puntos rojos.`;}
+  $('gonogoVerdict').innerHTML=`<div class="cav ${vc}" style="font-size:13.5px">${verdict}</div>`;
+}
+
+/* ===================== CONTROLES ===================== */
+function markSeg(){[...scenSeg.children].forEach(b=>b.classList.toggle('active',b.dataset.k===st.scen));
+  [...opexSeg.children].forEach(b=>b.classList.toggle('active',b.dataset.k===st.opex));}
+const scenSeg=$('scenSeg'), opexSeg=$('opexSeg');
+function buildSegs(){
+  scenSeg.innerHTML='';opexSeg.innerHTML='';
+  // Nivel 2 — los escenarios predefinidos actualizan también el slider de volumen (Fix #2)
+  Object.entries(SCEN).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=`${v.label} · ${v.vol} t/mes`;b.dataset.k=k;
+    b.onclick=()=>{st.scen=k;st.opex=SCEN[k].opex;st.customVol=SCEN[k].vol;recompute();};scenSeg.appendChild(b);});
+  Object.entries(OPEXDEF).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.label;b.dataset.k=k;
+    b.onclick=()=>{st.opex=k;recompute();};opexSeg.appendChild(b);});
+}
+/* Fix #7 — presets de rampa (construido una vez) */
+function buildRampPresets(){
+  const box=$('rampPresets'); if(!box)return;
+  const labels={opt:'Optimista (50/75/90/100)',base:'Base (30/55/80/100)',cons:'Conservador (20/40/70/90)'};
+  box.innerHTML=Object.keys(RAMP_PRESETS).map(k=>`<button data-rp="${k}">${labels[k]}</button>`).join('');
+  box.querySelectorAll('[data-rp]').forEach(b=>b.addEventListener('click',()=>{
+    Object.assign(st.ramp,RAMP_PRESETS[b.dataset.rp]); buildEditable(); recompute();}));
+}
+function syncSliders(){cap.value=st.cap;sa.value=st.sa;ba.value=st.ba;fo.value=st.fo;vt.value=st.vt;lg.value=st.lg;
+  if($('sl'))$('sl').value=st.supplierLag; if($('sm'))$('sm').value=st.setupMonths;
+  if($('alexPrepay'))$('alexPrepay').value=st.alexPrepayPct;
+  if($('stressMonthsInput'))$('stressMonthsInput').value=(st.stressMonths||[]).join(',');
+  if($('stressLagSel'))$('stressLagSel').value=st.stressExtraLag;}
+[['cap','cap'],['sa','sa'],['ba','ba'],['fo','fo'],['vt','vt'],['lg','lg'],
+ ['sl','supplierLag'],['sm','setupMonths'],['alexPrepay','alexPrepayPct']].forEach(([id,key])=>{
+  const el=$(id); if(el)el.addEventListener('input',e=>{st[key]=parseFloat(e.target.value);recompute();});});
+// Fix #2 — slider de volumen libre
+if($('volSlider'))$('volSlider').addEventListener('input',e=>{st.customVol=parseFloat(e.target.value);$('volSliderV').textContent=st.customVol;recompute();});
+// Fix #4 — estrés de cobro
+if($('stressMonthsInput'))$('stressMonthsInput').addEventListener('input',e=>{
+  st.stressMonths=e.target.value.split(',').map(x=>parseInt(x.trim())).filter(n=>!isNaN(n)&&n>=1&&n<=12);recompute();});
+if($('stressLagSel'))$('stressLagSel').addEventListener('change',e=>{st.stressExtraLag=parseInt(e.target.value)||0;recompute();});
+$('resetBtn').addEventListener('click',()=>{ if(confirm('¿Restablecer todos los valores por defecto? Se perderán tus cambios.')){localStorage.removeItem(KEY);location.reload();}});
+
+/* ===================== INIT ===================== */
+/* ---------- EXPORTAR / IMPORTAR CONFIG (JSON) ---------- */
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify({MAT,OPEXDEF,SCEN,st},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='plashub-plan-config.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+});
+document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f)return; const rd=new FileReader();
+  rd.onload=()=>{try{const s=JSON.parse(rd.result);
+    if(s.MAT)MAT=s.MAT; if(s.OPEXDEF)OPEXDEF=s.OPEXDEF; if(s.SCEN)SCEN=s.SCEN; if(s.st)Object.assign(st,s.st);
+    syncSliders(); buildSegs(); buildEditable(); buildPartnerEditor(); buildRampPresets(); recompute();
+    alert('Configuración importada correctamente.');
+  }catch(err){alert('Archivo inválido: '+err.message);}};
+  rd.readAsText(f); e.target.value='';
+});
+
+/* ---------- INIT ---------- */
+loadState(); syncSliders(); buildSegs(); buildEditable(); buildPartnerEditor(); buildRampPresets(); recompute();
+</script>
+
+<!-- ===== ETAPA 2 (módulo aislado) ===== -->
+<script>
+(function(){
+  const KEY='plashub_plan_e2_v1', clone=o=>JSON.parse(JSON.stringify(o));
+  const DEF={launch:8,H:24,lag:1, vol1:100,contrib1:112,opex1:9225,capex1:27000, _overrideContrib1:false,
+    vol2:400,ramp2:4,merma:18,sell2:600,buy2:150,
+    procVar:[['Energía',60],['Agua + insumos',25],['Mano de obra var.',40],['Otros (empaque/merma)',25]],
+    capexItems:[['Trituradora / shredder',35000],['Línea de lavado (fricción/flotación)',60000],['Secado (centrífuga + secador)',25000],['Peletizadora / extrusora',70000],['Silos, tolvas y transportadores',20000],['Obra civil + adecuación de nave',30000],['Instalación eléctrica trifásica',15000],['PTAR (tratamiento de agua)',20000],['Tablero de control / automatización',8000],['Montacarga adicional + equipos',12000],['Ingeniería + EIA + puesta en marcha',15000]],
+    opexItems:[['Renta nave (~1,800 m²)',9000],['Energía eléctrica (proceso)',6000],['Agua + operación PTAR',1500],['Operarios de planta (×8, 2 turnos)',6000],['Jefe de planta / producción',1500],['Supervisores de turno (×2)',1800],['QA / laboratorio',1200],['Mantenimiento de líneas',2000],['Seguridad / vigilancia',1200],['Administración / contabilidad',800],['EPP / consumibles',600],['Contingencia 5%',1560]]};
+  let s; try{s=Object.assign(clone(DEF),JSON.parse(localStorage.getItem(KEY))||{});}catch(e){s=clone(DEF);}
+  if(!Array.isArray(s.capexItems))s.capexItems=clone(DEF.capexItems);
+  if(!Array.isArray(s.opexItems))s.opexItems=clone(DEF.opexItems);
+  if(!Array.isArray(s.procVar))s.procVar=clone(DEF.procVar);
+  const sumCapex=()=>s.capexItems.reduce((a,b)=>a+(+b[1]||0),0);
+  const sumOpex=()=>s.opexItems.reduce((a,b)=>a+(+b[1]||0),0);
+  const sumProcVar=()=>s.procVar.reduce((a,b)=>a+(+b[1]||0),0);
+  const $=id=>document.getElementById(id);
+  const mK=n=>{const a=Math.abs(n),g=n<0?'-':'';return '≈'+g+'$'+(a>=1e6?(Math.round(a/1e5)/10)+'M':a>=1e4?Math.round(a/1e3)+'K':a>=1e3?(Math.round(a/100)/10)+'K':String(Math.round(a/10)*10));};
+  function saveE2(){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+  function run(L){
+    const H=s.H, rev=[],cost=[],opex=[],capx=[],eb=[]; const OP=sumOpex(), CX=sumCapex(), PV=sumProcVar();
+    for(let m=1;m<=H;m++){
+      if(m<L){const v=s.vol1; rev.push(v*(s.contrib1+0)); cost.push(0); opex.push(s.opex1); capx.push(m===1?s.capex1:0); eb.push(v*s.contrib1-s.opex1);}
+      else{const f=Math.max(0,Math.min(1,(m-L+1)/Math.max(1,s.ramp2))); const v=s.vol1+(s.vol2-s.vol1)*f;
+        const sellable=v*(1-s.merma/100); const r=sellable*s.sell2, c=v*(s.buy2+PV);
+        rev.push(r); cost.push(c); opex.push(OP); capx.push(m===L?CX:0); eb.push(r-c-OP);}
+    }
+    // caja: para E1 usamos EBITDA directo (contribución ya neta); para E2 con desfase de cobro
+    const bank=[]; let bk=0,trough=0,troughM=0,recM=null;
+    for(let m=1;m<=H;m++){
+      let net;
+      if(m<L){ net=eb[m-1]-capx[m-1]; }
+      else { const cin=(m-s.lag>=1 && (m-s.lag)>=L)?rev[m-1-s.lag]:(m-s.lag>=1?rev[m-1-s.lag]:0); net=cin-cost[m-1]-opex[m-1]-capx[m-1]; }
+      bk+=net; bank.push(bk); if(bk<trough){trough=bk;troughM=m;}
+    }
+    for(let m=troughM;m<H;m++){if(bank[m]>=0){recM=m+1;break;}}
+    return {rev,cost,opex,capx,eb,bank,trough,troughM,recM,cumEb:eb.reduce((a,b)=>a+b,0),ebSteady:eb[H-1],cashEnd:bank[H-1],capitalReq:-Math.min(0,trough)};
+  }
+  function recompute(){
+    // Fix #11 — sincronizar margen E1 → E2 (a menos que el usuario lo haya sobreescrito manualmente)
+    if(window._plashubE1Margin!=null && !s._overrideContrib1){
+      s.contrib1=Math.round(window._plashubE1Margin);
+      const el=$('e2_contrib1'); if(el && document.activeElement!==el) el.value=s.contrib1;
+    }
+    const L=s.launch, R=run(L);
+    const e2margin=s.sell2*(1-s.merma/100)-s.buy2-sumProcVar();
+    $('e2_kpiCards').innerHTML=[
+      ['EBITDA Etapa 2 (estable)',mK(R.ebSteady)+'/mes',`margen $${Math.round(e2margin)}/t · vol ${s.vol2} t`,R.ebSteady>0?'good':'bad'],
+      ['Capital total requerido',mK(R.capitalReq),`pozo @ M${R.troughM}`,'warn'],
+      ['Caja vuelve a 0',R.recM?('M'+R.recM):'> M'+s.H,'recuperación',R.recM?'good':'bad'],
+      ['Caja acumulada M'+s.H,mK(R.cashEnd),`EBITDA acum. ${mK(R.cumEb)}`,R.cashEnd>0?'good':'bad'],
+    ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
+    let vc='good',vt='';
+    if(e2margin<=0){vc='bad';vt=`⛔ Margen de procesamiento negativo a $${s.sell2}/t con ${s.merma}% merma y costos $${s.buy2} (MP) + $${sumProcVar()}/t (proceso). Revisa precio o costos.`;}
+    else if(R.cashEnd>0&&R.recM){vc='good';vt=`✅ Lanzando en el <b>mes ${L}</b>: capital requerido <b>${mK(R.capitalReq)}</b> (M${R.troughM}), la caja vuelve a positivo en <b>M${R.recM}</b> y cierra en <b>${mK(R.cashEnd)}</b>. Procesamiento ≈<b>${mK(R.ebSteady)}/mes</b> (vs ~$2K/mes de Etapa 1).`;}
+    else {vc='warn';vt=`⚠ Mes ${L}: requiere <b>${mK(R.capitalReq)}</b> y la caja ${R.recM?('se recupera en M'+R.recM):('no se recupera en '+s.H+' meses')}.`;}
+    $('e2_verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`;
+    charts(R,L);
+    const Ls=[4,6,8,12].filter(x=>x<=s.H);
+    $('e2_cmpTable').querySelector('thead').innerHTML='<tr><th>Lanzar en</th><th class="num">Capital req.</th><th class="num">Caja vuelve a 0</th><th class="num">EBITDA acum '+s.H+'m</th><th class="num">Caja M'+s.H+'</th></tr>';
+    $('e2_cmpTable').querySelector('tbody').innerHTML=Ls.map(x=>{const r=run(x);return `<tr${x===L?' style="background:#fff3e6"':''}><td><b>Mes ${x}</b></td><td class="num">${mK(r.capitalReq)}</td><td class="num">${r.recM?('M'+r.recM):'—'}</td><td class="num ${r.cumEb>=0?'pos':'neg'}">${mK(r.cumEb)}</td><td class="num ${r.cashEnd>=0?'pos':'neg'}">${mK(r.cashEnd)}</td></tr>`;}).join('');
+    [...$('e2_launchSeg').children].forEach(b=>b.classList.toggle('active',+b.dataset.l===s.launch));
+    $('e2_capTot').textContent='$'+sumCapex().toLocaleString();
+    $('e2_opTot').textContent='$'+sumOpex().toLocaleString();
+    $('e2_procTot').textContent='$'+sumProcVar();
+    saveE2();
+  }
+  function buildProcVar(){
+    $('e2_procVar').innerHTML=s.procVar.map((r,i)=>`<label>${r[0]} ($/t) <input class="ed" type="number" step="5" value="${r[1]}" data-pv="${i}"></label>`).join('');
+    $('e2_procVar').querySelectorAll('.ed').forEach(el=>el.addEventListener('input',e=>{const v=parseFloat(e.target.value);s.procVar[+e.target.dataset.pv][1]=isNaN(v)?0:v;recompute();}));
+  }
+  // tablas itemizadas CAPEX/OPEX Etapa 2
+  const txtIn=(v,at)=>`<input class="ed edtxt" type="text" value="${String(v).replace(/"/g,'&quot;')}" style="width:100%;text-align:left" ${at}>`;
+  const numIn2=(v,at)=>`<input class="ed" type="number" step="1000" value="${v}" ${at}>`;
+  function buildE2Tables(){
+    $('e2_capexTable').querySelector('tbody').innerHTML=s.capexItems.map((r,i)=>`<tr><td>${txtIn(r[0],`data-cap="${i}" data-f="l"`)} <button class="del" title="Eliminar" onclick="window.e2delCap(${i})">🗑</button></td><td class="num">${numIn2(r[1],`data-cap="${i}" data-f="a"`)}</td></tr>`).join('');
+    $('e2_capexTable').querySelector('tfoot').innerHTML=`<tr><td colspan="2"><button class="addbtn" onclick="window.e2addCap()">+ Añadir línea CAPEX</button></td></tr><tr style="font-weight:700;background:#eef1f4"><td>Total CAPEX Etapa 2</td><td class="num" id="e2_capTot"></td></tr>`;
+    $('e2_opexTable').querySelector('tbody').innerHTML=s.opexItems.map((r,i)=>`<tr><td>${txtIn(r[0],`data-op="${i}" data-f="l"`)} <button class="del" title="Eliminar" onclick="window.e2delOp(${i})">🗑</button></td><td class="num">${numIn2(r[1],`data-op="${i}" data-f="a"`)}</td></tr>`).join('');
+    $('e2_opexTable').querySelector('tfoot').innerHTML=`<tr><td colspan="2"><button class="addbtn" onclick="window.e2addOp()">+ Añadir línea OPEX</button></td></tr><tr style="font-weight:700;background:#eef1f4"><td>Total OPEX Etapa 2 / mes</td><td class="num" id="e2_opTot"></td></tr>`;
+    $('e2_capexTable').querySelectorAll('.ed').forEach(el=>el.addEventListener('input',e=>{const i=+e.target.dataset.cap,f=e.target.dataset.f;if(f==='l')s.capexItems[i][0]=e.target.value;else{const v=parseFloat(e.target.value);s.capexItems[i][1]=isNaN(v)?0:v;}recompute();}));
+    $('e2_opexTable').querySelectorAll('.ed').forEach(el=>el.addEventListener('input',e=>{const i=+e.target.dataset.op,f=e.target.dataset.f;if(f==='l')s.opexItems[i][0]=e.target.value;else{const v=parseFloat(e.target.value);s.opexItems[i][1]=isNaN(v)?0:v;}recompute();}));
+  }
+  window.e2addCap=()=>{s.capexItems.push(['Nueva línea',0]);buildE2Tables();recompute();};
+  window.e2delCap=i=>{s.capexItems.splice(i,1);buildE2Tables();recompute();};
+  window.e2addOp=()=>{s.opexItems.push(['Nueva línea',0]);buildE2Tables();recompute();};
+  window.e2delOp=i=>{s.opexItems.splice(i,1);buildE2Tables();recompute();};
+  function charts(R,L){
+    const W=560,H=240,pad=46,n=s.H, mn=Math.min(0,...R.bank),mx=Math.max(0,...R.bank);
+    const X=i=>pad+(W-pad-14)*(i/(n-1)),Y=v=>H-26-(H-26-14)*((v-mn)/((mx-mn)||1));
+    let g=`<line x1="${pad}" y1="${Y(0)}" x2="${W-14}" y2="${Y(0)}" stroke="#c0392b" stroke-dasharray="4,3"/>`;
+    const lx=X(L-1); g+=`<line x1="${lx}" y1="14" x2="${lx}" y2="${H-26}" stroke="#6b5b95" stroke-dasharray="3,3"/><text x="${lx}" y="12" font-size="9" fill="#6b5b95" text-anchor="middle">Lanzar E2 (M${L})</text>`;
+    g+=`<polyline points="${R.bank.map((v,i)=>X(i)+','+Y(v)).join(' ')}" fill="none" stroke="#DF6901" stroke-width="2.4"/>`;
+    R.bank.forEach((v,i)=>{if(i%2===0||i===L-1)g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="2.4" fill="${v<0?'#c0392b':'#DF6901'}"/>`;});
+    for(let i=0;i<n;i+=3)g+=`<text x="${X(i)}" y="${H-12}" font-size="8.5" fill="#7a828c" text-anchor="middle">M${i+1}</text>`;
+    g+=`<text x="${pad}" y="${Y(mx)-2}" font-size="9" fill="#7a828c">${mK(mx)}</text><text x="${pad}" y="${Y(mn)+10}" font-size="9" fill="#7a828c">${mK(mn)}</text>`;
+    $('e2_cashChart').innerHTML=g;
+    let g2='';const mxE=Math.max(...R.eb.map(Math.abs),1),bw=(W-pad-14)/n*0.7,Y2=v=>H/2-(H/2-22)*(v/mxE);
+    g2+=`<line x1="${pad}" y1="${H/2}" x2="${W-14}" y2="${H/2}" stroke="#9aa3ad"/>`;
+    const lx2=pad+(W-pad-14)*((L-1)/(n-1)); g2+=`<line x1="${lx2}" y1="14" x2="${lx2}" y2="${H-20}" stroke="#6b5b95" stroke-dasharray="3,3"/>`;
+    R.eb.forEach((e,i)=>{const x=pad+(W-pad-14)*((i+0.4)/n)-bw/2,y=e>=0?Y2(e):H/2;g2+=`<rect x="${x}" y="${y}" width="${bw}" height="${Math.abs(H/2-Y2(e))}" fill="${e>=0?'#2e8b57':'#c0392b'}" rx="1"/>`;});
+    g2+=`<text x="${pad}" y="14" font-size="9" fill="#7a828c">+${mK(mxE)}</text><text x="${pad}" y="${H-22}" font-size="9" fill="#7a828c">-${mK(mxE)}</text>`;
+    $('e2_ebChart').innerHTML=g2;
+  }
+  // controles
+  const seg=$('e2_launchSeg');[4,6,8,12].forEach(x=>{const b=document.createElement('button');b.className='';b.textContent='Mes '+x;b.dataset.l=x;b.style.cssText='border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 16px;cursor:pointer;font-size:13px;font-weight:600;margin-right:6px;';b.onclick=()=>{s.launch=x;$('e2_launch').value=x;recompute();};seg.appendChild(b);});
+  const FE=['launch','H','lag','vol1','contrib1','opex1','vol2','ramp2','merma','sell2','buy2'];
+  FE.forEach(f=>{const el=$('e2_'+f);if(!el)return;el.value=s[f];el.addEventListener('input',e=>{const v=parseFloat(e.target.value);s[f]=isNaN(v)?0:v;
+    if(f==='contrib1')s._overrideContrib1=true;   // Fix #11 — edición manual desactiva la sincronización automática
+    recompute();});});
+  // Fix #11 — botón "Sync E1": vuelve a tomar margen y OPEX del modelo E1 actual
+  window.e2SyncE1=()=>{ if(window._plashubE1Margin!=null){ s.contrib1=Math.round(window._plashubE1Margin); s.opex1=Math.round(window._plashubE1Opex||s.opex1);
+    s._overrideContrib1=false; if($('e2_contrib1'))$('e2_contrib1').value=s.contrib1; if($('e2_opex1'))$('e2_opex1').value=s.opex1; recompute(); } };
+  seg.className='seg';
+  buildE2Tables(); buildProcVar(); recompute();
+})();
+</script>
+</body>
+</html>

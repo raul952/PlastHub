@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — App (Etapa 1 + Etapa 2)</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--muted:#CACEDA;--line:#3a4048;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#0f1216;}
+  .app{display:flex;flex-direction:column;height:100vh;}
+  .bar{background:var(--dark);color:#fff;display:flex;align-items:center;gap:14px;padding:0 16px;height:54px;flex:0 0 auto;border-bottom:1px solid #000;}
+  .bar .logo{width:30px;height:30px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 auto;}
+  .bar .brand{font-weight:700;font-size:15px;white-space:nowrap;}
+  .bar a.home{color:var(--muted);text-decoration:none;font-size:13px;margin-left:auto;white-space:nowrap;}
+  .bar a.home:hover{color:#fff;}
+  .tabs{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+  .grp{display:flex;align-items:center;gap:4px;padding-left:8px;}
+  .grp .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-right:2px;}
+  .tab{background:transparent;color:#cfd5df;border:1px solid #3a4048;border-radius:20px;padding:7px 14px;cursor:pointer;font-size:12.5px;font-weight:600;white-space:nowrap;}
+  .tab:hover{border-color:var(--orange);color:#fff;}
+  .tab.active{background:var(--orange);color:#fff;border-color:var(--orange);}
+  .stage2 .tab{border-color:#2c5e68;}
+  .frames{flex:1 1 auto;position:relative;background:#fff;}
+  .frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#fff;}
+  .frames iframe.active{display:block;}
+  .loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a9099;font-size:14px;background:#fbfbfc;}
+  @media(max-width:760px){.bar{height:auto;flex-wrap:wrap;padding:8px 12px;gap:8px;}.bar .brand{font-size:13px;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar">
+    <span class="logo">P</span>
+    <span class="brand">PlasHub · App</span>
+    <div class="tabs">
+      <button class="tab" data-tab="d1">🏭 Etapa 1 · Distribución del Almacén</button>
+      <button class="tab" data-tab="d2">🏗️ Etapa 2 · Distribución de Planta</button>
+      <button class="tab" data-tab="pn">📊 Plan de Negocio (E1 + E2)</button>
+      <button class="tab" data-tab="tp">✅ Tareas &amp; Permisos</button>
+    </div>
+    <a class="home" href="manual.html" target="_blank" style="margin-left:auto">📘 Manual</a>
+    <a class="home" href="index.html" style="margin-left:14px">⌂ Inicio</a>
+  </div>
+  <div class="frames" id="frames">
+    <div class="loading" id="loading">Cargando módulo…</div>
+  </div>
+</div>
+<script>
+  const TABS={
+    d1:{src:'plashub-distribucion.html',title:'Etapa 1 · Distribución y Capacidad del Almacén'},
+    d2:{src:'plashub-distribucion-e2.html',title:'Etapa 2 · Distribución y Capacidad de Planta'},
+    pn:{src:'plashub-plan-negocio.html',title:'Plan de Negocio (Etapa 1 + 2)'},
+    tp:{src:'plashub-tareas.html',title:'Tareas y Permisos (lista maestra)'},
+  };
+  const frames=document.getElementById('frames'), loading=document.getElementById('loading');
+  const iframes={};
+  function show(tab){
+    if(!TABS[tab]) tab='d1';
+    document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+    // crear iframe si no existe (lazy)
+    if(!iframes[tab]){
+      const f=document.createElement('iframe');
+      f.src=TABS[tab].src; f.title=TABS[tab].title; f.loading='eager';
+      frames.appendChild(f); iframes[tab]=f;
+      f.addEventListener('load',()=>{loading.style.display='none';});
+    }
+    Object.entries(iframes).forEach(([k,f])=>f.classList.toggle('active',k===tab));
+    loading.style.display = iframes[tab].classList.contains('active') ? 'none':'flex';
+    if(location.hash.slice(1)!==tab) history.replaceState(null,'','#'+tab);
+    document.title='PlasHub — '+TABS[tab].title;
+  }
+  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+  window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+  show(location.hash.slice(1)||'d1');
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PlasHub — Conceptos Útiles (Guía del Consultor)</title>
+<style>
+  :root{--dark:#252A31;--orange:#DF6901;--teal:#15616D;--light:#F2F2F2;--muted:#CACEDA;--ink:#1c2127;--line:#e2e5ea;--ok:#2e8b57;--warn:#c9820b;--bad:#c0392b;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--light);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;}
+  a{color:#41617a;}
+  .topnav{background:var(--dark);color:#fff;padding:11px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10;}
+  .topnav .logo{width:30px;height:30px;border-radius:8px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-weight:800;}
+  .topnav a{color:var(--muted);text-decoration:none;font-size:13px;}
+  .topnav a:hover{color:#fff;}
+  .topnav .sp{flex:1;}
+  .hero{background:linear-gradient(135deg,#252A31,#15616D);color:#fff;padding:34px 24px;}
+  .hero-in{max-width:1080px;margin:0 auto;}
+  .hero h1{margin:0;font-size:25px;}
+  .hero p{margin:10px 0 0;color:#eaf0f1;max-width:780px;font-size:14.5px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:24px;}
+  .toc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:22px;}
+  .toc b{color:var(--dark);font-size:13px;text-transform:uppercase;letter-spacing:.4px;}
+  .toc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 16px;margin-top:8px;}
+  .toc-grid a{font-size:13px;text-decoration:none;color:#41484f;padding:3px 0;}
+  .toc-grid a:hover{color:var(--orange);}
+  .sec{margin:34px 0 14px;border-left:4px solid var(--orange);padding-left:12px;}
+  .sec h2{margin:0;font-size:20px;color:var(--dark);}
+  .sec .s{font-size:13px;color:#6a7280;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .c{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 18px;}
+  .c h3{margin:0 0 6px;font-size:15px;color:var(--teal);}
+  .c p{margin:6px 0;font-size:13px;}
+  .c .ph{display:inline-block;background:#eef1f4;border-radius:6px;padding:2px 8px;font-size:11.5px;color:#41484f;margin:2px 4px 2px 0;font-variant-numeric:tabular-nums;}
+  .c .ph b{color:var(--teal);}
+  .why{background:#fff8ef;border:1px solid #f0d9a8;border-radius:11px;padding:16px 18px;margin:14px 0;}
+  .why h3{margin:0 0 4px;font-size:15px;color:#9a5a05;}
+  .why p{margin:6px 0;font-size:13px;}
+  .formula{background:#f4f6f8;border:1px dashed #c7ccd4;border-radius:7px;padding:7px 10px;font-size:12.5px;font-variant-numeric:tabular-nums;margin:6px 0;color:#2a2f36;}
+  .tag{font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:20px;}
+  .tag.fin{background:#e7eef5;color:#2c5577;} .tag.est{background:#f0e6d9;color:#9a6310;} .tag.ope{background:#d9ede6;color:#0f4c57;}
+  footer{max-width:1080px;margin:0 auto;padding:10px 24px 50px;color:#8a9099;font-size:11.5px;}
+  @media(max-width:860px){.grid,.toc-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <span class="logo">P</span><b style="font-size:14px">PlasHub</b>
+  <span class="sp"></span>
+  <a href="index.html">← Inicio</a><a href="audit.html">Audit del proyecto</a>
+</div>
+<div class="hero"><div class="hero-in">
+  <h1>Conceptos Útiles — Guía del Consultor</h1>
+  <p>Los conceptos de <b>finanzas, negocio y operaciones</b> que necesitas para entender, decidir y ejecutar PlasHub — con las cifras reales del proyecto y, sobre todo, <b>el porqué</b> de cada decisión y supuesto estratégico. Pensado para que un no-financiero pueda defender el modelo frente a un inversor o un banco.</p>
+</div></div>
+<div class="wrap">
+
+  <div class="toc">
+    <b>Contenido</b>
+    <div class="toc-grid">
+      <a href="#fin">1 · Finanzas</a><a href="#est">2 · Estrategia y negocio</a><a href="#ope">3 · Operaciones</a><a href="#why">4 · El porqué de las decisiones</a>
+    </div>
+  </div>
+
+  <!-- ================= FINANZAS ================= -->
+  <div class="sec" id="fin"><h2>1 · Finanzas <span class="tag fin">finanzas</span></h2><div class="s">Cómo se gana (o se pierde) dinero, y por qué la caja manda sobre la utilidad.</div></div>
+  <div class="grid">
+    <div class="c"><h3>Unit economics ($/tonelada)</h3>
+      <p>Todo el negocio se piensa <b>por tonelada</b>, porque es la unidad que compras, almacenas y vendes. Si una tonelada no deja dinero después de TODOS los costos, escalar solo multiplica la pérdida.</p>
+      <span class="ph">Compra pond. <b>$132/t</b></span><span class="ph">Venta pond. <b>$259/t</b></span><span class="ph">Contribución neta <b>≈$112/t</b></span></div>
+    <div class="c"><h3>Margen bruto vs. contribución vs. neto</h3>
+      <p><b>Bruto</b> = venta − compra (≈$127/t, 49%). <b>Contribución</b> = bruto − costo variable (flete) ≈$112/t — lo que cada tonelada aporta a pagar los costos fijos. <b>Neto</b> = lo que queda tras OPEX fijo; en el caso Base es <b>delgado (~$20/t)</b>.</p>
+      <p>Lección: un 49% bruto suena genial, pero el OPEX fijo se come casi todo a 80–100 t/mes.</p></div>
+    <div class="c"><h3>EBITDA</h3>
+      <p>Utilidad operativa antes de intereses, impuestos, depreciación y amortización. Aproxima la <b>caja que genera la operación</b> en sí. En PlasHub Base ≈ <b>+$2K/mes</b> estable; es el número que mira un inversor para ver si el negocio "respira".</p></div>
+    <div class="c"><h3>Punto de equilibrio y apalancamiento operativo</h3>
+      <p>Volumen donde la contribución total cubre el OPEX fijo.</p>
+      <div class="formula">Equilibrio = OPEX fijo ÷ contribución/t = $9,200 ÷ $112 ≈ <b>82 t/mes</b></div>
+      <p>Como el OPEX es mayormente fijo, hay <b>alto apalancamiento operativo</b>: por debajo de 82 t pierdes fuerte; por encima, cada tonelada extra es casi pura utilidad. Por eso el volumen de Alex es existencial.</p></div>
+    <div class="c"><h3>CAPEX vs. OPEX</h3>
+      <p><b>CAPEX</b> = inversión única para arrancar (garantía, báscula, permisos) ≈$21K. <b>OPEX</b> = gasto recurrente mensual (renta, sueldos) ≈$9.2K. Regla de oro de Etapa 1: <b>convertir CAPEX en OPEX</b> donde se pueda (alquilar el montacarga en vez de comprarlo) para preservar caja.</p></div>
+    <div class="c" style="border-color:#f0c2bb;background:#fffafa"><h3>⭐ Capital de trabajo y ciclo de caja (CCC)</h3>
+      <p>El concepto <b>más importante y peor entendido</b>. Pagas a los proveedores <b>contra entrega</b>, pero cobras al cliente <b>30–45 días después</b>. Ese desfase consume caja aunque el P&amp;L sea positivo.</p>
+      <div class="formula">CCC = días inventario + días por cobrar − días por pagar</div>
+      <p>En PlasHub el banco cae a un <b>pozo de ~−$26K hacia el M4</b> en el caso Base rentable. <b>Esta es la verdadera necesidad de financiamiento</b>, no el CAPEX.</p></div>
+    <div class="c"><h3>Payback, ROI, VPN e IRR</h3>
+      <p><b>Payback</b> = meses para recuperar la inversión (CAPEX). <b>ROI</b> = utilidad/inversión (Base ~69%/año). <b>VPN</b> descuenta flujos futuros a hoy; <b>IRR</b> es la tasa que hace VPN=0. Para un piloto barato y corto, payback y ROI bastan; para Etapa 2 (CAPEX grande) usa VPN/IRR.</p></div>
+    <div class="c"><h3>Sensibilidad y escenarios</h3>
+      <p>Nunca un solo número. Modelamos <b>Conservador / Base / Optimista</b> y estresamos precios ±%. Sirve para responder "¿qué pasa si Alex entrega la mitad?" <i>antes</i> de que pase. El conservador (40 t) es <b>deficitario</b> — eso es información, no pesimismo.</p></div>
+    <div class="c"><h3>IGV y régimen RMT</h3>
+      <p>El IGV (18%) de tus compras es <b>crédito fiscal</b> recuperable si operas formalmente — una ventaja del Modelo A. Con ventas año-1 sobre el límite del RER, el <b>Régimen MYPE Tributario (RMT)</b> es obligatorio; hay que migrar <b>antes</b> de la primera venta.</p></div>
+  </div>
+
+  <!-- ================= ESTRATEGIA ================= -->
+  <div class="sec" id="est"><h2>2 · Estrategia y negocio <span class="tag est">estrategia</span></h2><div class="s">Dónde está el valor, quién lo captura y qué riesgos lo amenazan.</div></div>
+  <div class="grid">
+    <div class="c"><h3>La propuesta: arbitraje de consolidación</h3>
+      <p>PlasHub no "fabrica" nada; captura el <b>spread</b> entre un mercado fragmentado de oferta (muchos proveedores chicos, baratos, irregulares) y un comprador que paga más por <b>volumen consolidado, con calidad y trazabilidad</b>. El margen es el pago por resolver caos logístico.</p></div>
+    <div class="c" style="border-color:#f0c2bb;background:#fffafa"><h3>⭐ Cliente ancla y riesgo de concentración</h3>
+      <p>Alex es a la vez <b>proveedor, cliente, socio y sponsor</b>. Es lo que hace viable el piloto… y también su mayor riesgo: sin diversificación, no es un negocio independiente sino una extensión de Alex. Un inversor descuenta fuerte la concentración. <b>Mitigación:</b> compromiso escrito de volumen + 1–2 clientes adicionales como condición de Gate.</p></div>
+    <div class="c"><h3>Integración vertical</h3>
+      <p>Alex sube un eslabón en su cadena (de comprar a tener su propio "pulmón" físico). Gana control de calidad y disponibilidad; PlasHub gana un ancla. La pregunta estratégica: ¿es un activo estratégico o solo terceriza un dolor de cabeza? La respuesta define cuánto vale.</p></div>
+    <div class="c"><h3>Modelo A (compra-vende) vs. Modelo B (fee/ton)</h3>
+      <p><b>A:</b> PlasHub compra y vende, captura el margen completo (~$118/t) pero asume capital de trabajo y riesgo de precio. <b>B:</b> cobra un fee por consolidar ($15–35/t), bajo riesgo pero <b>no cubre el OPEX</b>. Se eligió <b>A</b> porque B no es viable en Etapa 1 y A es financiable/escalable.</p></div>
+    <div class="c"><h3>Precio de transferencia (partes vinculadas)</h3>
+      <p>Como Alex vende a PlasHub y PlasHub le vende a clientes de Alex, SUNAT puede <b>ajustar precios entre partes vinculadas</b>. Hay que documentar <b>precio de mercado verificable</b> con facturas. Un precio "artificial" para mover utilidad es un riesgo fiscal serio.</p></div>
+    <div class="c"><h3>Stage-gate y opciones reales</h3>
+      <p>No construyes la planta grande de una. Inviertes <b>poco</b> en Etapa 1 para <b>comprar información</b> (¿el margen y el volumen son reales?). Si lo son, ejerces la "opción" de Etapa 2 (procesamiento). Etapa 1 vale como <b>opción sobre Etapa 2</b>, no por su margen propio.</p></div>
+    <div class="c"><h3>MOU y contrato de volumen</h3>
+      <p>Un MOU formaliza el compromiso mínimo de toneladas. Sin él, el modelo financiero es una hoja de cálculo sin sustento. Es la diferencia entre "creemos que Alex traerá 100 t" y "Alex se comprometió a ≥82 t/mes por 12 meses".</p></div>
+    <div class="c"><h3>Pacto de socios y gobernanza</h3>
+      <p>Define <b>equity (Alex 60 / Raúl 40)</b>, quién decide qué, política de dividendos (no repartir hasta recuperar CAPEX) y precio de transferencia. Firmar <b>antes</b> de operar evita el conflicto más común: socios peleando por dinero que aún no existe.</p></div>
+  </div>
+
+  <!-- ================= OPERACIONES ================= -->
+  <div class="sec" id="ope"><h2>3 · Operaciones <span class="tag ope">operaciones</span></h2><div class="s">Cómo fluye el material y qué realmente limita la capacidad.</div></div>
+  <div class="grid">
+    <div class="c"><h3>Consolidación y el contenedor de 40′</h3>
+      <p>La unidad económica de salida es <b>un contenedor lleno (~20 t de un mismo material)</b>. Despachar a medias es ineficiente. Por eso el almacén acumula hasta llegar a 20 t antes de disparar el despacho.</p></div>
+    <div class="c"><h3>Throughput vs. buffer (inventario)</h3>
+      <p><b>Throughput</b> = toneladas que <i>fluyen</i> por mes. <b>Buffer</b> = toneladas <i>almacenadas</i> en un momento. Más almacén ≠ más throughput: el almacén solo amortigua el desfase entre recepción y despacho.</p></div>
+    <div class="c" style="border-color:#f0c2bb;background:#fffafa"><h3>⭐ La restricción (cuello de botella)</h3>
+      <p>Teoría de restricciones: el sistema lo limita <b>un</b> recurso. En PlasHub, a ≥400 m² la restricción <b>no es el espacio</b> sino el <b>manejo</b> (1 montacarga × 1 turno ≈ 528 t/mes). Invertir donde no está la restricción (más m²) no sube la capacidad. Para más throughput: 2.º montacarga / turno.</p></div>
+    <div class="c"><h3>Densidad de almacenamiento y apilado</h3>
+      <p>Bolsones de 1 t apilados <b>2 alto</b> ≈ 1.4 t/m²; con racking 3 alto, más. El piso debe aguantar ≥5 t/m². La densidad fija cuánta tonelada cabe — y por eso una transpaleta (que no apila) <b>rompe el modelo</b>.</p></div>
+    <div class="c"><h3>Días de inventario y rotación</h3>
+      <p>Días de inventario = stock ÷ recepción semanal. Objetivo &lt;30 días. Material parado &gt;45 días = capital muerto y riesgo de precio; se liquida bajando el precio. La rotación rápida es lo que hace eficiente al capital de trabajo.</p></div>
+    <div class="c"><h3>Calidad: rechazo y trazabilidad</h3>
+      <p>Tasa de rechazo objetivo &lt;10% (Etapa 1). La <b>trazabilidad por lote</b> (libro EC-RS + báscula) y la <b>ficha técnica</b> son lo que permite vender a clientes exigentes y cobrar el premium. Sin consistencia no hay relación de largo plazo.</p></div>
+    <div class="c"><h3>Layout: flujo y seguridad</h3>
+      <p>Principios: <b>flujo unidireccional</b>, ingreso y salida que <b>no se cruzan</b>, pasillos ≥3.5 m, corredor peatonal separado, sin esquinas ciegas. Un buen layout reduce accidentes y tiempos muertos del montacarga (que es la restricción).</p></div>
+    <div class="c"><h3>Cumplimiento (la ruta crítica real)</h3>
+      <p><b>EC-RS</b> (MINAM/SIGERSOL): habilita comercializar residuos — 60–90 días, <b>bloqueante</b>. <b>INDECI/ITSE</b>: seguridad de la edificación. <b>EIA</b>: si aplica. La operación no es legal sin estos; por eso se inician el día 1, no cuando "haya tiempo".</p></div>
+  </div>
+
+  <!-- ================= POR QUÉ ================= -->
+  <div class="sec" id="why"><h2>4 · El porqué de las decisiones y supuestos</h2><div class="s">Por qué el modelo está construido así — y dónde es frágil.</div></div>
+
+  <div class="why"><h3>¿Por qué Etapa 1 sin procesamiento?</h3>
+    <p>Procesar (triturar/lavar/peletizar) sube el precio al tramo regrind ($900–1,300/MT) <b>pero</b> cuesta mucho CAPEX y asume que el volumen/calidad ya están probados. Primero validas barato que el flujo existe; recién entonces inviertes en máquinas. Es disciplina de capital, no falta de ambición.</p></div>
+  <div class="why"><h3>¿Por qué ~900 m² si "sobra" capacidad?</h3>
+    <p>A 900 m² la capacidad de almacenamiento (~528 t/mes por manejo) está muy por encima de las 80–100 t/mes objetivo. <b>No es sobredimensionar por error:</b> los m² extra compran un área de pre-despacho cómoda, resiliencia ante lumps de oferta, y espacio listo para el procesamiento de Etapa 2. Pagar más m² <b>no</b> compra throughput; lo compra el equipo/turnos.</p></div>
+  <div class="why"><h3>¿Por qué iniciar "Lean" y alquilar el montacarga?</h3>
+    <p>Con capital escaso ($22K), cada dólar en CAPEX es un dólar que no amortigua el pozo de caja. Alquilar el montacarga (OPEX) en vez de comprarlo (CAPEX) preserva caja para el capital de trabajo, que es donde el piloto realmente muere.</p></div>
+  <div class="why"><h3>¿Por qué el verdadero gap es el capital de trabajo?</h3>
+    <p>El CAPEX ($21K) casi lo cubre el capital confirmado ($22K). Pero al pagar material y costos antes de cobrar, el banco cae a ~−$26K hacia el M4. Mirar solo el CAPEX te hace pensar que estás financiado cuando no lo estás. <b>La necesidad real es ~$45–50K.</b></p></div>
+  <div class="why"><h3>¿Por qué precios ponderados por mix?</h3>
+    <p>Cada material tiene margen distinto. Un solo "precio promedio" sin pesar por la participación real (PET 27%, Nylon 3%…) engaña. El promedio ponderado refleja la mezcla que de verdad va a entrar, y por eso el modelo lo usa como motor.</p></div>
+  <div class="why"><h3>¿Por qué cerrar el compromiso de Alex antes de firmar la nave?</h3>
+    <p>Firmar un alquiler de 12 meses es un costo fijo comprometido. Hacerlo sin un volumen garantizado es apostar el capital a una expectativa. El orden correcto: <b>compromiso de volumen → cerrar gap de capital → firmar nave</b>. Invertir el orden es el error clásico.</p></div>
+  <div class="why" style="background:#fbe9e7;border-color:#f0c2bb"><h3>⚠ Supuestos frágiles que debes vigilar</h3>
+    <p><b>(1) Precios</b> — son referencias trianguladas, no cotizaciones; un −15% en venta mueve el equilibrio fuerte. <b>(2) Volumen de Alex</b> — sin contrato, todo el modelo es hipotético. <b>(3) Lead time de cobro</b> — si Alex paga a 60 días en vez de 30, el pozo de caja se profundiza. <b>(4) Tasa de rechazo</b> — si supera 10%, el margen efectivo cae. Valida estos cuatro <b>antes</b> de comprometer capital.</p></div>
+
+</div>
+<footer>PlasHub / Factory "Amaru I" · Guía conceptual de apoyo — no constituye asesoría financiera ni legal. Las cifras provienen del modelo del proyecto (validar con datos reales). · <a href="index.html">Volver al inicio</a></footer>
+</body>
+</html>
