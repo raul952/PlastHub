@@ -10,7 +10,7 @@ Abre **`index.html`** (la landing) o directamente **`plashub-app.html`** (app un
 | Página | Qué es |
 |---|---|
 | `index.html` | Landing / centro de documentos. **Empieza aquí.** |
-| `manual.html` | **Manual de uso** de cada parámetro editable + guion para la reunión. |
+| `PlasHub_Manual_de_Uso.docx` | **Manual de uso** (Word, fuera de la app): cada parámetro editable + guion para la reunión. |
 | `plashub-app.html` | App unificada: Distribución E1 · Distribución E2 · Plan de Negocio · Tareas. |
 | `plashub-plan-negocio.html` | Modelo financiero interactivo (E1 + E2). |
 | `plashub-distribucion.html` / `-e2.html` | Layout + capacidad de almacén (E1) y planta (E2). |

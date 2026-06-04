@@ -13,3 +13,6 @@ Thumbs.db
 
 # Config local del editor (no publicar)
 .claude/
+
+# Artefacto de distribución (se regenera con git archive)
+PlasHub-app.zip

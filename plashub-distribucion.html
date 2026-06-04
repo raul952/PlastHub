@@ -384,7 +384,15 @@ function computeLayout(wf,d){
   const DOCK_H=Math.max(8.5, gateW+4);
   // 2. PROCESO — altura FUNCIONAL (báscula + clasificación por spots)
   const SCALE_DEPTH=3.5, SORT_DEPTH=Math.max(3.5,PARAMS.sortingSpots*1.5);
-  const PROC_H=Math.max(5, Math.max(SCALE_DEPTH,SORT_DEPTH)+1.5);
+  const PROC_H_base=Math.max(5, Math.max(SCALE_DEPTH,SORT_DEPTH)+1.5);
+  // OFICINA / SS.HH. — headcount-driven, con ALTURA MÍNIMA usable (Bug #6). Se calculan ANTES
+  // para reservar altura en la banda de proceso si las salas no caben (un baño de 1.2 m es inútil).
+  const totalStaff=PARAMS.staffOp+PARAMS.staffAdmin;
+  const officeArea=applyOverride('office', Math.max(12,totalStaff*PARAMS.m2PerPerson), null);
+  const welfareArea=applyOverride('welfare', Math.max(8, Math.ceil(totalStaff/7)*5 + totalStaff*0.5), null);
+  const adminW=Math.min(wf*0.22,7), adminX=usableX1-adminW;
+  const offH=Math.max(2.5, officeArea/adminW), welfH=Math.max(2.2, welfareArea/adminW);  // mín. usable
+  const PROC_H=Math.max(PROC_H_base, offH+welfH+0.3);   // extiende la banda de proceso si las salas no caben
   // 3. ALMACENAMIENTO — lo que sobre tras las zonas funcionales
   const usableD=d-CROSS; let storeD=usableD-DOCK_H-PROC_H; if(storeD<4)storeD=4;
   const yDock1=DOCK_H, yProc1=DOCK_H+PROC_H, yCross1=yProc1+CROSS, yStore0=yCross1, yStore1=yStore0+storeD;
@@ -411,12 +419,7 @@ function computeLayout(wf,d){
   const classW=applyOverride('classify', classArea/PROC_H, PROC_H);
   zones.push(z('classify','Clasificación / Sorting / QC','classify',PEDX+weighW+0.2,yDock1,classW,PROC_H,null,
     `${PARAMS.sortingSpots} spots × ${PARAMS.m2PerSpot} m²/spot = ${classArea.toFixed(0)} m². Funcional, no proporcional.`));
-  // 8. OFICINA y SS.HH. — headcount-driven
-  const totalStaff=PARAMS.staffOp+PARAMS.staffAdmin;
-  const officeArea=applyOverride('office', Math.max(12,totalStaff*PARAMS.m2PerPerson), null);
-  const welfareArea=applyOverride('welfare', Math.max(8, Math.ceil(totalStaff/7)*5 + totalStaff*0.5), null);
-  const adminW=Math.min(wf*0.22,7), adminX=usableX1-adminW;
-  const offH=officeArea/adminW, welfH=welfareArea/adminW;
+  // 8. OFICINA y SS.HH. — dimensiones ya calculadas arriba (altura mínima usable, Bug #6)
   zones.push(z('office','Oficina / Control','office',adminX,yDock1,adminW,offH,null,
     `${totalStaff} personas × ${PARAMS.m2PerPerson} m²/p = ${officeArea.toFixed(0)} m². Headcount-driven; no escala con la nave.`));
   zones.push(z('welfare','Baño / Bienestar','welfare',adminX,yDock1+offH,adminW,welfH,null,

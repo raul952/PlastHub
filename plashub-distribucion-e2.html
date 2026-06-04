@@ -204,11 +204,13 @@ function computeLayout(){
     {id:'ptar',   label:'PTAR (agua)',         area:ptarArea,   col:'#2f6f5e', driver:`${waterFlowM3h.toFixed(1)} m³/h × ${(1/st.m3perH_m2).toFixed(1)} m²/m³h = ${ptarArea.toFixed(0)} m²`},
     {id:'welfare',label:'Welfare / SS.HH.',    area:welfareArea,col:'#6c727b', driver:`${st.supervisors+st.techStaff} pers × 2.5 m²/p = ${welfareArea.toFixed(0)} m²`},
   ];
-  const totalAdmin=adminDefs.reduce((s,a)=>s+a.area,0)||1, availAdminH=d-2*M;
-  // ancho de columna admin que PRESERVA el área funcional al llenar la altura (no estira el área)
-  const adminColW=Math.max(3,Math.min(12,totalAdmin/availAdminH)), adminX=wf-adminColW-M;
-  let ay=M;
-  adminDefs.forEach(az=>{const h=(az.area/totalAdmin)*availAdminH;
+  const totalAdmin=adminDefs.reduce((s,a)=>s+a.area,0)||1;
+  // ancho de columna admin por ANCHO MÍNIMO USABLE de habitación (no por llenado de altura) — Bug #1
+  const adminColW=Math.max(8,Math.min(wf*0.22,12)), adminX=wf-adminColW-M;
+  const adminBlockH=totalAdmin/adminColW;                 // altura REAL del bloque (no llena todo el edificio)
+  // bloque admin en el FONDO del edificio (atrás = parte superior del plano), apilado hacia el fondo — Bug #2/#3
+  let ay=d-M-adminBlockH;
+  adminDefs.forEach(az=>{const h=az.area/adminColW;        // altura = área / ancho → proporciones correctas
     zones.push(Z(az.id,az.label,'admin',adminX,ay,adminColW,h,az.col,az.label,az.driver)); ay+=h;});
   // 3. REGIÓN PRINCIPAL — flujo I; cada franja: ancho = área funcional / flowH
   const mainX0=M, flowY0=M, flowH=d-2*M;
@@ -216,19 +218,36 @@ function computeLayout(){
   const lineW=STAGES.map(stg=>(stageAreaOf(stg[0].toLowerCase())/st.lines)/lineH);   // ancho por etapa (por línea)
   const procW=lineW.reduce((a,b)=>a+b,0);
   const procTotalArea=STAGES.reduce((s,stg)=>s+stageAreaOf(stg[0].toLowerCase()),0);
+  // FIT (Bug #4): el flujo principal debe caber a la IZQUIERDA de la columna admin.
+  // Las zonas fijas (recepción, proceso, despacho) no se tocan; si falta espacio se reducen SOLO los buffers MP/PT.
+  const mainW=adminX-mainX0;
+  let mpW_calc=mpArea/flowH, ptW_calc=ptArea/flowH;
+  const fixedW=recArea/flowH+procW+despArea/flowH;
+  const bufferW=mainW-fixedW;
+  let bufferWarning=null;
+  if(bufferW>0 && bufferW<mpW_calc+ptW_calc){
+    const bufferScale=bufferW/(mpW_calc+ptW_calc); mpW_calc*=bufferScale; ptW_calc*=bufferScale;
+  }
+  const bufferShrink=1-bufferW/(mpArea/flowH+ptArea/flowH);
+  if(bufferW<=0){
+    bufferWarning=`La nave es demasiado estrecha: las zonas fijas (recepción + proceso + despacho) no caben junto a la columna admin. Amplía el FRENTE de la nave.`;
+    mpW_calc=Math.max(1,mpW_calc*0.2); ptW_calc=Math.max(1,ptW_calc*0.2);
+  } else if(bufferShrink>0.15){
+    bufferWarning=`Buffers MP/PT reducidos ${(bufferShrink*100).toFixed(0)}% (nave estrecha). Amplía la nave o reduce los días de buffer en los parámetros.`;
+  }
   let cx=mainX0;
   {const w=recArea/flowH; zones.push(Z('rec','Recepción / Descarga MP','recepción',cx,flowY0,w,flowH,'#DF6901','Acceso vehicular IZQUIERDO.',`Mín ${st.recMinArea} m² ó ${dailyWashIn.toFixed(1)} t/día × 2 = ${recArea.toFixed(0)} m²`)); cx+=w;}
-  {const w=mpArea/flowH; zones.push(Z('mp','Almacén Materia Prima','mp',cx,flowY0,w,flowH,'#15616D','Buffer de entrada por polímero.',`${st.diasMP} d × ${(eff/30).toFixed(1)} t/día ÷ ${st.densMP} = ${mpArea.toFixed(0)} m²`)); cx+=w;}
+  {const w=mpW_calc; zones.push(Z('mp','Almacén Materia Prima','mp',cx,flowY0,w,flowH,'#15616D','Buffer de entrada por polímero.',`${st.diasMP} d × ${(eff/30).toFixed(1)} t/día ÷ ${st.densMP} = ${mpArea.toFixed(0)} m²`)); cx+=w;}
   [0,1].forEach(li=>{const ly=flowY0+(li===0?lineH+lineGap:0); let sx=cx;
     STAGES.forEach((stg,si)=>{const nm=stg[0].toLowerCase(), w=lineW[si], buf=stg[0]==='Escurrido';
       zones.push(Z('L'+(li+1)+'s'+si,stg[0]+' L'+(li+1),'proc',sx,ly,w,lineH,stg[1],
         buf?'Buffer Lavado→Secado: absorbe el diferencial de velocidad.':'Etapa de proceso — Línea '+(li+1)+'.',
         `Huella ${st.stageMinArea[nm]??60} m² × ${st.lines} línea(s)`)); sx+=w;});});
   cx+=procW;
-  {const w=ptArea/flowH; zones.push(Z('pt','Almacén Producto Terminado','pt',cx,flowY0,w,flowH,'#3a93a8','Adyacente a Despacho (flujo en I).',`${st.diasPT} d × ${(effOut/30).toFixed(1)} t/día ÷ ${st.densPT} = ${ptArea.toFixed(0)} m²`)); cx+=w;}
+  {const w=ptW_calc; zones.push(Z('pt','Almacén Producto Terminado','pt',cx,flowY0,w,flowH,'#3a93a8','Adyacente a Despacho (flujo en I).',`${st.diasPT} d × ${(effOut/30).toFixed(1)} t/día ÷ ${st.densPT} = ${ptArea.toFixed(0)} m²`)); cx+=w;}
   {const w=despArea/flowH; zones.push(Z('desp','Despacho + Paletizado','despacho',cx,flowY0,w,flowH,'#f0a35e','Contenedor 40\' + paletizado. Acceso DERECHO.',`Mín ${st.despMinArea} m² (contenedor + paletizado) = ${despArea.toFixed(0)} m²`)); cx+=w;}
   const totalFunctional=officeArea+labArea+ptarArea+welfareArea+recArea+despArea+mpArea+ptArea+procTotalArea;
-  LAST={zones,guides:{wf,d,adminColW,flowY0,flowH,M,cx,totalFunctional}};
+  LAST={zones,guides:{wf,d,adminColW,flowY0,flowH,M,cx,totalFunctional},_bufferWarning:bufferWarning};
   return LAST;
 }
 function Z(id,name,type,x,y,w,h,col,note,driver){return {id,name,type,x:+x,y:+y,w:Math.max(w,.5),h:Math.max(h,.5),col,note,driver:driver||'',area:Math.max(w,0)*Math.max(h,0)};}
@@ -245,11 +264,13 @@ function render(){
     else if(r.w>26){s+=`<text class="zlabel" x="${cx}" y="${cy+3}" text-anchor="middle" style="font-size:8px">${z.name}</text>`;}});
   // flujo
   if(state_showFlow){const fa=(x1,y1,x2,y2)=>{const a=W2S(x1,y1,0,0),b=W2S(x2,y2,0,0);s+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#2e8b57" stroke-width="3" marker-end="url(#fa)" opacity=".85"/>`;};
-    const ym=g.flowY0+g.flowH/2, cx=id=>{const z=LAST.zones.find(x=>x.id===id);return z?z.x+z.w/2:null;};
-    const rx=cx('rec'),mx=cx('mp'),px=cx('pt'),dx=cx('desp');
-    if(rx!=null&&mx!=null)fa(rx,ym,mx,ym);
-    if(mx!=null&&px!=null)fa(mx,ym,px,ym);
-    if(px!=null&&dx!=null)fa(px,ym,dx,ym);}
+    const ym=g.flowY0+g.flowH/2, cxf=id=>{const z=LAST.zones.find(x=>x.id===id);return z?z.x+z.w/2:null;};
+    const first=LAST.zones.find(z=>z.id==='L1s0'), last=LAST.zones.find(z=>z.id==='L1s'+(STAGES.length-1));
+    const rx=cxf('rec'),mx=cxf('mp'),px=cxf('pt'),dx=cxf('desp');
+    if(rx!=null&&mx!=null)               fa(rx,ym,mx,ym);                       // rec → MP
+    if(mx!=null&&first)                  fa(mx,ym,first.x+first.w/2,ym);        // MP → entrada del proceso
+    if(last&&px!=null)                   fa(last.x+last.w,ym,px,ym);            // salida del proceso → PT
+    if(px!=null&&dx!=null)               fa(px,ym,dx,ym);}                      // PT → despacho
   s+=`<defs><marker id="fa" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#2e8b57"/></marker></defs>`;
   const vp=$('vp'); vp.innerHTML=s;
   vp.querySelectorAll('[data-zone]').forEach(el=>el.addEventListener('click',()=>showDetail(el.getAttribute('data-zone'))));
@@ -287,7 +308,8 @@ function recompute(){
   const totalFloor=st.wf*st.d, tf=LAST.guides.totalFunctional||0, fitPct=tf/totalFloor*100;
   if(fitPct>100){vc='bad';vt+=` 🔴 <b>Nave insuficiente:</b> los requisitos funcionales suman ${tf.toFixed(0)} m² pero la nave tiene ${totalFloor.toFixed(0)} m². Aumenta la huella o reduce días de buffer / staff.`;}
   else if(fitPct<75){vt+=` ℹ️ Espacio libre ${(totalFloor-tf).toFixed(0)} m² (${(100-fitPct).toFixed(0)}%) → asignable a más buffer MP/PT.`;}
-  $('verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`;
+  $('verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`
+    + (LAST._bufferWarning?`<div class="verdict warn" style="margin-top:8px">⚠ ${LAST._bufferWarning}</div>`:'');
   renderTable(); renderLegend();
   $('assumpChip').textContent=`${st.lines} línea(s) · ${st.tph} t/h · ${st.shifts} turno(s) · obj. ${st.vol2} t/mes · nave ${st.wf}×${st.d} m`;
   ['wf','d','h','vol2','lines','tph','shiftH','shifts','days','util','merma','densMP','densPT','diasMP','diasPT',
