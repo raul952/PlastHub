@@ -10,3 +10,6 @@ __pycache__/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Config local del editor (no publicar)
+.claude/
