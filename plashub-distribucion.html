@@ -235,6 +235,17 @@
     <div id="verdict"></div>
   </div>
 
+  <!-- ===== UTILIZACIÓN DEL TERRENO (≥1500 m²) ===== -->
+  <div class="panel" id="sitePanel" style="display:none">
+    <h2>🏭 Utilización del terreno — Etapas 1 y 2 en el mismo edificio</h2>
+    <p class="note">El edificio de 36×50 m (1,800 m²) aloja la <b>Etapa 1 (distribución)</b> al frente y la <b>Etapa 2 (procesamiento)</b> al fondo, en el mismo local. La Etapa 1 sigue operando cuando la Etapa 2 se instala.</p>
+    <div class="params" style="max-width:380px">
+      <label>Profundidad Etapa 1 (frente) — m <input class="ed" id="e1Depth" type="number" step="1" value="25"></label>
+    </div>
+    <div class="cards" id="siteCards" style="margin-top:12px"></div>
+    <div id="sitePlan" style="margin-top:12px"></div>
+  </div>
+
   <!-- ===== PLANO ===== -->
   <div class="panel">
     <h2>3 · Plano (a escala)</h2>
@@ -264,7 +275,7 @@
   <div class="panel">
     <h2>4 · Tabla de áreas por zona</h2>
     <table class="data" id="zoneTable">
-      <thead><tr><th>Zona</th><th>Mix %</th><th>Dimensiones</th><th class="num">m² <span style="font-weight:400;font-size:10px">(editable)</span><span class="ttip" data-t="Área de cada zona. Las zonas funcionales (oficina, recepción, pesaje…) se pueden editar a mano aquí; usa ↺ para volver al valor calculado por su driver. El almacén por polímero se recalcula solo desde el mix y los días de hold.">i</span></th><th class="num">% piso</th>
+      <thead><tr><th>Zona</th><th class="num">Bols/sem</th><th>Dimensiones</th><th class="num">m² <span style="font-weight:400;font-size:10px">(editable)</span><span class="ttip" data-t="Área de cada zona. Las zonas funcionales (oficina, recepción, pesaje…) se pueden editar a mano aquí; usa ↺ para volver al valor calculado por su driver. El almacén por polímero se dimensiona por los bolsones reales en stock pico.">i</span></th><th class="num">% piso</th>
         <th class="num">Pos.</th><th class="num">Máx t</th><th>Driver operativo<span class="ttip" data-t="Qué dimensiona cada zona: headcount (oficina), equipo (pesaje), pico (recepción) o demanda (mix% × días × volumen, para el almacén). Explica por qué una zona tiene ese tamaño.">i</span></th><th>Notas</th></tr></thead>
       <tbody></tbody><tfoot></tfoot>
     </table>
@@ -322,22 +333,22 @@ const clone=o=>JSON.parse(JSON.stringify(o));
 const DEFAULTS={
   TAXONOMIES:{
     excel:{label:'Modelo Excel · 5 frecuentes + 2 esporádicos', mats:[
-      {key:'PET', name:'PET post-consumo',     freq:true,  mix:25, col:'#2e86c1'},
-      {key:'HDPE',name:'HDPE industrial',      freq:true,  mix:25, col:'#1e8449'},
-      {key:'PP',  name:'PP post-industrial',   freq:true,  mix:20, col:'#b03a2e'},
-      {key:'FILM',name:'PE Film',              freq:true,  mix:15, col:'#7d3c98'},
-      {key:'FLAKE',name:'Polvillo de Flake',   freq:true,  mix:10, col:'#d4843a'},
-      {key:'ABS', name:'ABS / PS',             freq:false, mix:3,  col:'#ca6f1e'},
-      {key:'NYL', name:'Nylon / PA',           freq:false, mix:2,  col:'#117a65'},
+      {key:'PET', name:'PET post-consumo',     freq:true,  bols_week:5, col:'#2e86c1'},
+      {key:'HDPE',name:'HDPE industrial',      freq:true,  bols_week:5, col:'#1e8449'},
+      {key:'PP',  name:'PP post-industrial',   freq:true,  bols_week:4, col:'#b03a2e'},
+      {key:'FILM',name:'PE Film',              freq:true,  bols_week:3, col:'#7d3c98'},
+      {key:'FLAKE',name:'Polvillo de Flake',   freq:true,  bols_week:2, col:'#d4843a'},
+      {key:'ABS', name:'ABS / PS',             freq:false, bols_week:1, col:'#ca6f1e'},
+      {key:'NYL', name:'Nylon / PA',           freq:false, bols_week:1, col:'#117a65'},
     ]},
     pptx:{label:'Presentación · 4 frecuentes + 3 esporádicos', mats:[
-      {key:'PET', name:'PET post-consumo',     freq:true,  mix:27, col:'#2e86c1'},
-      {key:'HDPE',name:'PEAD (HDPE) industrial',freq:true, mix:27, col:'#1e8449'},
-      {key:'PP',  name:'PP post-industrial',   freq:true,  mix:22, col:'#b03a2e'},
-      {key:'FILM',name:'Film PE',              freq:true,  mix:16, col:'#7d3c98'},
-      {key:'ABS', name:'ABS / PS industrial',  freq:false, mix:4,  col:'#ca6f1e'},
-      {key:'NYL', name:'Nylon / PA',           freq:false, mix:2,  col:'#117a65'},
-      {key:'MIX', name:'Mix especiales',       freq:false, mix:2,  col:'#717d8a'},
+      {key:'PET', name:'PET post-consumo',     freq:true,  bols_week:6, col:'#2e86c1'},
+      {key:'HDPE',name:'PEAD (HDPE) industrial',freq:true, bols_week:6, col:'#1e8449'},
+      {key:'PP',  name:'PP post-industrial',   freq:true,  bols_week:5, col:'#b03a2e'},
+      {key:'FILM',name:'Film PE',              freq:true,  bols_week:3, col:'#7d3c98'},
+      {key:'ABS', name:'ABS / PS industrial',  freq:false, bols_week:1, col:'#ca6f1e'},
+      {key:'NYL', name:'Nylon / PA',           freq:false, bols_week:1, col:'#117a65'},
+      {key:'MIX', name:'Mix especiales',       freq:false, bols_week:1, col:'#717d8a'},
     ]},
   },
   PARAMS:{STAGE1:80, OPT:100, BE:61, densFreq:1.4, densSpo:1.8, densPallet:0.7,
@@ -347,7 +358,9 @@ const DEFAULTS={
           staffOp:3, staffAdmin:1, m2PerPerson:4.5, scaleArea:24,
           sortingSpots:3, m2PerSpot:10, batchSizeMax:12, bolsonFootprint:1.2,
           stagingFactor:1.6, containerTonnes:20,
-          diasHoldFreq:20, diasHoldSpo:45},
+          diasHoldFreq:20, diasHoldSpo:45,
+          // --- dimensiones físicas del bolsón (FIBC ~1 t) ---
+          bolsonW:1.0, bolsonD:1.0, bolsonH:1.2, minZoneDepth:2.0, forkReach:0.3},
   state:{wf:30,d:30,h:6,fk:1,sh:8,ld:4,mt:4,ct:3,ut:60,
     tax:'excel',eq:'forklift',showGrid:true,showFk:true,showFlow:true,zoom:1,tx:0,ty:0,areaOverrides:{}},
 };
@@ -357,6 +370,7 @@ const PRESETS=[
   {label:'700 m²',  wf:23.3,d:30},
   {label:'900 m² ★',wf:30,  d:30},
   {label:'1000 m²', wf:28.6,d:35},
+  {label:'36×50m 🏭',wf:36,  d:50},   // terreno real disponible (Etapa 1 + Etapa 2 en el mismo edificio)
 ];
 const EQ={forklift:'Montacarga contrabalanceado 3 t', palletjack:'Solo transpaletas (según CAPEX)'};
 
@@ -366,6 +380,16 @@ function loadState(){
   try{const s=JSON.parse(localStorage.getItem(KEY));
     if(s){ if(s.TAXONOMIES)TAXONOMIES=s.TAXONOMIES; if(s.PARAMS)Object.assign(PARAMS,s.PARAMS); if(s.state)Object.assign(state,s.state);}
   }catch(e){}
+  migrateTaxonomy();
+}
+// Migración: datos guardados con 'mix' (%) → 'bols_week' (bolsones/semana, ≈1 t/bolsón)
+function migrateTaxonomy(){
+  const bolsTarget=PARAMS.STAGE1*7/30;   // bolsones/semana equivalentes al objetivo
+  Object.values(TAXONOMIES||{}).forEach(tx=>{
+    const mats=(tx&&tx.mats)||[]; const sumMix=mats.reduce((s,m)=>s+(+m.mix||0),0)||1;
+    mats.forEach(m=>{ if(m.bols_week==null||isNaN(+m.bols_week)){
+      m.bols_week=Math.max(0,Math.round((+m.mix||0)/sumMix*bolsTarget)); } });
+  });
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify({TAXONOMIES,PARAMS,state:{...state,zoom:1,tx:0,ty:0}}));
   const m=document.getElementById('savedMsg'); if(m){m.textContent='✓ guardado'; clearTimeout(save._t); save._t=setTimeout(()=>m.textContent='',1200);} }catch(e){}}
@@ -425,32 +449,47 @@ function computeLayout(wf,d){
   zones.push(z('welfare','Baño / Bienestar','welfare',adminX,yDock1+offH,adminW,welfH,null,
     `${Math.ceil(totalStaff/7)} inodoro(s) + lockers = ${welfareArea.toFixed(0)} m² (norma sanitaria 1 inodoro/7 personas).`));
 
-  // ALMACENAMIENTO POR POLÍMERO — PROPORCIONAL AL MIX %: cada polímero ocupa una fracción del almacén
-  // igual a su mix %. Las dos columnas se llenan por completo. La sobre/sub-capacidad se reporta como dato.
+  // ALMACENAMIENTO POR POLÍMERO — dimensionado por BOLSONES REALES con profundidad mínima física.
+  // Profundidad de zona = filas de bolsón × bolsonD + holgura de horquillas, con suelo en minZoneDepth.
   const mats=TAXONOMIES[state.tax].mats;
   const spineX0=wf/2-SPINE/2, spineX1=wf/2+SPINE/2;
   const leftW=spineX0-PEDX, rightW=usableX1-spineX1;
   const dens=densities();
-  const totMix=mats.reduce((s,m)=>s+Math.max(0,+m.mix||0),0)||1;
+  const stackH=state.eq==='forklift'?2:1;                  // niveles de apilado
   const storeAvail=(leftW+rightW)*storeD;
-  // buffer objetivo (solo informativo): cuánto necesitarías de verdad a tu volumen y días de retención
+  const BW=PARAMS.bolsonW, BD=PARAMS.bolsonD;
   mats.forEach(m=>{const hd=m.freq?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo;
-    m._tt=PARAMS.STAGE1*(Math.max(0,m.mix)/100)*(hd/30);
-    m._ta=Math.max(1.5, m._tt/(m.freq?dens.frequent:dens.sporadic));});
-  const storeNeed=mats.reduce((s,m)=>s+m._ta,0);
-  // repartir los materiales en 2 columnas equilibrando por mix (así polímeros de igual mix quedan iguales)
-  const cols=[{x:PEDX,w:leftW,m:[],mix:0},{x:spineX1,w:rightW,m:[],mix:0}];
-  // equilibrar mix por columna PROPORCIONAL a su ancho → área por unidad de mix igual en ambas (proporción exacta)
-  mats.slice().sort((a,b)=>(Math.max(0,+b.mix||0))-(Math.max(0,+a.mix||0)))
-      .forEach(m=>{const c=(cols[0].mix/cols[0].w)<=(cols[1].mix/cols[1].w)?cols[0]:cols[1];c.m.push(m);c.mix+=Math.max(0,+m.mix||0);});
-  cols.forEach(c=>{const cm=c.mix||1; let y=yStore0;
-    c.m.forEach(m=>{const h=storeD*(Math.max(0,+m.mix||0)/cm);                 // altura ∝ mix → área ∝ mix
-      const sharePct=Math.round((Math.max(0,+m.mix||0)/totMix)*100);
+    const bw=Math.max(0,+m.bols_week||0);
+    m._bolsOnHand=Math.max(1, bw*hd/7);                     // bolsones en stock pico
+    m._floorPos=Math.ceil(m._bolsOnHand/stackH);            // posiciones de piso necesarias
+    m._tt=m._bolsOnHand*1.0;});                             // ~1 t/bolsón
+  // repartir en 2 columnas equilibrando bolsones/semana ponderado por ancho de columna
+  const cols=[{x:PEDX,w:leftW,m:[],bw:0},{x:spineX1,w:rightW,m:[],bw:0}];
+  mats.slice().sort((a,b)=>(Math.max(0,+b.bols_week||0))-(Math.max(0,+a.bols_week||0)))
+      .forEach(m=>{const c=(cols[0].bw/cols[0].w)<=(cols[1].bw/cols[1].w)?cols[0]:cols[1];c.m.push(m);c.bw+=Math.max(0,+m.bols_week||0);});
+  let storeShort=false, storeNeed=0;
+  cols.forEach(c=>{
+    // profundidad mínima física por zona
+    const want=c.m.map(m=>{const rows=Math.max(1,Math.ceil(m._floorPos*BW/c.w));
+      return Math.max(PARAMS.minZoneDepth, rows*BD+PARAMS.forkReach);});
+    storeNeed+=c.m.reduce((s,m)=>s+m._floorPos*BW*BD,0);
+    let depths=want; const sumWant=want.reduce((a,b)=>a+b,0);
+    if(sumWant>storeD){storeShort=true; const k=storeD/sumWant; depths=want.map(d=>Math.max(PARAMS.minZoneDepth,d*k));}
+    // frecuentes primero (cerca del pasillo transversal), luego por volumen
+    const ord=c.m.map((m,i)=>i).sort((a,b)=>((c.m[b].freq?1:0)-(c.m[a].freq?1:0))||((+c.m[b].bols_week||0)-(+c.m[a].bols_week||0)));
+    let y=yStore0;
+    ord.forEach(i=>{const m=c.m[i], h=depths[i];
+      const capBols=Math.max(1,Math.floor(c.w/BW))*Math.max(1,Math.floor(h/BD))*stackH;   // capacidad física de la zona
       zones.push(z('st_'+m.key,m.name,m.freq?'frequent':'sporadic',c.x,y,c.w,h,m,
-        `${m.freq?'Corriente frecuente':'Corriente esporádica'}. ${sharePct}% del mix → ${sharePct}% del almacén (${(c.w*h).toFixed(0)} m²). Buffer que necesitas a ${m.freq?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo} d ≈ ${m._ta.toFixed(0)} m² (${m._tt.toFixed(1)} t).`));
+        `${(+m.bols_week||0)} bols/sem → pico ${m._bolsOnHand.toFixed(0)} en stock → ${m._floorPos} posiciones de piso. `+
+        `Zona ${c.w.toFixed(1)}×${h.toFixed(1)} m → caben ≈${capBols} bolsones (${capBols} t). `+
+        (capBols<m._bolsOnHand?'⚠ ZONA INSUFICIENTE — amplía la nave o baja días de retención.':'✓ suficiente.')));
       y+=h;});
   });
-  const storeShort=storeNeed>storeAvail;
+  storeShort=storeShort||(storeNeed>storeAvail);
+  window.LAST_STORAGE_WARN=storeShort
+    ? `⚠ Almacén ajustado: el stock pico necesita ≈${storeNeed.toFixed(0)} m² de piso de almacenamiento (de ${storeAvail.toFixed(0)} m² disponibles). Algunas zonas se comprimieron al mínimo de ${PARAMS.minZoneDepth} m. Amplía la profundidad de la nave o reduce los días de retención.`
+    : null;
 
   const guides={wf,d,gateX0,gateX1,gateW,spineX0,spineX1,PEDX,yDock1,yProc1,
     yCross0:yProc1,yCross1,yStore0,yStore1,freqEndY:yStore1,storeD,storeNeed,storeAvail,storeShort};
@@ -565,20 +604,62 @@ function updateAll(){
     `Solo portón frontal · grilla 8×8 m · patio ≥200 m² · ${EQ[state.eq]} · taxonomía: ${state.tax==='excel'?'5+2 (Excel)':'4+3 (presentación)'} · objetivo ${PARAMS.STAGE1} t/mes`;
   wfV.textContent=state.wf;dV.textContent=state.d;hV.textContent=state.h;fkV.textContent=state.fk;shV.textContent=state.sh;
   ldV.textContent=state.ld;mtV.textContent=state.mt;ctV.textContent=state.ct;utV.textContent=state.ut;
+  // total dinámico de bolsones / t (Bloque 2)
+  const mats=TAXONOMIES[state.tax].mats, totalBols=mats.reduce((s,m)=>s+(+m.bols_week||0),0), totalT=totalBols*30/7;
+  if(document.getElementById('matTotalBols')){
+    document.getElementById('matTotalBols').textContent=totalBols;
+    document.getElementById('matTotalT').textContent=Math.round(totalT);
+    document.getElementById('matTargetT').textContent=PARAMS.STAGE1;
+    const gap=totalT-PARAMS.STAGE1, gapEl=document.getElementById('matGapMsg');
+    if(Math.abs(gap)<5) gapEl.innerHTML=' <span style="color:var(--ok)">✓ alineado con el objetivo</span>';
+    else if(gap>0)      gapEl.innerHTML=` <span style="color:var(--warn)">+${Math.round(gap)} t/mes sobre el objetivo</span>`;
+    else                gapEl.innerHTML=` <span style="color:var(--bad)">${Math.round(gap)} t/mes bajo el objetivo</span>`;
+  }
+  // panel de utilización del terreno (naves ≥ 1,500 m²) — Bloque 4A
+  const showSite=state.wf*state.d>=1500, sp=document.getElementById('sitePanel');
+  if(sp){ sp.style.display=showSite?'':'none'; if(showSite) renderSiteUtilization(); }
   markPreset(); save();
 }
+function renderSiteUtilization(){
+  const totalW=state.wf, totalD=state.d;
+  let e1Depth=parseFloat((document.getElementById('e1Depth')||{}).value)||25;
+  e1Depth=Math.max(10,Math.min(totalD-5,e1Depth));
+  const e2Depth=Math.max(0,totalD-e1Depth);
+  const e1Area=Math.round(totalW*e1Depth), e2Area=Math.round(totalW*e2Depth);
+  const e1Used=LAST?LAST.zones.reduce((s,z)=>s+z.area,0):e1Area*0.8;
+  const e1Util=Math.min(100,(e1Used/Math.max(1,e1Area)*100)).toFixed(0);
+  document.getElementById('siteCards').innerHTML=[
+    {k:'Terreno total',v:`${totalW}×${totalD} m`,u:`${totalW*totalD} m²`,cls:''},
+    {k:'Etapa 1 (frente)',v:`${totalW}×${e1Depth} m`,u:`${e1Area} m² · ${e1Util}% utilizado`,cls:'good'},
+    {k:'Etapa 2 (fondo)',v:`${totalW}×${e2Depth} m`,u:`${e2Area} m² para procesamiento`,cls:'teal'},
+    {k:'E2 disponible',v:`${e2Area} m²`,u:`${(e2Area/(totalW*totalD)*100).toFixed(0)}% del total · nave E2 típica ≥1,500 m²`,cls:e2Area>=1500?'good':'warn'},
+  ].map(c=>`<div class="card ${c.cls}"><div class="k">${c.k}</div><div class="v">${c.v}</div><div class="u">${c.u}</div></div>`).join('');
+  document.getElementById('sitePlan').innerHTML=`
+    <div style="border:2px solid var(--dark);border-radius:6px;overflow:hidden;max-width:520px;font-size:11px">
+      <div style="background:#dfe6ea;padding:10px;text-align:center;border-bottom:2px dashed var(--teal)">
+        <b>ETAPA 2 — Procesamiento</b> · ${totalW}×${e2Depth} m = ${e2Area} m²<br>
+        <span style="color:#6a7280">Triturado · Lavado · Secado · Peletizado · Almacén PT</span></div>
+      <div style="background:#fff8ef;padding:10px;text-align:center;border-bottom:2px solid var(--dark)">
+        <b>ETAPA 1 — Distribución</b> (sigue operando) · ${totalW}×${e1Depth} m = ${e1Area} m²<br>
+        <span style="color:#6a7280">Recepción · Clasificación · Almacén por polímero · Pre-despacho</span></div>
+      <div style="background:#eef1f4;padding:6px;text-align:center"><b>PORTÓN FRONTAL + PATIO ≥200 m²</b> · Acceso camiones y contenedores</div>
+    </div>
+    <p class="note" style="margin-top:6px">Ajusta la profundidad de la Etapa 1 arriba; la Etapa 2 recibe el resto del fondo. La línea punteada teal = muro divisorio / carril de separación operativa.</p>`;
+  const inp=document.getElementById('e1Depth');
+  if(inp && !inp._bound){ inp._bound=true; inp.addEventListener('input',renderSiteUtilization); }
+}
 function renderCards(c){
+  const D=densities(), bolsDay=Math.round(c.Thandle/30);
+  const usoProm=Math.min(100,(PARAMS.STAGE1*0.5/Math.max(1,c.Cstatic)*100)), usoPico=Math.min(100,(PARAMS.STAGE1*PARAMS.fillPct/100/Math.max(1,c.Cstatic)*100));
   const cards=[
-    {k:'Piso total',v:fmt(c.totalArea,0),u:`m² (${state.wf}×${state.d})`,cls:''},
-    {k:'Almacenamiento útil',v:'≈'+fmt(c.Cstatic,0),u:'t buffer estático',cls:''},
-    {k:'Posiciones bolsón',v:fmt(c.positions,0),u:state.eq==='forklift'?'2/3 alto':'1 alto (transpaleta)',cls:state.eq==='forklift'?'':'warn'},
-    {k:'Capacidad operativa',v:'≈'+fmt(c.Tcap,0),u:'t / mes',cls:c.Tcap>=PARAMS.STAGE1?'good':(c.Tcap>=PARAMS.BE?'warn':'bad')},
-    {k:'Restricción activa',v:c.binding==='handling'?'Manejo':'Almacén',
-      u:c.binding==='handling'?`montac. ${fmt(c.Thandle,0)} t/mes`:`buffer ${fmt(Math.max(0,c.Tstore),0)} t/mes`,cls:c.binding==='handling'?'':'warn'},
-    {k:`vs objetivo ${PARAMS.STAGE1} t/mes`,v:c.Tcap>=PARAMS.STAGE1?'✓':'✕',u:c.Tcap>=PARAMS.OPT?`> optimista ${PARAMS.OPT}`:(c.Tcap>=PARAMS.STAGE1?'cumple base':(c.Tcap>=PARAMS.BE?'> equilibrio':'bajo equil.')),
-      cls:c.Tcap>=PARAMS.STAGE1?'good':(c.Tcap>=PARAMS.BE?'warn':'bad')},
+    {k:'Posiciones de almacén',v:fmt(c.positions,0),u:`bolsones (${state.eq==='forklift'?'2/3 alto':'1 alto'}) · ${fmt(c.Cstatic,0)} t máx`,cls:'',help:'Cuántos bolsones físicos caben simultáneamente en el almacén.'},
+    {k:'Ritmo del montacargas',v:`${fmt(bolsDay,0)}/día`,u:`bolsones · hasta ${fmt(c.Thandle,0)} t/mes`,cls:'good',help:'Cuántos bolsones puede mover el montacargas en un día normal (1 turno, utilización configurada).'},
+    {k:'Tu objetivo',v:`${PARAMS.STAGE1} t/mes`,u:`≈ ${Math.round(PARAMS.STAGE1*7/30)} bols/sem · ${(PARAMS.STAGE1/30).toFixed(1)} t/día`,cls:'',help:'El volumen de operación planeado. Cámbialo en los parámetros ("Objetivo base").'},
+    {k:'¿Nave suficiente?',v:c.Tcap>=PARAMS.STAGE1?'✓ Sí':'✗ No',u:c.binding==='handling'?`límite: montacargas · margen ×${(c.Thandle/Math.max(1,PARAMS.STAGE1)).toFixed(1)}`:`límite: almacén · ${fmt(Math.max(0,c.Tstore),0)} t/mes`,cls:c.Tcap>=PARAMS.STAGE1?'good':'bad',help:'¿El almacén y el montacargas soportan el objetivo? Verde = sí, con margen.'},
+    {k:'Uso del almacén',v:`${usoProm.toFixed(0)}%`,u:`promedio · pico ${usoPico.toFixed(0)}%`,cls:'',help:'Qué porcentaje del almacén se ocupa en operación normal (a tu objetivo).'},
+    {k:'Superficie total',v:fmt(c.totalArea,0),u:`m² · almacén útil ${fmt(c.Cstatic/Math.max(0.1,D.frequent),0)} m²`,cls:'',help:'Área total de la nave y área dedicada al almacenamiento.'},
   ];
-  document.getElementById('cards').innerHTML=cards.map(c=>`<div class="card ${c.cls}"><div class="k">${c.k}</div><div class="v">${c.v}</div><div class="u">${c.u}</div></div>`).join('');
+  document.getElementById('cards').innerHTML=cards.map(c=>`<div class="card ${c.cls}" title="${(c.help||'').replace(/"/g,'&quot;')}"><div class="k">${c.k}</div><div class="v">${c.v}</div><div class="u">${c.u}</div></div>`).join('');
   let vc='good',vt='';
   if(state.eq==='palletjack'){vc='bad';vt=`⛔ <b>No es operativamente viable.</b> Las transpaletas no pueden levantar bolsones de 1 t de una plataforma ni apilar 2 alto — la capacidad colapsa a ~${fmt(c.Tcap,0)} t/mes y el almacenamiento queda en una sola capa. <b>Se requiere un montacarga contrabalanceado de 3 t</b> (alquiler ≈ $800–1,500/mes o usado ≈ $10–20K). Cambia el botón de equipo para modelar la operación real.`;}
   else if(c.Tcap>=PARAMS.OPT){vc='good';vt=`✅ <b>Sobredimensionado para throughput (por diseño).</b> ~${fmt(c.Tcap,0)} t/mes vs base ${PARAMS.STAGE1} / optimista ${PARAMS.OPT}. Restricción = <b>${c.binding==='handling'?'manejo':'almacén'}</b>. A esta huella los m² extra compran comodidad de pre-despacho, resiliencia de buffer y espacio para procesamiento de Etapa 2 — <b>no</b> más toneladas. Más throughput pasa por un 2.º montacarga / turno, no por más piso.`;}
@@ -589,7 +670,9 @@ function renderCards(c){
   const DOCK_H=Math.max(8.5,PARAMS.gate+4), PROC_H=Math.max(5,Math.max(3.5,PARAMS.sortingSpots*1.5)+1.5);
   const minD=DOCK_H+PROC_H+PARAMS.aisle+4;
   if(state.d<minD){vc='warn';vt+=` ⚠ <b>Nave demasiado corta:</b> las zonas funcionales mínimas (muelle ${DOCK_H.toFixed(1)} m + proceso ${PROC_H.toFixed(1)} m + pasillo ${PARAMS.aisle} m + almacén mín. 4 m) requieren ≥<b>${minD.toFixed(1)} m</b> de profundidad. Aumenta la profundidad de la nave.`;}
-  document.getElementById('verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`;
+  if(state.eq!=='palletjack') vt+=` <span style="color:#6a7280;font-size:11.5px">El montacargas puede mover hasta ≈${fmt(c.Thandle,0)} t/mes — muy por encima del objetivo de ${PARAMS.STAGE1} t/mes, así que casi nunca es el cuello de botella.</span>`;
+  document.getElementById('verdict').innerHTML=`<div class="verdict ${vc}">${vt}</div>`
+    + (window.LAST_STORAGE_WARN?`<div class="cav warn" style="margin-top:6px">${window.LAST_STORAGE_WARN}</div>`:'');
 }
 const FUNC_ZONES=['reception','staging','weigh','classify','office','welfare'];
 function getZoneDriver(z){
@@ -604,11 +687,10 @@ function getZoneDriver(z){
     office:`${totalStaff} pers × ${PARAMS.m2PerPerson} m²/p = ${Math.max(12,totalStaff*PARAMS.m2PerPerson).toFixed(0)} m²`,
     welfare:`${Math.ceil(totalStaff/7)} inodoro(s) + lockers (norma sanitaria)`,
   };
-  if(z.type==='spare') return 'almacén libre (sin asignar) — buffer/expansión';
+  if(z.type==='spare') return 'almacén libre (sin asignar)';
   if(z.type==='frequent'||z.type==='sporadic'){
-    const tot=TAXONOMIES[state.tax].mats.reduce((s,m)=>s+Math.max(0,+m.mix||0),0)||1;
-    const pct=z.mat?Math.round(Math.max(0,+z.mat.mix||0)/tot*100):0;
-    return `${pct}% del mix → ${pct}% del almacén (proporcional)`;}
+    const bw=z.mat?Math.max(0,+z.mat.bols_week||0):0, hd=z.type==='frequent'?PARAMS.diasHoldFreq:PARAMS.diasHoldSpo;
+    return `${bw} bols/sem × ${hd} d ÷ 7 ≈ ${z.mat&&z.mat._bolsOnHand?z.mat._bolsOnHand.toFixed(0):'—'} bolsones en stock`;}
   return dr[z.id]||'—';
 }
 function renderTable(c){
@@ -622,7 +704,7 @@ function renderTable(c){
     const areaCell=isFunc
       ? `<input class="ed zone-override" data-zone="${z.id}" value="${z.area.toFixed(1)}" style="width:52px;text-align:right;${isOv?'border-color:var(--orange);background:#fff8ef;':''}">`+(isOv?` <button class="del" data-reset="${z.id}" title="Volver al valor funcional calculado" style="color:var(--orange);border:none;background:none;cursor:pointer">↺</button>`:'')
       : z.area.toFixed(1);
-    tb.innerHTML+=`<tr><td>${dot}${z.name}${isOv?' <span style="font-size:9.5px;color:var(--orange);font-weight:600">✎ manual</span>':''}</td><td class="num">${z.mat?z.mat.mix+'%':'—'}</td><td>${z.w.toFixed(1)} × ${z.h.toFixed(1)} m</td>
+    tb.innerHTML+=`<tr><td>${dot}${z.name}${isOv?' <span style="font-size:9.5px;color:var(--orange);font-weight:600">✎ manual</span>':''}</td><td class="num">${z.mat?(z.mat.bols_week||0):'—'}</td><td>${z.w.toFixed(1)} × ${z.h.toFixed(1)} m</td>
       <td class="num">${areaCell}</td><td class="num">${(z.area/tot*100).toFixed(1)}%</td>
       <td class="num">${pos||'—'}</td><td class="num">${t?t.toFixed(1):'—'}</td>
       <td style="font-size:10.5px;color:#6a7280">${getZoneDriver(z)}</td>
@@ -636,9 +718,9 @@ function renderTable(c){
   const gd=LAST.guides;
   const holg=gd.storeAvail-gd.storeNeed;
   const stTxt = gd.storeShort
-    ? `<span style="color:#c0392b;font-weight:700">⚠ Almacén ajustado</span>: a tu volumen y días de retención necesitarías <b>${gd.storeNeed.toFixed(0)} m²</b> de buffer pero el almacén tiene <b>${gd.storeAvail.toFixed(0)} m²</b> — vas justo. Amplía la nave o reduce días de retención.`
-    : `A tu volumen (${PARAMS.STAGE1} t/mes) solo necesitas <b>≈${gd.storeNeed.toFixed(0)} m²</b> de buffer real de los <b>${gd.storeAvail.toFixed(0)} m²</b> de almacén → <b>≈${holg.toFixed(0)} m² (${Math.round(holg/gd.storeAvail*100)}%) de holgura / expansión</b> (el almacén está sobredimensionado para 80 t/mes; el cuello de botella es el manejo, no el espacio).`;
-  document.getElementById('tableNote').innerHTML='Almacén por polímero <b>proporcional al Mix %</b>: cada material ocupa una fracción del almacén igual a su mix % (PET 25% → 25% del área). Las zonas de soporte (oficina, pesaje…) se dimensionan por su driver funcional (headcount/equipo) y son editables (↺ para volver al valor calculado). '+stTxt;
+    ? `<span style="color:#c0392b;font-weight:700">⚠ Almacén ajustado</span>: el stock pico de bolsones necesita ≈<b>${gd.storeNeed.toFixed(0)} m²</b> de piso de almacenamiento, de <b>${gd.storeAvail.toFixed(0)} m²</b> disponibles. Amplía la nave o reduce los días de retención.`
+    : `El stock pico necesita ≈<b>${gd.storeNeed.toFixed(0)} m²</b> de piso de los <b>${gd.storeAvail.toFixed(0)} m²</b> de almacén → <b>≈${holg.toFixed(0)} m² (${Math.round(holg/gd.storeAvail*100)}%) de holgura / expansión</b> (espacio para crecer o para la Etapa 2; el cuello de botella es el manejo, no el espacio).`;
+  document.getElementById('tableNote').innerHTML='Almacén por polímero dimensionado por <b>bolsones reales</b>: profundidad de zona = bolsones en stock pico (bols/sem × días de retención ÷ 7) ÷ apilado, con un mínimo físico de '+PARAMS.minZoneDepth+' m por zona (cabe un bolsón + alcance de horquillas). Las zonas de soporte (oficina, pesaje…) son editables (↺ para volver al valor calculado). '+stTxt;
   bindOverrideListeners();
 }
 function bindOverrideListeners(){
@@ -660,7 +742,7 @@ function renderCatsum(c){
     else if(z.type==='reception')reception+=z.area;else if(z.type==='staging')staging+=z.area;
     else if(z.type==='weigh'||z.type==='classify')proc+=z.area;else admin+=z.area;});
   const circ=Math.max(0,c.totalArea-storage-reception-staging-admin-proc);
-  const rows=[['Almacenamiento (por polímero, ∝ mix %)',storage,'150–300'],['Recepción',reception,'80'],['Pre-despacho',staging,'150'],
+  const rows=[['Almacenamiento (por polímero, bolsones reales)',storage,'150–300'],['Recepción',reception,'80'],['Pre-despacho',staging,'150'],
     ['Pesaje + clasificación',proc,'—'],['Oficina + bienestar',admin,'20–40'],['Circulación / maniobra',circ,'100']];
   document.getElementById('catsum').innerHTML=rows.map(r=>
     `<div class="row"><span>${r[0]}</span><span><b>${r[1].toFixed(0)} m²</b> <span class="tg">/ obj. ${r[2]}</span></span></div>`).join('');
@@ -681,9 +763,9 @@ function renderIndeci(){
 }
 function showDetail(id){const z=LAST.zones.find(x=>x.id===id);if(!z)return;
   const t=zoneTonnes(z),pos=zonePositions(z);let ex='';
-  if(z.type==='frequent')ex=`<tr><td>Mix %</td><td>${z.mat.mix}%</td></tr><tr><td>Apilado</td><td>${state.eq==='forklift'?'2 alto':'1 alto (transpaleta)'}</td></tr>
+  if(z.type==='frequent')ex=`<tr><td>Bolsones/sem</td><td>${z.mat.bols_week||0}</td></tr><tr><td>Stock pico</td><td>${z.mat._bolsOnHand?z.mat._bolsOnHand.toFixed(0):'—'} bolsones (${z.mat._floorPos||'—'} pos. piso)</td></tr><tr><td>Apilado</td><td>${state.eq==='forklift'?'2 alto':'1 alto (transpaleta)'}</td></tr>
     <tr><td>Posiciones</td><td>${pos} piso / ${pos*(state.eq==='forklift'?2:1)} apilado</td></tr><tr><td>Capacidad máx.</td><td>${t.toFixed(1)} t</td></tr><tr><td>Consolidación</td><td>~20 t → 1 contenedor</td></tr>`;
-  else if(z.type==='sporadic')ex=`<tr><td>Mix %</td><td>${z.mat.mix}%</td></tr><tr><td>Apilado</td><td>${state.eq==='forklift'?'racking 3 alto (opc.)':'1 alto'}</td></tr>
+  else if(z.type==='sporadic')ex=`<tr><td>Bolsones/sem</td><td>${z.mat.bols_week||0}</td></tr><tr><td>Stock pico</td><td>${z.mat._bolsOnHand?z.mat._bolsOnHand.toFixed(0):'—'} bolsones</td></tr><tr><td>Apilado</td><td>${state.eq==='forklift'?'racking 3 alto (opc.)':'1 alto'}</td></tr>
     <tr><td>Posiciones</td><td>${pos} piso</td></tr><tr><td>Capacidad máx.</td><td>${t.toFixed(1)} t</td></tr>`;
   document.getElementById('detail').innerHTML=`<div class="dh">${z.mat?`<span class="dot" style="background:${z.mat.col}"></span>`:''}${z.name}</div>
     <table><tr><td>Huella</td><td>${z.w.toFixed(1)} × ${z.h.toFixed(1)} m</td></tr><tr><td>Área</td><td>${z.area.toFixed(1)} m² (${(z.area/(state.wf*state.d)*100).toFixed(1)}%)</td></tr>${ex}</table>
@@ -726,34 +808,33 @@ const txtEd=(val,attrs)=>`<input class="ed edtxt" type="text" value="${String(va
 const freqEd=(val,attrs)=>`<select class="ed" title="Clasificación (no es un período): Frecuente = corriente regular y de volumen; Esporádico = llega poco y en baja cantidad. Cambia la densidad de apilado." ${attrs}><option value="true" ${val?'selected':''}>frec.</option><option value="false" ${val?'':'selected'}>espor.</option></select>`;
 function buildMatEditor(){
   const mats=TAXONOMIES[state.tax].mats;
-  const total=mats.reduce((s,m)=>s+(+m.mix||0),0)||1;
   const header=`<div class="mrow" style="font-size:10px;font-weight:700;color:#6a7280;text-transform:uppercase;letter-spacing:.3px;border-bottom:1px solid #e2e5ea;padding-bottom:3px;margin-bottom:4px">
       <span style="width:24px;flex:0 0 auto"></span>
       <span style="flex:1;text-align:left">Material</span>
       <span style="width:74px;text-align:center">Frecuencia</span>
-      <span style="width:58px;text-align:right">Mix %</span>
+      <span style="width:58px;text-align:right">Bols/sem</span>
       <span style="width:22px;flex:0 0 auto"></span>
     </div>`;
   document.getElementById('matEditor').innerHTML=header+mats.map((m,i)=>{
-    const pct=Math.round((+m.mix||0)/total*100);
     return `<div class="mrow">
       <input class="ed" type="color" value="${m.col}" data-mi="${i}" data-mf="col" title="Color" style="width:24px;height:22px;padding:0;border-radius:4px">
       ${txtEd(m.name,`data-mi="${i}" data-mf="name" style="flex:1;text-align:left"`)}
       ${freqEd(m.freq,`data-mi="${i}" data-mf="freq"`)}
-      ${numEd(m.mix,`data-mi="${i}" data-mf="mix" title="Mix: participación de este material en el tonelaje de ingreso (peso relativo, NO una frecuencia de tiempo). Hoy ≈ ${pct}% del total."`)}
+      ${numEd(m.bols_week||0,`data-mi="${i}" data-mf="bols_week" min="0" max="50" title="Bolsones (≈1 t) de este material que llegan por semana. Es la unidad real del operador. Dimensiona el almacén por bolsones en stock pico."`)}
       <button class="del" title="Eliminar" onclick="delMatL(${i})">🗑</button>
     </div>`;}).join('')
     +`<div style="margin-top:6px"><button class="addbtn" onclick="addMatL()">+ Añadir material</button>
-      <span style="font-size:10.5px;color:#8a9099;margin-left:8px"><b>Mix %</b> = participación en el tonelaje (peso relativo, no una frecuencia). No necesita sumar 100 (se normaliza); lo más claro es que sumen 100.</span></div>`;
+      <span style="font-size:10.5px;color:#8a9099;margin-left:8px"><b>Bols/sem</b> = bolsones (≈1 t) que recibes por semana de cada material. Suma de la semana × 30/7 ≈ t/mes.</span></div>
+    <div class="note" id="matTotal" style="margin-top:6px">Total: <b><span id="matTotalBols">—</span> bols/sem</b> · ≈ <b><span id="matTotalT">—</span> t/mes</b> · Objetivo: <b id="matTargetT">${PARAMS.STAGE1}</b> t/mes<span id="matGapMsg"></span></div>`;
   document.querySelectorAll('#matEditor .ed').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',e=>{
     const t=e.target, m=TAXONOMIES[state.tax].mats[+t.dataset.mi], f=t.dataset.mf;
-    if(f==='mix'){const v=parseFloat(t.value);m.mix=isNaN(v)?0:v;}
+    if(f==='bols_week'){const v=parseFloat(t.value);m.bols_week=isNaN(v)?0:v;}
     else if(f==='freq') m.freq=(t.value==='true');
     else m[f]=t.value;   // name, col
     updateAll();
   }));
 }
-function addMatL(){const arr=TAXONOMIES[state.tax].mats;arr.push({key:'NEW'+arr.length,name:'Nuevo material',freq:true,mix:5,col:'#888888'});buildMatEditor();updateAll();}
+function addMatL(){const arr=TAXONOMIES[state.tax].mats;arr.push({key:'NEW'+arr.length,name:'Nuevo material',freq:true,bols_week:2,col:'#888888'});buildMatEditor();updateAll();}
 function delMatL(i){const arr=TAXONOMIES[state.tax].mats;if(arr.length<=1)return;arr.splice(i,1);buildMatEditor();updateAll();}
 const TIP=t=>`<span class="ttip" data-t="${String(t).replace(/"/g,'&quot;')}">i</span>`;
 const PARAMFIELDS=[
