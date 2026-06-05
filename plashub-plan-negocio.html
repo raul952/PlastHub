@@ -103,6 +103,15 @@
   .ttip::after{content:attr(data-t);position:absolute;left:50%;transform:translateX(-50%);bottom:21px;z-index:999;width:248px;max-width:60vw;background:#252A31;color:#fff;font-size:11px;font-weight:400;line-height:1.45;padding:8px 11px;border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:normal;text-align:left;opacity:0;visibility:hidden;transition:opacity .12s;pointer-events:none;}
   .ttip:hover::after{opacity:1;visibility:visible;}
   th .ttip{background:#5a6675;color:#fff;}
+  /* §4 — controles sticky a la izquierda, resultados a la derecha (Bloque 5) */
+  .fin-layout{display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:start;}
+  .fin-controls{position:sticky;top:10px;max-height:calc(100vh - 26px);overflow-y:auto;padding-right:8px;scrollbar-width:thin;scrollbar-color:var(--muted) transparent;}
+  .fin-controls::-webkit-scrollbar{width:6px;} .fin-controls::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px;}
+  .fin-controls .ctrls{grid-template-columns:1fr;}
+  .fin-controls h3:first-child{margin-top:0;}
+  .fin-results{min-width:0;}
+  @media(max-width:1024px){.fin-layout{grid-template-columns:1fr;}.fin-controls{position:static;max-height:none;overflow:visible;}}
+  @media print{.fin-layout{grid-template-columns:1fr;}.fin-controls{position:static;max-height:none;overflow:visible;}}
   ul.tight li{margin:3px 0;font-size:12.5px;}
   .pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:10px;background:#eef1f4;color:#41484f;margin-left:6px;}
   .pill.f{background:#d9ede6;color:#15616D;} .pill.s{background:#f0e6d9;color:#9a6310;}
@@ -224,8 +233,10 @@
   <!-- 4 MODELO FINANCIERO -->
   <div class="panel">
     <h2>4 · Modelo financiero — <span class="nx">interactivo y editable</span>, los tres escenarios</h2>
-    <p class="lead">Ajusta el volumen con el deslizador y observa el impacto en tiempo real; o usa un escenario predefinido. Edita cualquier cifra. Montacarga alquilado. Cobros con desfase; pago a proveedor configurable.</p>
+    <p class="lead">Ajusta el volumen con el deslizador y observa el impacto en tiempo real; o usa un escenario predefinido. Edita cualquier cifra. <b>Los controles quedan fijos a la izquierda; los resultados se recalculan a la derecha.</b></p>
 
+    <div class="fin-layout">
+    <div class="fin-controls">
     <!-- Nivel 1 — slider de volumen libre (Fix #2) -->
     <h3>Volumen de operación — ajusta y observa el impacto en tiempo real <span class="ttip" data-t="Es la palanca #1 de la reunión. Mueve el volumen mensual y todo se recalcula en vivo: EBITDA, pozo de caja y break-even. La zona de decisión real está entre 60 y 120 t/mes.">i</span></h3>
     <div class="sl"><label>Volumen mensual (t/mes) <b><span id="volSliderV"></span> t/mes</b><span class="ttip" data-t="Toneladas que procesas al mes en estado estable (M4+). Por debajo del equilibrio (~82 t) el EBITDA es negativo; por encima sube ~$112 por tonelada extra. Anula el volumen del escenario seleccionado.">i</span></label>
@@ -266,8 +277,10 @@
           </select></label>
       </div>
     </details>
+    </div><!-- /fin-controls -->
 
-    <div class="cards" id="kpiCards" style="margin-top:14px"></div>
+    <div class="fin-results">
+    <div class="cards" id="kpiCards" style="margin-top:0"></div>
     <div id="finVerdict"></div>
 
     <div class="grid2" style="margin-top:14px">
@@ -287,6 +300,8 @@
 
     <h3>Comparativa — mes en estado estable (M4+), emparejamientos por defecto</h3>
     <table id="compareTable"><thead></thead><tbody></tbody></table>
+    </div><!-- /fin-results -->
+    </div><!-- /fin-layout -->
   </div>
 
   <!-- 5 CAPEX -->
