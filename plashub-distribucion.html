@@ -199,7 +199,9 @@
       <div>
         <h3>Huella de la nave</h3>
         <div class="presets" id="presets"></div>
-        <div class="note" style="background:#fff8ef;border:1px solid #f0d9a8;border-radius:7px;padding:7px 10px;margin:2px 0 8px">🏭 <b>Sitio real (Parque Porcino) — Área 2 = 50 × 36 = 1,800 m²</b> (frente de 50 m sobre la rampa/muelle). Aloja <b>Etapa 1 (distribución, al frente) + Etapa 2 (procesamiento, al fondo) + oficinas (2 pisos)</b>. Incluye la rampa/muelle (~600 m²) al frente. <b>LOI:</b> Fase 1 (M2–M6) arrienda ~600 m²; Fase 2 (M7+) los 1,800 m² completos.</div>
+        <div class="note" style="background:#fff8ef;border:1px solid #f0d9a8;border-radius:7px;padding:7px 10px;margin:2px 0 8px">🏭 <b>Sitio real — Cooperativa Agraria Parque Porcino (Ventanilla).</b> Dos fases (LOI):<br>
+          • <b>Fase 1 (M2–M6) = 600 m²</b> con acceso a la rampa/muelle (arranque de consolidación). Preset <i>"PP · Fase 1"</i>.<br>
+          • <b>Fase 2 (M7+) = Área 2 completa = 1,800 m²</b> (50 × 36 m) = <b>rampa/muelle ~600 m² + oficina ~70 m² (2 pisos) + el resto (~1,130 m²) almacén/proceso/circulación</b>. Preset <i>"PP · Fase 2 ★"</i> (por defecto).</div>
         <div class="sl"><label><span>Frente (pared del portón) <span class="ttip" data-t="Ancho de la nave en la pared del portón. Junto con la profundidad define el área total. Más frente = portón más holgado y más columnas de almacenamiento.">i</span></span> <b><span id="wfV"></span> m</b></label><input type="range" id="wf" min="14" max="52" step="0.5"></div>
         <div class="sl"><label><span>Profundidad (frente → fondo, eje de flujo) <span class="ttip" data-t="Largo de la nave en el eje del flujo (muelle → proceso → almacén → fondo). Si es muy corta el modelo avisa que las zonas funcionales no caben. El área extra se vuelve 'buffer libre'.">i</span></span> <b><span id="dV"></span> m</b></label><input type="range" id="dp" min="18" max="42" step="0.5"></div>
         <div class="sl"><label><span>Altura libre <span class="ttip" data-t="Altura útil bajo estructura. Permite apilar bolsones 2-alto (o racking 3-alto en esporádicos). No cambia el área pero sí la densidad de almacenamiento y la capacidad estática.">i</span></span> <b><span id="hV"></span> m</b></label><input type="range" id="ht" min="5" max="11" step="0.5"></div>
@@ -354,7 +356,7 @@ const DEFAULTS={
   },
   PARAMS:{STAGE1:80, OPT:100, BE:61, densFreq:1.4, densSpo:1.8, densPallet:0.7,
           packFreq:0.70, packSpo:0.60, holdFreq:14, holdSpo:5, fillPct:70, workDays:22,
-          ped:1.2, aisle:3.5, gate:4.5,
+          ped:1.2, aisle:3.5, gate:8,   // muelle ancho del sitio real (Parque Porcino Fase 2) → banda de carga ≈600 m²
           // --- params funcionales (sizing por driver operativo) ---
           staffOp:3, staffAdmin:1, m2PerPerson:4.5, scaleArea:24,
           sortingSpots:3, m2PerSpot:10, batchSizeMax:12, bolsonFootprint:1.2,
@@ -366,13 +368,13 @@ const DEFAULTS={
     tax:'excel',eq:'forklift',showGrid:true,showFk:true,showFlow:true,zoom:1,tx:0,ty:0,areaOverrides:{}},
 };
 const PRESETS=[
-  {label:'350 m²',  wf:17.5,d:20},
-  {label:'500 m²',  wf:20,  d:25},
-  {label:'700 m²',  wf:23.3,d:30},
-  {label:'900 m²',  wf:30,  d:30},
-  {label:'1000 m²', wf:28.6,d:35},
-  {label:'36×50m 🏭',wf:36,  d:50},   // terreno disponible (Etapa 1 + Etapa 2 en el mismo edificio)
-  {label:'🏭 Parque Porcino ★',wf:50,d:36,h:6},   // SITIO REAL — Área 2 = 50×36 = 1,800 m² (E1 frente + E2 fondo + oficinas)
+  {label:'350 m²',  wf:17.5,d:20, set:{gate:4.5}},
+  {label:'500 m²',  wf:20,  d:25, set:{gate:4.5}},
+  {label:'700 m²',  wf:23.3,d:30, set:{gate:4.5}},
+  {label:'900 m²',  wf:30,  d:30, set:{gate:4.5}},
+  {label:'1000 m²', wf:28.6,d:35, set:{gate:4.5}},
+  {label:'PP · Fase 1 · 600 m²', wf:24,d:25,h:6, set:{gate:4.5}},        // Fase 1 (M2–M6): 600 m² con acceso a rampa
+  {label:'🏭 PP · Fase 2 · 1,800 ★', wf:50,d:36,h:6, set:{gate:8}},      // Fase 2 (M7+): Área 2 completa — muelle ancho (rampa/muelle ≈600)
 ];
 const EQ={forklift:'Montacarga contrabalanceado 3 t', palletjack:'Solo transpaletas (según CAPEX)'};
 
@@ -790,7 +792,7 @@ tgGrid.onclick=()=>{state.showGrid=!state.showGrid;render();};tgFk.onclick=()=>{
 /* ---------- PRESETS / SEGMENTOS / SLIDERS ---------- */
 loadState();   // <-- carga datos guardados ANTES de construir la UI
 const presetBox=document.getElementById('presets');
-PRESETS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.label;b.onclick=()=>{state.wf=p.wf;state.d=p.d;if(p.h!=null)state.h=p.h;syncSliders();updateAll();};presetBox.appendChild(b);});
+PRESETS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.label;b.onclick=()=>{state.wf=p.wf;state.d=p.d;if(p.h!=null)state.h=p.h;if(p.set)Object.assign(PARAMS,p.set);syncSliders();buildParamEditor();updateAll();};presetBox.appendChild(b);});
 function markPreset(){[...presetBox.children].forEach((b,i)=>{const p=PRESETS[i];b.classList.toggle('active',Math.abs(p.wf-state.wf)<0.01&&Math.abs(p.d-state.d)<0.01);});}
 const taxSeg=document.getElementById('taxSeg');
 Object.entries(TAXONOMIES).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.label;b.dataset.k=k;
