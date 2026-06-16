@@ -154,7 +154,7 @@
 <body>
 <header>
   <h1>PlasHub / Factory "Amaru I" — Distribución y Modelo de Capacidad <span style="color:var(--orange);font-size:13px;">· validado v2</span></h1>
-  <div class="sub">Hub de consolidación Etapa 1 (sin trituración / lavado / peletizado) · Lima Norte, Perú · Neo Amaru Global S.A.C. · RECIBE → CLASIFICA → PESA → ALMACENA → CONSOLIDA 20 t → DESPACHA contenedor 40′</div>
+  <div class="sub">Hub de consolidación Etapa 1 (sin trituración / lavado / peletizado) · Cooperativa Agraria Parque Porcino, Ventanilla (Callao) · Neo Amaru Global S.A.C. · RECIBE → CLASIFICA → PESA → ALMACENA → CONSOLIDA 20 t → DESPACHA contenedor 40′</div>
   <span class="assump" id="assumpChip"></span>
 </header>
 
@@ -199,7 +199,8 @@
       <div>
         <h3>Huella de la nave</h3>
         <div class="presets" id="presets"></div>
-        <div class="sl"><label><span>Frente (pared del portón) <span class="ttip" data-t="Ancho de la nave en la pared del portón. Junto con la profundidad define el área total. Más frente = portón más holgado y más columnas de almacenamiento.">i</span></span> <b><span id="wfV"></span> m</b></label><input type="range" id="wf" min="14" max="32" step="0.5"></div>
+        <div class="note" style="background:#fff8ef;border:1px solid #f0d9a8;border-radius:7px;padding:7px 10px;margin:2px 0 8px">🏭 <b>Sitio real (Parque Porcino):</b> almacén de <b>50 × 18 m = 900 m²</b>. Los <b>~600 m² de rampa/dock</b> son una zona <b>separada</b> (no incluida en este plano). En Fase 1 se arriendan <b>600 m²</b> de los 900 m².</div>
+        <div class="sl"><label><span>Frente (pared del portón) <span class="ttip" data-t="Ancho de la nave en la pared del portón. Junto con la profundidad define el área total. Más frente = portón más holgado y más columnas de almacenamiento.">i</span></span> <b><span id="wfV"></span> m</b></label><input type="range" id="wf" min="14" max="52" step="0.5"></div>
         <div class="sl"><label><span>Profundidad (frente → fondo, eje de flujo) <span class="ttip" data-t="Largo de la nave en el eje del flujo (muelle → proceso → almacén → fondo). Si es muy corta el modelo avisa que las zonas funcionales no caben. El área extra se vuelve 'buffer libre'.">i</span></span> <b><span id="dV"></span> m</b></label><input type="range" id="dp" min="18" max="42" step="0.5"></div>
         <div class="sl"><label><span>Altura libre <span class="ttip" data-t="Altura útil bajo estructura. Permite apilar bolsones 2-alto (o racking 3-alto en esporádicos). No cambia el área pero sí la densidad de almacenamiento y la capacidad estática.">i</span></span> <b><span id="hV"></span> m</b></label><input type="range" id="ht" min="5" max="11" step="0.5"></div>
 
@@ -361,16 +362,17 @@ const DEFAULTS={
           diasHoldFreq:20, diasHoldSpo:45,
           // --- dimensiones físicas del bolsón (FIBC ~1 t) ---
           bolsonW:1.0, bolsonD:1.0, bolsonH:1.2, minZoneDepth:2.0, forkReach:0.3},
-  state:{wf:30,d:30,h:6,fk:1,sh:8,ld:4,mt:4,ct:3,ut:60,
+  state:{wf:50,d:18,h:6,fk:1,sh:8,ld:4,mt:4,ct:3,ut:60,   // default = sitio real (Parque Porcino, 50×18)
     tax:'excel',eq:'forklift',showGrid:true,showFk:true,showFlow:true,zoom:1,tx:0,ty:0,areaOverrides:{}},
 };
 const PRESETS=[
   {label:'350 m²',  wf:17.5,d:20},
   {label:'500 m²',  wf:20,  d:25},
   {label:'700 m²',  wf:23.3,d:30},
-  {label:'900 m² ★',wf:30,  d:30},
+  {label:'900 m²',  wf:30,  d:30},
   {label:'1000 m²', wf:28.6,d:35},
-  {label:'36×50m 🏭',wf:36,  d:50},   // terreno real disponible (Etapa 1 + Etapa 2 en el mismo edificio)
+  {label:'36×50m 🏭',wf:36,  d:50},   // terreno disponible (Etapa 1 + Etapa 2 en el mismo edificio)
+  {label:'🏭 Parque Porcino ★',wf:50,d:18,h:6},   // SITIO REAL CONFIRMADO (almacén 50×18 = 900 m²)
 ];
 const EQ={forklift:'Montacarga contrabalanceado 3 t', palletjack:'Solo transpaletas (según CAPEX)'};
 
@@ -788,7 +790,7 @@ tgGrid.onclick=()=>{state.showGrid=!state.showGrid;render();};tgFk.onclick=()=>{
 /* ---------- PRESETS / SEGMENTOS / SLIDERS ---------- */
 loadState();   // <-- carga datos guardados ANTES de construir la UI
 const presetBox=document.getElementById('presets');
-PRESETS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.label;b.onclick=()=>{state.wf=p.wf;state.d=p.d;syncSliders();updateAll();};presetBox.appendChild(b);});
+PRESETS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.label;b.onclick=()=>{state.wf=p.wf;state.d=p.d;if(p.h!=null)state.h=p.h;syncSliders();updateAll();};presetBox.appendChild(b);});
 function markPreset(){[...presetBox.children].forEach((b,i)=>{const p=PRESETS[i];b.classList.toggle('active',Math.abs(p.wf-state.wf)<0.01&&Math.abs(p.d-state.d)<0.01);});}
 const taxSeg=document.getElementById('taxSeg');
 Object.entries(TAXONOMIES).forEach(([k,v])=>{const b=document.createElement('button');b.textContent=v.label;b.dataset.k=k;

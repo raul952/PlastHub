@@ -119,6 +119,18 @@
   .src{font-size:10.5px;color:#7a828c;}
   .src a{color:#41617a;}
 
+  /* ── 6-section layout ── */
+  /* sec-group: NO overflow:hidden → permite position:sticky en fin-controls dentro de §③ */
+  .sec-group{border:2px solid var(--dark);border-radius:12px;margin-bottom:24px;}
+  .sec-group .panel{border-radius:0;border:none;border-bottom:1px solid var(--line);margin-bottom:0;box-shadow:none;}
+  .sec-group .panel:last-child{border-bottom:none;border-radius:0 0 10px 10px;}
+  /* scripts y otros elementos inline dentro de sec-group no añaden espacio */
+  .sec-group>script{display:none;}
+  .sec-hdr{background:var(--dark);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;border-radius:10px 10px 0 0;}
+  .sec-hdr h2{margin:0;font-size:17px;color:#fff;border:none;padding:0;font-weight:700;}
+  .sec-num{background:var(--orange);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:0 0 auto;}
+  .sec-desc{font-size:12px;color:var(--muted);margin-top:2px;}
+
   @media print{
     @page{size:A4 portrait;margin:12mm;}
     body{background:#fff;font-size:10px;}
@@ -134,7 +146,7 @@
 <body>
 <header>
   <h1>PlasHub — Plan de Negocio para Inversores · Etapa 1 (12 meses)</h1>
-  <div class="sub">Neo Amaru Global S.A.C. · Factory "Amaru I" — Hub de Consolidación de Plásticos · Lima Norte / corredor SMP, Perú</div>
+  <div class="sub">Neo Amaru Global S.A.C. · Factory "Amaru I" — Hub de Consolidación de Plásticos · Cooperativa Agraria Parque Porcino, Ventanilla (Callao), Perú</div>
   <div class="meta">Modelo: comprar → clasificar → pesar → almacenar → consolidar 20 t → despachar contenedor 40′. Sin procesamiento en Etapa 1. · <b style="color:#fff">Todos los parámetros, precios y costos son editables</b> · Cifras en USD.</div>
 </header>
 
@@ -151,19 +163,29 @@
   </div>
   <div id="verifyBar"></div>
 
+  <div class="subnav">
+    <span class="subnav-lbl">Sección:</span>
+    <a href="#sec-decision">① Decisión</a>
+    <a href="#sec-mercado">② Mercado</a>
+    <a href="#sec-e1-plan">③ Plan E1</a>
+    <a href="#sec-e2-plan">④ Plan E2</a>
+    <a href="#sec-ruta">⑤ Hoja de Ruta</a>
+    <a href="#sec-otros">⑥ Otros</a>
+  </div>
+
+  <!-- ① SECCIÓN DECISIÓN -->
+  <div class="sec-group" id="sec-decision">
+    <div class="sec-hdr">
+      <span class="sec-num">①</span>
+      <div><h2>Plan de Decisión</h2><div class="sec-desc">Veredicto GO/NO-GO · KPIs ejecutivos · ¿Listos para firmar la nave?</div></div>
+    </div>
+
   <!-- PANEL DE DECISIÓN GO / NO-GO (Fix #12) -->
   <div class="panel" id="gonogoPanel" style="border-left:5px solid var(--teal)">
     <h2>⚡ Panel de Decisión — ¿Listos para firmar la nave?</h2>
     <p class="lead" style="margin-bottom:12px">Condiciones necesarias antes de comprometer capital o arrendar la nave. Las automáticas (🤖) se calculan del modelo; las manuales (✋) las marcas tú.</p>
     <div id="gonogoConds"></div>
     <div id="gonogoVerdict" style="margin-top:12px"></div>
-  </div>
-
-  <div class="subnav">
-    <span class="subnav-lbl">Ir a:</span>
-    <a href="#sec-e1">① Plan Etapa 1</a>
-    <a href="#sec-e2">② Plan Etapa 2 (procesamiento)</a>
-    <a href="#sec-permisos">③ Permisos &amp; procesos</a>
   </div>
 
   <!-- 1 RESUMEN EJECUTIVO -->
@@ -174,6 +196,15 @@
     <div class="cav ok" style="margin-top:12px"><b>El pedido.</b> <span id="askLine"></span></div>
     <p class="note">Stage 1 es una validación del modelo comercial de 12 meses <i>antes</i> de comprometer capital en equipos de procesamiento. Documentos complementarios: <b>plashub-distribucion.html</b> (operación y capacidad) y <b>Amaru-I-Project-Charter-v2.docx</b>.</p>
   </div>
+
+  </div><!-- /sec-decision -->
+
+  <!-- ② SECCIÓN MERCADO -->
+  <div class="sec-group" id="sec-mercado">
+    <div class="sec-hdr">
+      <span class="sec-num">②</span>
+      <div><h2>Contexto de Mercado</h2><div class="sec-desc">El negocio y la propuesta de valor · Materiales, precios y margen</div></div>
+    </div>
 
   <!-- 2 MODELO + PROPUESTA -->
   <div class="panel">
@@ -230,6 +261,15 @@
     <p class="note">Mix % = participación estimada del tonelaje de ingreso. No es necesario que sumen 100 (se normaliza). Acopio Perú ref.: PET S/0.70–2.60/kg, HDPE/PP/LDPE S/0.30–0.80/kg. Fuentes §10.</p>
   </div>
 
+  </div><!-- /sec-mercado -->
+
+  <!-- ③ SECCIÓN PLAN E1 -->
+  <div class="sec-group" id="sec-e1-plan">
+    <div class="sec-hdr">
+      <span class="sec-num">③</span>
+      <div><h2>Plan Etapa 1 — Modelo Financiero</h2><div class="sec-desc">Modelo interactivo · CAPEX · OPEX · Brecha de capital</div></div>
+    </div>
+
   <!-- 4 MODELO FINANCIERO -->
   <div class="panel">
     <h2>4 · Modelo financiero — <span class="nx">interactivo y editable</span>, los tres escenarios</h2>
@@ -251,6 +291,13 @@
     <div class="seg" id="scenSeg"></div>
     <h3>Setup CAPEX / OPEX <span class="ttip" data-t="Elige la estructura de costos: Lean (A) = subarriendo ~900 m², equipo mínimo. Full (B) = lease directo 1,500 m², más capacidad y más OPEX. Cambia qué tablas de CAPEX/OPEX (§5 y §6) alimentan el modelo.">i</span></h3>
     <div class="seg" id="opexSeg"></div>
+
+    <h3>Renta de la nave — bifásica (LOI) <span class="ttip" data-t="Renta confirmada del LOI de Parque Porcino. M1 = gracia ($0). M2–M6 = Fase 1 (600 m², ~$2,000). M7+ = Fase 2 obligatoria (1,800 m² consolidados, ~$4,200). La renta se modela aquí, no en la lista de OPEX (§6).">i</span></h3>
+    <div class="ctrls" style="grid-template-columns:1fr 1fr;gap:8px 14px">
+      <label style="font-size:12px">Renta Fase 1 (M2–M6) $/mes <input class="ed" id="rentaF1" type="number" step="100" style="width:72px"></label>
+      <label style="font-size:12px">Renta Fase 2 (M7+) $/mes <input class="ed" id="rentaF2" type="number" step="100" style="width:72px"></label>
+    </div>
+    <div class="cav warn" style="font-size:11.5px;margin:6px 0">⚠ <b>Confirmar IGV (+18%)</b> sobre la renta con el propietario (persona natural). Si aplica: Fase 1 = <b>$<span id="igvF1"></span>/mes</b> · Fase 2 = <b>$<span id="igvF2"></span>/mes</b>.</div>
 
     <div class="ctrls">
       <div class="sl"><label>Capital confirmado <b>$<span id="capV"></span></b><span class="ttip" data-t="Capital total disponible para el proyecto. Es la referencia contra la que se mide la brecha (§7) y el break-even de CAJA. El timing real de los aportes se edita en §7 (Alex/Raúl); este slider es el total comprometido.">i</span></label><input type="range" id="cap" min="15000" max="65000" step="1000"></div>
@@ -327,7 +374,7 @@
       <div><h3>Escenario A — Lean<span class="ttip" data-t="Gasto fijo que pagas cada mes opere o no (renta, sueldos base, vigilancia, contador…). Editable línea por línea. Sube el OPEX y el volumen de equilibrio sube; baja el EBITDA. El slider 'Ajuste OPEX fijo' (§4) lo escala en bloque.">i</span></h3><table id="opexAT"><thead><tr><th>Concepto</th><th class="num">$/mes</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div>
       <div><h3>Escenario B — Full</h3><table id="opexBT"><thead><tr><th>Concepto</th><th class="num">$/mes</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div>
     </div>
-    <p class="note">Costo variable (flete + drayage) editable con el slider §4. Salarios reflejan la RMV Perú 2026 (S/1,130 ≈ $305) + beneficios. Raúl no cobra hasta EBITDA ≥ 0 por 2 meses.</p>
+    <p class="note"><b>La renta NO está en esta lista</b> — se modela aparte como renta <b>bifásica</b> en §4 (M1 gracia · M2–M6 Fase 1 · M7+ Fase 2), según el LOI de Parque Porcino. Costo variable (flete + drayage) editable con el slider §4. Salarios reflejan la RMV Perú 2026 (S/1,130 ≈ $305) + beneficios. Raúl no cobra hasta EBITDA ≥ 0 por 2 meses.</p>
   </div>
 
   <!-- 7 BRECHA -->
@@ -365,23 +412,14 @@
     <div class="cav ok"><b>Recomendación:</b> iniciar <b>Lean (A)</b>, cerrar el pozo con negociación de garantía + prepago de Alex + puente entre socios, validar el caso Base, y graduar a Full (B) + Etapa 2 con utilidades retenidas + línea bancaria con volumen probado.</div>
   </div>
 
-  <!-- 8 RIESGOS -->
-  <div class="panel">
-    <h2>8 · Registro de riesgos (honesto)</h2>
-    <table id="riskTable"><thead><tr><th>Riesgo</th><th>Prob.</th><th>Impacto</th><th>Mitigación</th></tr></thead><tbody></tbody></table>
-  </div>
+  </div><!-- /sec-e1-plan -->
 
-  <!-- 9 HOJA DE RUTA -->
-  <div class="panel">
-    <h2>9 · Hoja de ruta 12 meses y Gate</h2>
-    <table>
-      <tr><th>Fase</th><th>Meses</th><th>Hitos</th></tr>
-      <tr><td>Setup y permisos</td><td>M0–M3</td><td>EC-RS (inicio día 1); pacto de socios + RMT; nave firmada; layout; montacarga + báscula; primer inbound.</td></tr>
-      <tr><td>Rampa</td><td>M1–M3</td><td>Volumen 50→90%; base de proveedores + QC; primeros contenedores consolidados.</td></tr>
-      <tr><td>Operación estable</td><td>M4–M9</td><td>~100 t/mes (Base); KPIs: rechazo &lt;10%, margen ≥40%, días inventario &lt;30, caja ≥$3K.</td></tr>
-      <tr><td>Validar y Gate</td><td>M10–M12</td><td>Probar margen y fiabilidad; Gate 1: Go / cambiar alcance / parar Etapa 2.</td></tr>
-    </table>
-  </div>
+  <!-- ④ SECCIÓN PLAN E2 -->
+  <div class="sec-group" id="sec-e2-plan">
+    <div class="sec-hdr">
+      <span class="sec-num">④</span>
+      <div><h2>Plan Etapa 2 — Procesamiento</h2><div class="sec-desc">¿Cuándo lanzar? · CAPEX de procesamiento · OPEX · Timing y caja</div></div>
+    </div>
 
   <!-- ETAPA 2 -->
   <div class="panel" id="sec-e2">
@@ -430,6 +468,27 @@
     <p class="note">La Etapa 1 (consolidación, ~$2K/mes de EBITDA) es la <b>opción barata sobre la Etapa 2</b> (procesamiento, ~$40K/mes). El costo de esperar no es ahorrar capital — es perder meses de margen alto. Para el layout de la planta de procesamiento, ver la pestaña <b>Etapa 2 · Distribución</b>.</p>
   </div>
 
+  </div><!-- /sec-e2-plan -->
+
+  <!-- ⑤ SECCIÓN HOJA DE RUTA -->
+  <div class="sec-group" id="sec-ruta">
+    <div class="sec-hdr">
+      <span class="sec-num">⑤</span>
+      <div><h2>Hoja de Ruta &amp; Permisos</h2><div class="sec-desc">Fases y milestones · EC-RS y permisos críticos · Checklist</div></div>
+    </div>
+
+  <!-- 9 HOJA DE RUTA -->
+  <div class="panel">
+    <h2>9 · Hoja de ruta 12 meses y Gate</h2>
+    <table>
+      <tr><th>Fase</th><th>Meses</th><th>Hitos</th></tr>
+      <tr><td>Setup y permisos</td><td>M0–M3</td><td>EC-RS (inicio día 1); pacto de socios + RMT; nave firmada; layout; montacarga + báscula; primer inbound.</td></tr>
+      <tr><td>Rampa</td><td>M1–M3</td><td>Volumen 50→90%; base de proveedores + QC; primeros contenedores consolidados.</td></tr>
+      <tr><td>Operación estable</td><td>M4–M9</td><td>~100 t/mes (Base); KPIs: rechazo &lt;10%, margen ≥40%, días inventario &lt;30, caja ≥$3K.</td></tr>
+      <tr><td>Validar y Gate</td><td>M10–M12</td><td>Probar margen y fiabilidad; Gate 1: Go / cambiar alcance / parar Etapa 2.</td></tr>
+    </table>
+  </div>
+
   <!-- PERMISOS -->
   <div class="panel" id="sec-permisos">
     <h2>11 · Permisos y certificaciones por etapa <span class="pill">lista maestra</span></h2>
@@ -458,6 +517,21 @@
   })();
   </script>
 
+  </div><!-- /sec-ruta -->
+
+  <!-- ⑥ SECCIÓN OTROS -->
+  <div class="sec-group" id="sec-otros">
+    <div class="sec-hdr">
+      <span class="sec-num">⑥</span>
+      <div><h2>Otros</h2><div class="sec-desc">Registro de riesgos · Fuentes y supuestos · Exportar PDF</div></div>
+    </div>
+
+  <!-- 8 RIESGOS -->
+  <div class="panel">
+    <h2>8 · Registro de riesgos (honesto)</h2>
+    <table id="riskTable"><thead><tr><th>Riesgo</th><th>Prob.</th><th>Impacto</th><th>Mitigación</th></tr></thead><tbody></tbody></table>
+  </div>
+
   <!-- 10 FUENTES -->
   <div class="panel">
     <h2>12 · Fuentes y supuestos</h2>
@@ -474,6 +548,9 @@
     <button class="printbtn" onclick="window.print()">🖨 Imprimir / exportar PDF (A4)</button>
     <div class="note">Hoja de impresión A4 vertical — usa "Guardar como PDF". (Al imprimir, los campos editables se muestran como texto.)</div>
   </div>
+
+  </div><!-- /sec-otros -->
+
 </div>
 
 <script>
@@ -493,18 +570,18 @@ const DEFAULTS = {
         optimista:{vol:200,opex:'B',label:'Optimista'}},
   OPEXDEF:{
    A:{label:'Lean (A) — subarriendo ~900 m²',
-      items:[['Renta nave (~900 m² subarriendo)',3186],['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1100],
+      items:[['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1100],
         ['Operarios de planta (×2)',1100],['Electricidad trifásica',350],['Seguridad / vigilancia',1100],
         ['Mantenimiento (báscula, menor)',50],['Contabilidad / contador',500],['EPP y consumibles',200],
         ['Comunicaciones (internet+móvil)',100],['Servicios básicos (agua/desagüe)',100],['Contingencia 5%',439]],
-      capex:[['Garantía nave (2 meses)',6372,'Negociable a 1 mes → −$3,186'],['Adelanto 1 mes de renta',3186,''],
+      capex:[['Garantía + adelanto (2×1 lease)',6000,'$4K dep. recuperable + $2K adelanto · al firmar (LOI Parque Porcino)'],
         ['Adecuaciones: demarcación 7 zonas, señalética, luminarias, piso',1500,'Demarcación y señalética'],
         ['Báscula de piso 3 t',1200,'Compra'],['Transpaleta + EPP + herramientas',1100,'Montacarga se alquila (OPEX)'],
         ['Consultor EC-RS / ambiental (MINAM)',3500,'Ruta crítica 60–90 d'],['Asesoría legal (MOU, pacto socios)',1500,''],
         ['Ingeniería / diseño de layout',1000,''],['Registro SUNAT (RMT) + contabilidad inicial',1500,'']],
       wc:6000},
    B:{label:'Full (B) — lease directo 1,500 m²',
-      items:[['Renta nave (1,500 m² @ ~$5/m²)',7500],['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1300],
+      items:[['Montacarga 3 t (alquiler)',1000],['Jefe de Planta / Site Manager',1300],
         ['Operarios de planta (×3)',1650],['Supervisor / QA (parcial)',600],['Electricidad trifásica',600],
         ['Seguridad / vigilancia',1200],['Mantenimiento',150],['Contabilidad / contador',650],
         ['EPP y consumibles',350],['Comunicaciones',150],['Servicios básicos',200],['Contingencia 5%',770]],
@@ -527,7 +604,9 @@ const DEFAULTS = {
       {name:'Alex', amt:16000, month:0},
       {name:'Raúl', amt:5500,  month:1},
     ],
-    gng_alex_contract:false, gng_ecrs:false, gng_nave:false, gng_forklift:false},  // Fix #12 — GO/NO-GO manual
+    gng_alex_contract:false, gng_ecrs:false, gng_nave:false, gng_forklift:false,  // Fix #12 — GO/NO-GO manual
+    // --- Renta bifásica (LOI Parque Porcino) — la renta se gestiona aquí, no en la lista de OPEX ---
+    rentaF1:2000, rentaF2:4200, graceMonths:1},   // M1 gracia $0 · M2–M6 = F1 · M7+ = F2
 };
 function rampArrFor(S){const r=(S&&S.ramp)||{m1:50,m2:75,m3:90,steady:100};
   return [r.m1,r.m2,r.m3,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady,r.steady].map(x=>(+x||0)/100);}
@@ -566,8 +645,12 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify({MAT,OPEXDEF,SCEN,st
 /* ===================== MODELO ===================== */
 function wBuy(){const t=MAT.reduce((s,m)=>s+(+m.mix||0),0)||1; return MAT.reduce((s,m)=>s+(+m.buy||0)*(+m.mix||0),0)/t;}
 function wSell(){const t=MAT.reduce((s,m)=>s+(+m.mix||0),0)||1; return MAT.reduce((s,m)=>s+(+m.sell||0)*(+m.mix||0),0)/t;}
-function fixedOpex(k){return Math.round(OPEXDEF[k].items.reduce((s,i)=>s+(+i[1]||0),0));}
+// OPEX fijo SIN la renta (la renta se modela aparte, bifásica). Excluye cualquier línea "Renta…".
+function fixedOpex(k){return Math.round(OPEXDEF[k].items.filter(i=>!/renta/i.test(i[0])).reduce((s,i)=>s+(+i[1]||0),0));}
 function capexTotal(k){return OPEXDEF[k].capex.reduce((s,i)=>s+(+i[1]||0),0);}
+// Renta del mes m (LOI bifásico): M1..grace = $0 · hasta M6 = Fase 1 · M7+ = Fase 2
+function rentMonth(S,m){const g=Math.max(0,+S.graceMonths||0); if(m<=g)return 0; return m<=6?(+S.rentaF1||0):(+S.rentaF2||0);}
+function rentSteady(S){return +S.rentaF2||0;}
 function pricesFor(S){return {buy:wBuy()*(1+(+S.ba||0)/100), sell:wSell()*(1+(+S.sa||0)/100)};}
 function prices(){return pricesFor(st);}
 /* run(scenKey, opexKey, S?) — S es un estado (por defecto el global st). Si S.customVol!=null se usa
@@ -577,7 +660,10 @@ function run(scenKey,opexKey,S){
   S=S||st;
   const {buy,sell}=pricesFor(S);
   const vol=(S.customVol!=null)?+S.customVol:(+SCEN[scenKey].vol||0);
-  const fixed=fixedOpex(opexKey)*(1+(+S.fo||0)/100);
+  const foM=(1+(+S.fo||0)/100);
+  const fixedExRent=fixedOpex(opexKey)*foM;                      // OPEX fijo sin renta (escalado por el slider)
+  const fixedM=m=>fixedExRent+rentMonth(S,m)*foM;               // OPEX fijo del mes m (renta bifásica)
+  const fixedSteady=fixedExRent+rentSteady(S)*foM;              // estado estable (Fase 2) — para break-even / display
   const capex=capexTotal(opexKey);
   const vt=+S.vt||0, lg=Math.max(0,+S.lg||0), supLag=Math.max(0,+S.supplierLag||0), setupM=Math.max(0,+S.setupMonths||0);
   const gpT=sell-buy, contribT=gpT-vt;
@@ -592,13 +678,14 @@ function run(scenKey,opexKey,S){
   /* P&L mensual (independiente del timing de caja) */
   for(let m=1;m<=12;m++){
     const v=vol*RMP[m-1]; vols.push(v);
-    const r=v*sell, c=v*buy, g=r-c, ov=v*vt, e=g-ov-fixed;
-    rev.push(r);cogs.push(c);gp.push(g);vo.push(ov);fx.push(fixed);eb.push(e);
+    const fm=fixedM(m);
+    const r=v*sell, c=v*buy, g=r-c, ov=v*vt, e=g-ov-fm;
+    rev.push(r);cogs.push(c);gp.push(g);vo.push(ov);fx.push(fm);eb.push(e);
     cumEb+=e; if(beMonth===null&&e>0)beMonth=m;
     if(payback===null&&cumEb>=capex)payback=m;
   }
-  /* CAJA — M0 (setup): entra el capital de socios con month:0 + prepago de Alex; sale CAPEX + OPEX del setup */
-  const setupBurn=fixed*setupM;
+  /* CAJA — M0 (setup): entra el capital de socios con month:0 + prepago de Alex; sale CAPEX + OPEX del setup (sin renta: el adelanto va en el CAPEX) */
+  const setupBurn=fixedExRent*setupM;
   let bk=partAt(0)+alexPrepay-capexCash-setupBurn;
   const bk0=bk;
   let trough=bk, troughM=0;
@@ -611,8 +698,8 @@ function run(scenKey,opexKey,S){
     bk+=collect-cashOut; bank.push(bk);
     if(bk<trough){trough=bk;troughM=m;}
   }
-  const yEb=eb.reduce((a,b)=>a+b,0), roi=capex>0?yEb/capex*100:0, beVol=contribT>0?fixed/contribT:Infinity;
-  return {buy,sell,vol,fixed,capex,gpT,contribT,rev,cogs,gp,vo,fx,eb,bank,vols,yEb,roi,beMonth,payback,beVol,
+  const yEb=eb.reduce((a,b)=>a+b,0), roi=capex>0?yEb/capex*100:0, beVol=contribT>0?fixedSteady/contribT:Infinity;
+  return {buy,sell,vol,fixed:fixedSteady,fixedExRent,rentaF1:+S.rentaF1||0,rentaF2:+S.rentaF2||0,capex,gpT,contribT,rev,cogs,gp,vo,fx,eb,bank,vols,yEb,roi,beMonth,payback,beVol,
     trough,troughM,bk0,setupBurn,alexPrepay,partners,
     needTotal:capex+(+OPEXDEF[opexKey].wc||0)};
 }
@@ -708,6 +795,8 @@ function recompute(){
   capV.textContent=st.cap.toLocaleString();saV.textContent=st.sa;baV.textContent=st.ba;foV.textContent=st.fo;vtV.textContent=st.vt;lgV.textContent=st.lg;
   if($('slV'))  $('slV').textContent=st.supplierLag;       // Fix #3
   if($('smV'))  $('smV').textContent=st.setupMonths;       // Fix #9
+  if($('igvF1')) $('igvF1').textContent=Math.round((+st.rentaF1||0)*1.18).toLocaleString();   // renta + IGV 18%
+  if($('igvF2')) $('igvF2').textContent=Math.round((+st.rentaF2||0)*1.18).toLocaleString();
   markSeg(); renderVerify();
   const R=run(st.scen,st.opex);                            // escenario activo (honra el volumen libre)
   const cbev=cashBreakEven(st.opex);                       // Fix #10 (calculado una vez)
@@ -855,7 +944,7 @@ function renderPL(R){
     if(exec){const v=totals[label]; b+=`<td class="num ${cellCls(label,v,isM)}" style="background:#eef5f4;font-weight:700">${isM?money(v):Math.round(v)}</td>`;}
     b+='</tr>';});
   $('plTable').querySelector('tbody').innerHTML=b;
-  $('plNote').innerHTML=`Setup: <b>${OPEXDEF[st.opex].label}</b> · OPEX fijo $${Math.round(R.fixed).toLocaleString()}/mes · CAPEX $${R.capex.toLocaleString()} (M0 setup) · venta $${Math.round(R.sell)}/t · compra $${Math.round(R.buy)}/t · variable $${st.vt}/t · desfase cobro ${st.lg} mes · pago proveedor ${st.supplierLag} mes · setup ${st.setupMonths} mes. M0 abre tras setup con ${money(R.bk0)}.`;
+  $('plNote').innerHTML=`Setup: <b>${OPEXDEF[st.opex].label}</b> · OPEX fijo (Fase 2, c/renta) $${Math.round(R.fixed).toLocaleString()}/mes · renta <b>bifásica</b>: M1 $0 · M2–M6 $${(R.rentaF1||0).toLocaleString()} · M7+ $${(R.rentaF2||0).toLocaleString()} · CAPEX $${R.capex.toLocaleString()} (M0 setup) · venta $${Math.round(R.sell)}/t · compra $${Math.round(R.buy)}/t · variable $${st.vt}/t · desfase cobro ${st.lg} mes · pago proveedor ${st.supplierLag} mes. M0 abre tras setup con ${money(R.bk0)}.`;
 }
 function renderCompare(){
   $('compareTable').querySelector('thead').innerHTML='<tr><th>Métrica (estable M4+)</th><th class="num">Conservador · A</th><th class="num">Base · A</th><th class="num">Optimista · B</th></tr>';
@@ -965,9 +1054,11 @@ function syncSliders(){cap.value=st.cap;sa.value=st.sa;ba.value=st.ba;fo.value=s
   if($('sl'))$('sl').value=st.supplierLag; if($('sm'))$('sm').value=st.setupMonths;
   if($('alexPrepay'))$('alexPrepay').value=st.alexPrepayPct;
   if($('stressMonthsInput'))$('stressMonthsInput').value=(st.stressMonths||[]).join(',');
-  if($('stressLagSel'))$('stressLagSel').value=st.stressExtraLag;}
+  if($('stressLagSel'))$('stressLagSel').value=st.stressExtraLag;
+  if($('rentaF1'))$('rentaF1').value=st.rentaF1; if($('rentaF2'))$('rentaF2').value=st.rentaF2;}
 [['cap','cap'],['sa','sa'],['ba','ba'],['fo','fo'],['vt','vt'],['lg','lg'],
- ['sl','supplierLag'],['sm','setupMonths'],['alexPrepay','alexPrepayPct']].forEach(([id,key])=>{
+ ['sl','supplierLag'],['sm','setupMonths'],['alexPrepay','alexPrepayPct'],
+ ['rentaF1','rentaF1'],['rentaF2','rentaF2']].forEach(([id,key])=>{
   const el=$(id); if(el)el.addEventListener('input',e=>{st[key]=parseFloat(e.target.value);recompute();});});
 // Fix #2 — slider de volumen libre
 if($('volSlider'))$('volSlider').addEventListener('input',e=>{st.customVol=parseFloat(e.target.value);$('volSliderV').textContent=st.customVol;recompute();});

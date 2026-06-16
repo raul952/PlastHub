@@ -222,14 +222,22 @@ function computeLayout(){
   // 3. REGIÓN PRINCIPAL (Etapa 2) — flujo I en el fondo; cada franja: ancho = área funcional / flowH
   const mainX0=M, flowY0=e1D+M, flowH=(d-e1D)-2*M;
   const lineGap=Math.max(2,flowH*0.08), lineH=(flowH-lineGap)/2;
-  const lineW=STAGES.map(stg=>(stageAreaOf(stg[0].toLowerCase())/st.lines)/lineH);   // ancho por etapa (por línea)
+  const lineW=STAGES.map(stg=>(stageAreaOf(stg[0].toLowerCase())/st.lines)/lineH);
   const procW=lineW.reduce((a,b)=>a+b,0);
-  const procTotalArea=STAGES.reduce((s,stg)=>s+stageAreaOf(stg[0].toLowerCase()),0);
-  // FIT (Bug #4): el flujo principal debe caber a la IZQUIERDA de la columna admin.
-  // Las zonas fijas (recepción, proceso, despacho) no se tocan; si falta espacio se reducen SOLO los buffers MP/PT.
   const mainW=adminX-mainX0;
+  // ── Escalado de etapas: si el proceso no cabe en el ancho disponible, escalar proporcionalmente ──
+  const recW_raw=recArea/flowH, despW_raw=despArea/flowH;
+  const availProcW=mainW-recW_raw-despW_raw;
+  let procScale=1, procScaleWarning=null;
+  if(procW>availProcW*0.90){
+    procScale=Math.max(0.2,(availProcW*0.90)/procW);
+    procScaleWarning=`⚠ Etapas de proceso comprimidas al ${Math.round(procScale*100)}% de su área mínima (nave estrecha: ${mainW.toFixed(1)} m útiles para el flujo principal). Para más área de proceso: reduce la profundidad de E1 (parámetro e1Depth), amplía el frente de la nave (wf) o reduce los días de buffer.`;
+  }
+  const scaledLineW=lineW.map(w=>w*procScale);
+  const scaledProcW=scaledLineW.reduce((a,b)=>a+b,0);
+  // ── Buffers MP/PT: el espacio sobrante tras rec + proceso escalado + desp ──
   let mpW_calc=mpArea/flowH, ptW_calc=ptArea/flowH;
-  const fixedW=recArea/flowH+procW+despArea/flowH;
+  const fixedW=recW_raw+scaledProcW+despW_raw;
   const bufferW=mainW-fixedW;
   let bufferWarning=null;
   if(bufferW>0 && bufferW<mpW_calc+ptW_calc){
@@ -237,24 +245,26 @@ function computeLayout(){
   }
   const bufferShrink=1-bufferW/(mpArea/flowH+ptArea/flowH);
   if(bufferW<=0){
-    bufferWarning=`La nave es demasiado estrecha: las zonas fijas (recepción + proceso + despacho) no caben junto a la columna admin. Amplía el FRENTE de la nave.`;
+    bufferWarning=`Nave muy estrecha: los buffers MP/PT no caben. Amplía el frente de la nave (wf) o reduce los días de buffer.`;
     mpW_calc=Math.max(1,mpW_calc*0.2); ptW_calc=Math.max(1,ptW_calc*0.2);
   } else if(bufferShrink>0.15){
-    bufferWarning=`Buffers MP/PT reducidos ${(bufferShrink*100).toFixed(0)}% (nave estrecha). Amplía la nave o reduce los días de buffer en los parámetros.`;
+    bufferWarning=`Buffers MP/PT reducidos ${(bufferShrink*100).toFixed(0)}% (nave estrecha). Amplía la nave o reduce los días de buffer.`;
   }
   let cx=mainX0;
   {const w=recArea/flowH; zones.push(Z('rec','Recepción / Descarga MP','recepción',cx,flowY0,w,flowH,'#DF6901','Acceso vehicular IZQUIERDO.',`Mín ${st.recMinArea} m² ó ${dailyWashIn.toFixed(1)} t/día × 2 = ${recArea.toFixed(0)} m²`)); cx+=w;}
   {const w=mpW_calc; zones.push(Z('mp','Almacén Materia Prima','mp',cx,flowY0,w,flowH,'#15616D','Buffer de entrada por polímero.',`${st.diasMP} d × ${(eff/30).toFixed(1)} t/día ÷ ${st.densMP} = ${mpArea.toFixed(0)} m²`)); cx+=w;}
   [0,1].forEach(li=>{const ly=flowY0+(li===0?lineH+lineGap:0); let sx=cx;
-    STAGES.forEach((stg,si)=>{const nm=stg[0].toLowerCase(), w=lineW[si], buf=stg[0]==='Escurrido';
+    STAGES.forEach((stg,si)=>{const nm=stg[0].toLowerCase(), w=scaledLineW[si], buf=stg[0]==='Escurrido';
       zones.push(Z('L'+(li+1)+'s'+si,stg[0]+' L'+(li+1),'proc',sx,ly,w,lineH,stg[1],
         buf?'Buffer Lavado→Secado: absorbe el diferencial de velocidad.':'Etapa de proceso — Línea '+(li+1)+'.',
-        `Huella ${st.stageMinArea[nm]??60} m² × ${st.lines} línea(s)`)); sx+=w;});});
-  cx+=procW;
+        `${st.stageMinArea[nm]??60} m² mín/línea${procScale<1?' · escalado al '+Math.round(procScale*100)+'%':''}`)); sx+=w;});});
+  cx+=scaledProcW;
   {const w=ptW_calc; zones.push(Z('pt','Almacén Producto Terminado','pt',cx,flowY0,w,flowH,'#3a93a8','Adyacente a Despacho (flujo en I).',`${st.diasPT} d × ${(effOut/30).toFixed(1)} t/día ÷ ${st.densPT} = ${ptArea.toFixed(0)} m²`)); cx+=w;}
   {const w=despArea/flowH; zones.push(Z('desp','Despacho + Paletizado','despacho',cx,flowY0,w,flowH,'#f0a35e','Contenedor 40\' + paletizado. Acceso DERECHO.',`Mín ${st.despMinArea} m² (contenedor + paletizado) = ${despArea.toFixed(0)} m²`)); cx+=w;}
+  const procTotalArea=scaledProcW*lineH*2;
   const totalFunctional=officeArea+labArea+ptarArea+welfareArea+recArea+despArea+mpArea+ptArea+procTotalArea;
-  LAST={zones,guides:{wf,d,adminColW,flowY0,flowH,M,cx,totalFunctional,e1D},_bufferWarning:bufferWarning};
+  const allWarn=[procScaleWarning,bufferWarning].filter(Boolean);
+  LAST={zones,guides:{wf,d,adminColW,flowY0,flowH,M,cx,totalFunctional,e1D},_bufferWarning:allWarn.length?allWarn.join(' '):null};
   return LAST;
 }
 function Z(id,name,type,x,y,w,h,col,note,driver){return {id,name,type,x:+x,y:+y,w:Math.max(w,.5),h:Math.max(h,.5),col,note,driver:driver||'',area:Math.max(w,0)*Math.max(h,0)};}

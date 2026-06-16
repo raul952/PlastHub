@@ -15,13 +15,15 @@ CONSOLIDA 20 t → DESPACHA contenedor 40′.
 - **Target volume:** **80 t/mo** base · 100 t/mo optimistic · **break-even 61 t/mo**.
 - **Inbound:** ~10 t/week · 1–2 trucks/week · 8–12 bolsones/truck.
 - **Bolsones:** 1 m³, ~1 t, stacked **2-high** (sporadic zones: optional 3-high racking).
-- **Lease target:** **~900 m²** (useful 500–750; up to 1,000). Yard **≥200 m²**. Clear height ≥5 m. Floor ≥5 t/m².
 - **Equipment:** **3-t counterbalance forklift is mandatory** (1-t bolsones can't be handled by pallet jacks); 1.5×1.5 m platform scale. Min aisle 3.5 m.
-- **Economics:** weighted margin **$128.7/t** (~49%) · CAPEX **$20,858** (capital $20–22K, gap −$858) · OPEX **$8,175/mo** (rent $3,186 ≈ 900 m²).
-- **Site:** Lima Norte (SMP / Los Olivos / Puente Piedra). **Front gate only** (deck prefers double access — to confirm). **8×8 m** column grid.
+- **Economics:** weighted margin **$128.7/t** (~49%).
+- **Site CONFIRMED:** Cooperativa Agraria Parque Porcino, Ventanilla (Callao). Warehouse **900 m² (50 m × 18 m × 6 m height)**; loading dock **600 m² (separate zone, external)**; total Area 2 ≈ 1,800 m² (warehouse + dock + offices 2 floors ~70 m²/floor). Phase 1 rents **600 m²** of the 900.
+- **Lease structure CONFIRMED (LOI):** Phase 1 (M1–M6): M1 grace ($0) · M2–M6 **$2,000/mo** (600 m² × $3 + $200 dock). Phase 2 (M7+, mandatory): **$4,200/mo** consolidated (1,800 m²). Upfront at signing: **$6,000** (2 mo deposit + 1 mo advance, "2×1"); deposit ~$4,000 recoverable. Contract: **24 months** min.
 - **7 material types — taxonomy to confirm:** Excel = 5 frequent (PET, HDPE, PP, PE Film, Polvillo de Flake) + 2 sporadic (ABS/PS, Nylon/PA); slide deck = 4 frequent + 3 sporadic (incl. "Mix especiales").
 
 ### Open flags (carry forward)
+- ⚠ **IGV on rent** — landlord is *persona natural*; confirm whether 18% applies (Phase 1 = $2,360/mo · Phase 2 = $4,956/mo if it does).
+- ⚠ **LOI sent ~Jun 2026, awaiting countersignature** from Jaime Ernesto Gracia Arevalo + Ing. Armando Gómez Milla. Verify both are registered *titulares* (check SUNARP) before signing the final contract.
 - 🔴 **Equipment gap** — CAPEX budgets pallet jacks, not the required forklift. Add rent (~$800–1,500/mo) or used unit (~$10–20K).
 - 🔴 **Cash-flow sheet (3b) bug** — supplier payments hard-coded at −$21,200 all months (should be ~−$11,360 from M2); shows false insolvency. Fix before fundraising.
 - ⚠ **EC-RS (MINAM/SIGERSOL)** registration is the critical path — 60–90 days, start immediately. RMT tax regime. Notarized pacto de socios + transfer-pricing docs (SUNAT related-party risk: Alex is supplier+client+partner).
