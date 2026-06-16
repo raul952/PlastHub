@@ -231,8 +231,8 @@
         <table>
           <tr><th>Socio</th><th>Rol / aporte</th><th class="num">Capital</th></tr>
           <tr><td><b>Alex</b></td><td>Sponsor / trader — flujo comercial, red de proveedores, demanda ancla</td><td class="num">~$16,000 (€15K)</td></tr>
-          <tr><td><b>Raúl</b></td><td>PM / Producción — operación industrial, diseño de planta, ejecución</td><td class="num">~$5,500 (€5K, ago-26)</td></tr>
-          <tr><td colspan="2"><b>Equity</b>: Alex 60% / Raúl 40% · SAC, régimen RMT</td><td class="num"><b>~$22,000</b></td></tr>
+          <tr><td><b>Raúl</b></td><td>PM / Producción — operación industrial, diseño de planta, ejecución</td><td class="num">~$11,000 (esta semana)</td></tr>
+          <tr><td colspan="2"><b>Equity</b>: Alex 60% / Raúl 40% · SAC, régimen RMT</td><td class="num"><b>~$27,000</b></td></tr>
         </table>
         <h3>Tesis por etapas</h3>
         <ul class="tight">
@@ -402,7 +402,7 @@
         <ul class="tight">
           <li><b>1. Negociar la entrada al predio</b> — 1 mes de garantía vs 2–3 ahorra $3–15K.</li>
           <li><b>2. Comprimir el ciclo de caja</b> — Alex prepaga / cobro contra entrega.</li>
-          <li><b>3. Préstamo entre socios</b> notariado para complementar los $22K.</li>
+          <li><b>3. Préstamo entre socios</b> notariado para complementar los $27K.</li>
           <li><b>4. Fasear el CAPEX</b> en M1–M3.</li>
           <li><b>5. Línea MYPE</b> (BCP/Interbank/Mibanco, TEA ~25–45%) o factoring/confirming.</li>
           <li><b>6. Diferir salario de Raúl</b> hasta EBITDA positivo.</li>
@@ -592,7 +592,7 @@ const DEFAULTS = {
         ['Registro SUNAT (RMT) + contabilidad inicial',1500,''],['Sistema de inventario (software)',800,'']],
       wc:10000},
   },
-  state:{scen:'base',opex:'A',cap:22000,sa:0,ba:0,fo:0,vt:15,lg:1,verified:false,
+  state:{scen:'base',opex:'A',cap:27000,sa:0,ba:0,fo:0,vt:15,lg:1,verified:false,   // capital $27K = Alex $16K + Raúl $11K
     ramp:{m1:50,m2:75,m3:90,steady:100},
     customVol:null,             // Fix #2 — volumen libre (null = usa el escenario)
     supplierLag:0,              // Fix #3 — meses de plazo de pago a proveedor
@@ -602,7 +602,7 @@ const DEFAULTS = {
     plView:'exec',              // Fix #5 — vista de la tabla P&L
     partners:[                  // Fix #1 — aportes de socios con timing
       {name:'Alex', amt:16000, month:0},
-      {name:'Raúl', amt:5500,  month:1},
+      {name:'Raúl', amt:11000, month:0},   // $11K esta semana → disponible al inicio (M0)
     ],
     gng_alex_contract:false, gng_ecrs:false, gng_nave:false, gng_forklift:false,  // Fix #12 — GO/NO-GO manual
     // --- Renta bifásica (LOI Parque Porcino) — la renta se gestiona aquí, no en la lista de OPEX ---
@@ -759,7 +759,7 @@ function buildEditable(){
       `<tr><td colspan="3"><button class="addbtn" onclick="addCx('${k}')">+ Añadir línea CAPEX</button></td></tr>
        <tr><td>Subtotal CAPEX</td><td class="num" id="cxsub_${k}"></td><td></td></tr>
        <tr><td>+ Capital de trabajo (CT)</td><td class="num">${numIn(OPEXDEF[k].wc,'',`data-wc="${k}"`)}</td><td style="font-size:10.5px">financia el pozo M1–3</td></tr>
-       <tr><td><b>Necesidad total</b></td><td class="num" id="cxtot_${k}"></td><td style="font-size:10.5px">vs confirmado $22K</td></tr>`;
+       <tr><td><b>Necesidad total</b></td><td class="num" id="cxtot_${k}"></td><td style="font-size:10.5px">vs confirmado ${mK(st.cap)}</td></tr>`;
     $('opex'+k+'T').querySelector('tbody').innerHTML=OPEXDEF[k].items.map((r,i)=>
       `<tr><td>${txtIn(r[0],`data-ox="${k}" data-idx="${i}" data-of="label"`)} ${delBtn(`onclick="delOx('${k}',${i})"`)}</td>
         <td class="num">${numIn(r[1],'',`data-ox="${k}" data-idx="${i}" data-of="amt"`)}</td></tr>`).join('');
@@ -836,9 +836,9 @@ function renderExec(R){
     ['Margen bruto ponderado',`${ws>0?Math.round((ws-wb)/ws*100):0}%`,`≈$${Math.round(ws-wb)}/t · venta $${Math.round(ws)} / compra $${Math.round(wb)}`,'teal'],
     ['Volumen de equilibrio',`${isFinite(base.beVol)?Math.round(base.beVol):'—'} t/mes`,'setup Lean (A)','warn'],
     ['EBITDA caso Base',`${mK(base.eb[11])}/mes`,'estable (M12)', base.eb[11]>0?'good':'bad'],
-    ['Necesidad de capital',`${mK(base.needTotal)}`,'Lean · vs confirmado $22K','teal'],
+    ['Necesidad de capital',`${mK(base.needTotal)}`,`Lean · vs confirmado ${mK(st.cap)}`,'teal'],
   ].map(c=>`<div class="card ${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join('');
-  $('askLine').innerHTML=`Cerrar la brecha de financiamiento de Etapa 1 y correr 12 meses de validación. Capital confirmado <b>$22K</b>. El inicio Lean necesita <b>${mK(base.needTotal)}</b> incl. capital de trabajo. Retorno objetivo (Base): ~<b>${Math.round(base.roi)}% ROI</b> sobre CAPEX, equilibrio operativo en el <b>mes ${base.beMonth||'—'}</b>.`+(st.verified?'':' <span class="drafttag">BORRADOR · precios sin verificar</span>');
+  $('askLine').innerHTML=`Cerrar la brecha de financiamiento de Etapa 1 y correr 12 meses de validación. Capital confirmado <b>${mK(st.cap)}</b> (Alex $16K + Raúl $11K). El inicio Lean necesita <b>${mK(base.needTotal)}</b> incl. capital de trabajo. Retorno objetivo (Base): ~<b>${Math.round(base.roi)}% ROI</b> sobre CAPEX, equilibrio operativo en el <b>mes ${base.beMonth||'—'}</b>.`+(st.verified?'':' <span class="drafttag">BORRADOR · precios sin verificar</span>');
 }
 function renderKpis(R,cbev){
   if(cbev==null)cbev=cashBreakEven(st.opex);

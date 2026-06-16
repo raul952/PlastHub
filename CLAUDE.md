@@ -17,7 +17,7 @@ CONSOLIDA 20 t → DESPACHA contenedor 40′.
 - **Bolsones:** 1 m³, ~1 t, stacked **2-high** (sporadic zones: optional 3-high racking).
 - **Equipment:** **3-t counterbalance forklift is mandatory** (1-t bolsones can't be handled by pallet jacks); 1.5×1.5 m platform scale. Min aisle 3.5 m.
 - **Economics:** weighted margin **$128.7/t** (~49%).
-- **Site CONFIRMED:** Cooperativa Agraria Parque Porcino, Ventanilla (Callao). Warehouse **900 m² (50 m × 18 m × 6 m height)**; loading dock **600 m² (separate zone, external)**; total Area 2 ≈ 1,800 m² (warehouse + dock + offices 2 floors ~70 m²/floor). Phase 1 rents **600 m²** of the 900.
+- **Site CONFIRMED (croquis):** Cooperativa Agraria Parque Porcino, Ventanilla (Callao). **Area 2 = 1,800 m² = 50 m (frente, sobre la rampa) × 36 m (fondo) × ~6 m height.** Hosts **Stage 1 (distribution, front) + Stage 2 (processing, back) + offices (2 floors ~70 m²)**; the ramp/dock (~600 m²) is the front strip of Area 2. (Lot total ~4,200 m² = Area 2 1,800 + Area 1 1,248 + Area 3 1,152, the latter two already rented to others.) LOI: Phase 1 rents ~600 m² of Area 2; Phase 2 the full 1,800.
 - **Lease structure CONFIRMED (LOI):** Phase 1 (M1–M6): M1 grace ($0) · M2–M6 **$2,000/mo** (600 m² × $3 + $200 dock). Phase 2 (M7+, mandatory): **$4,200/mo** consolidated (1,800 m²). Upfront at signing: **$6,000** (2 mo deposit + 1 mo advance, "2×1"); deposit ~$4,000 recoverable. Contract: **24 months** min.
 - **7 material types — taxonomy to confirm:** Excel = 5 frequent (PET, HDPE, PP, PE Film, Polvillo de Flake) + 2 sporadic (ABS/PS, Nylon/PA); slide deck = 4 frequent + 3 sporadic (incl. "Mix especiales").
 
@@ -71,7 +71,7 @@ Capacity = **min(storage-buffer limit, handling limit)** vs the **80 t/mo** targ
 - **Base 100 t/mo (Lean A):** steady EBITDA ≈ +$2.0K/mo, op. break-even M3, ROI ~69%/yr on CAPEX, CAPEX payback > M12.
 - **Conservative 40 t/mo:** loss-making (≈ −$4.7K/mo) — below break-even; a warning case, not viable standalone.
 - **Optimistic 200 t/mo (Full B):** EBITDA ≈ +$6.3K/mo, payback ~M10, ROI ~142%.
-- 🔴 **The real gap is working capital, not CAPEX:** buy-now/collect-later + M1 CAPEX drives the bank to a **~−$26K trough (~M4)** even in the profitable Base case → total lean funding need ≈ **$45–48K** (vs $22K confirmed). Close via deposit negotiation + Alex prepay + socio bridge.
+- 🔴 **The real gap is working capital, not CAPEX:** buy-now/collect-later drives the bank negative in early months even in the profitable Base case. **Confirmed capital now $27K (Alex $16K + Raúl $11K, both at start).** Close any remaining gap via deposit negotiation + Alex prepay + socio bridge.
 - **Pricing honesty:** global "recycled HDPE $930–1,310/MT" = washed/pelletized regrind (Stage-2 product), NOT the Stage-1 baled-feedstock/consolidated-lot tier modelled here.
 
 ## Preview locally

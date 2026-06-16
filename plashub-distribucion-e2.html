@@ -80,7 +80,7 @@
           <label><span>Objetivo (t/mes) <span class="ttip" data-t="Volumen mensual objetivo de la planta (400–500+ t). Dimensiona los buffers MP/PT y el despacho. Lo limita la capacidad de la línea (abajo).">i</span></span><input class="ed" id="vol2" type="number" step="25"></label>
           <label><span>Profundidad E1 en el edificio (m) <span class="ttip" data-t="Metros del frente que siguen siendo Etapa 1 (distribución, sigue operando). La Etapa 2 (procesamiento) usa el fondo restante del mismo edificio.">i</span></span><input class="ed" id="e1Depth" type="number" step="1"></label>
         </div>
-        <div class="note" style="margin-top:4px">Los primeros <b id="e1DepthLabel">25</b> m (frente) = <b>Etapa 1</b> (distribución, sigue operando). Los últimos <b id="e2DepthLabel">25</b> m (fondo) = <b>Etapa 2</b> (procesamiento, nueva instalación).</div>
+        <div class="note" style="margin-top:4px">Edificio = <b>Área 2 (50×36 = 1,800 m²)</b>. <b>Profundidad E1 = <span id="e1DepthLabel">0</span> m</b> reservados al frente para que la Etapa 1 siga operando (Fase 1); la <b>Etapa 2</b> usa los <b><span id="e2DepthLabel">36</span> m</b> del fondo. Con <b>0</b> = la planta E2 ocupa toda el Área 2 (Fase 2, M7+).</div>
         <h3>Línea de procesamiento <span class="ttip" data-t="El cuello de botella de la Etapa 2. La capacidad mensual = líneas × t/h × horas/turno × turnos × días × utilización. Estos parámetros, no el almacén, definen cuántas toneladas procesas.">i</span></h3>
         <div class="params">
           <label><span>Líneas <span class="ttip" data-t="Número de líneas de procesamiento en paralelo. Duplicar líneas ~duplica la capacidad mensual.">i</span></span><input class="ed" id="lines" type="number" step="1"></label>
@@ -160,14 +160,14 @@
 </div>
 <script>
 const PX=22, KEY='plashub_dist_e2_v1', clone=o=>JSON.parse(JSON.stringify(o));
-const DEFAULTS={wf:36,d:50,h:8,vol2:400,lines:2,tph:2,shiftH:8,shifts:2,days:22,util:65,merma:18,densMP:1.0,densPT:1.2,diasMP:20,diasPT:15,
-  e1Depth:25,   // m de frente reservados a la Etapa 1 (sigue operando) dentro del edificio compartido
+const DEFAULTS={wf:50,d:36,h:8,vol2:400,lines:2,tph:2,shiftH:8,shifts:2,days:22,util:65,merma:18,densMP:1.0,densPT:1.2,diasMP:20,diasPT:15,
+  e1Depth:0,    // Fase 2 (M7+): la planta E2 usa toda el Área 2 (1,800 m²). Sube e1Depth para reservar frente a la E1 (coexistencia Fase 1).
   // --- params funcionales (sizing por driver) ---
   supervisors:2, techStaff:6, m2PerSupervisor:10, productFamilies:4, m2PerLabBench:12,
   washWaterM3perTon:3.5, m3perH_m2:0.8,
   stageMinArea:{triturado:80,lavado:80,escurrido:25,secado:80,peletizado:80},
   recMinArea:100, despMinArea:150, areaOverrides:{}};
-const PRESETS=[{label:'1,500 m²',wf:37.5,d:40},{label:'1,800 m²',wf:40,d:45},{label:'36×50m 🏭 ★',wf:36,d:50},{label:'2,400 m²',wf:48,d:50}];
+const PRESETS=[{label:'1,500 m²',wf:37.5,d:40},{label:'1,800 m² (40×45)',wf:40,d:45},{label:'🏭 Parque Porcino · 50×36 ★',wf:50,d:36},{label:'2,400 m²',wf:48,d:50}];
 let st;
 function loadState(){st=clone(DEFAULTS);try{const s=JSON.parse(localStorage.getItem(KEY));if(s)Object.assign(st,s);}catch(e){}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st));const m=document.getElementById('savedMsg');m.textContent='✓ guardado';clearTimeout(save._t);save._t=setTimeout(()=>m.textContent='',1200);}catch(e){}}
